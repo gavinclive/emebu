@@ -2,7 +2,7 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-white">
     <div class="container">
       <router-link :to="{ name: user ? 'home' : 'welcome' }" class="navbar-brand">
-        {{ appName }}
+         <img src="/dist/assets/emebu_logo.svg">KONTOL
       </router-link>
 
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false">
@@ -59,6 +59,7 @@
 </template>
 
 <script>
+import { baseImageUrl } from '~/utils/constant'
 import { mapGetters } from 'vuex'
 import LocaleDropdown from './LocaleDropdown'
 
