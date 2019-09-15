@@ -1,4 +1,5 @@
 # emebu
+A tryhard thesis from a bunch of lazy students :)
  
 ### Installation
 ---
