@@ -30,5 +30,12 @@
   "password_updated": "您的密码已经更新!",
   "new_password": "新密码",
   "login_with": "登录",
-  "register_with": "注册"
+  "register_with": "注册",
+  "browse_event": "Jelajahi Event",
+  "username": "Nama Pengguna",
+  "full_name": "Nama Lengkap",
+  "register_as": "Daftar Sebagai",
+  "organizer": "Penyelenggara",
+  "attendee": "Peserta",
+  "organizer_name": "Nama Organisasi"
 }
