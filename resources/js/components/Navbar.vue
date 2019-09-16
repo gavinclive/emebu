@@ -1,20 +1,15 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-white">
+  <nav class="navbar navbar-expand-lg navbar-light bg-gradient-primary">
     <div class="container">
       <router-link :to="{ name: user ? 'home' : 'welcome' }" class="navbar-brand">
-         <img src="/dist/assets/emebu_logo.svg">KONTOL
+         <v-img src="/dist/assets/emebu-logo.svg" class="white-svg" max-width="100" contain />
       </router-link>
-
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false">
-        <span class="navbar-toggler-icon" />
-      </button>
 
       <div id="navbarToggler" class="collapse navbar-collapse">
         <ul class="navbar-nav">
-          <locale-dropdown />
-          <!-- <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li> -->
+          <li class="nav-item">
+            <router-link to="/" class="nav-link text-light">{{ $t('browse_event') }}</router-link>
+          </li>
         </ul>
 
         <ul class="navbar-nav ml-auto">
@@ -27,7 +22,7 @@
               {{ user.name }}
             </a>
             <div class="dropdown-menu">
-              <router-link :to="{ name: 'settings.profile' }" class="dropdown-item pl-3">
+              <router-link :to="{ name: 'settings.profile' }" class="dropdown-item pl-3 text-light">
                 <fa icon="cog" fixed-width />
                 {{ $t('settings') }}
               </router-link>
@@ -42,16 +37,17 @@
           <!-- Guest -->
           <template v-else>
             <li class="nav-item">
-              <router-link :to="{ name: 'login' }" class="nav-link" active-class="active">
+              <router-link :to="{ name: 'login' }" class="nav-link text-light" active-class="active">
                 {{ $t('login') }}
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link :to="{ name: 'register' }" class="nav-link" active-class="active">
+              <router-link :to="{ name: 'register' }" class="nav-link text-light" active-class="active">
                 {{ $t('register') }}
               </router-link>
             </li>
           </template>
+          <locale-dropdown />
         </ul>
       </div>
     </div>

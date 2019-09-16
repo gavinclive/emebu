@@ -1,15 +1,15 @@
 <template>
   <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" role="button"
+    <a class="nav-link dropdown-toggle text-light" href="#" role="button"
        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
     >
-      {{ locales[locale] }}
+      <span><img :src="locales[locale] === 'EN' ? '/dist/assets/united-kingdom.svg' : '/dist/assets/indonesia.svg'" width="17.5"></span> {{ locales[locale] }}
     </a>
-    <div class="dropdown-menu">
-      <a v-for="(value, key) in locales" :key="key" class="dropdown-item" href="#"
+    <div class="dropdown-menu bg-gradient-primary">
+      <a v-for="(value, key) in locales" :key="key" class="dropdown-item text-light" href="#"
          @click.prevent="setLocale(key)"
       >
-        {{ value }}
+        <span><img :src="value === 'EN' ? '/dist/assets/united-kingdom.svg' : '/dist/assets/indonesia.svg'" width="17.5"></span> {{ value }}
       </a>
     </div>
   </li>
