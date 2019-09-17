@@ -19,7 +19,7 @@ class CreateTypesTable extends Migration
             $table->timestamps();
         });
     }
-
+    /* AYAYAY delet this*/
     /**
      * Reverse the migrations.
      *
