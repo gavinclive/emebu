@@ -84,7 +84,8 @@ return [
 
     'locales' => [
         'en' => 'EN',
-        'id' => 'ID'
+        'zh-CN' => '中文',
+        'es' => 'ES',
     ],
 
     /*

@@ -6,8 +6,6 @@
 /public/dist
 /public/build
 /public/mix-manifest.json
-composer.lock
-package-lock.json
 .env
 .phpunit.result.cache
 Homestead.json
@@ -16,4 +14,3 @@ npm-debug.log
 yarn-error.log
 phpunit.dusk.xml
 *.code-workspace
-emebu/
