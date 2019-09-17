@@ -9,10 +9,10 @@ class LocaleTest extends TestCase
     /** @test */
     public function set_locale_from_header()
     {
-        $this->withHeaders(['Accept-Language' => 'zh-CN'])
+        $this->withHeaders(['Accept-Language' => 'id'])
             ->postJson('/api/login');
 
-        $this->assertEquals('zh-CN', $this->app->getLocale());
+        $this->assertEquals('id', $this->app->getLocale());
     }
 
     /** @test */
