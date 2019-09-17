@@ -1,5 +1,5 @@
 <template>
-  <card :title="$t('home')"  style="height: 2400px;">
+  <card :title="$t('home')">
     {{ $t('you_are_logged_in') }}
   </card>
 </template>

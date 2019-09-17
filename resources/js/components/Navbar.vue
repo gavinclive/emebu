@@ -1,34 +1,40 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-gradient-primary">
+  <nav class="navbar navbar-expand-lg navbar-light bg-white">
     <div class="container">
       <router-link :to="{ name: user ? 'home' : 'welcome' }" class="navbar-brand">
-         <v-img src="/dist/assets/emebu-logo.svg" class="white-svg" max-width="100" contain />
+        {{ appName }}
       </router-link>
 
-      <div class="hide collapse navbar-collapse">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false">
+        <span class="navbar-toggler-icon" />
+      </button>
+
+      <div id="navbarToggler" class="collapse navbar-collapse">
         <ul class="navbar-nav">
-          <li class="nav-item">
-            <router-link to="/" class="nav-link text-light">
-              {{ $t('browse') }}
-            </router-link>
-          </li>
+          <locale-dropdown />
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li> -->
         </ul>
 
         <ul class="navbar-nav ml-auto">
           <!-- Authenticated -->
           <li v-if="user" class="nav-item dropdown">
-            <a class="nav-link text-light"
-               href="#" role="button" data-toggle="dropdown"
+            <a class="nav-link dropdown-toggle text-dark"
+               href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
             >
               <img :src="user.photo_url" class="rounded-circle profile-photo mr-1">
+              {{ user.name }}
             </a>
-            <div class="dropdown-custom dropdown-menu bg-gradient-primary">
-              <router-link :to="{ name: 'settings.profile' }" class="dropdown-item pl-3 text-light d-flex align-items-center">
-                <v-img src="/dist/assets/settings.svg" max-width="15" max-height="15" contain class="white-svg mr-3"/>
+            <div class="dropdown-menu">
+              <router-link :to="{ name: 'settings.profile' }" class="dropdown-item pl-3">
+                <fa icon="cog" fixed-width />
                 {{ $t('settings') }}
               </router-link>
-              <a href="#" class="dropdown-item pl-3 text-light d-flex align-items-center" @click.prevent="logout">
-                <v-img src="/dist/assets/log-out.svg" max-width="15" max-height="15" contain class="white-svg mr-3"/>
+
+              <div class="dropdown-divider" />
+              <a href="#" class="dropdown-item pl-3" @click.prevent="logout">
+                <fa icon="sign-out-alt" fixed-width />
                 {{ $t('logout') }}
               </a>
             </div>
@@ -36,17 +42,16 @@
           <!-- Guest -->
           <template v-else>
             <li class="nav-item">
-              <router-link :to="{ name: 'login' }" class="nav-link text-light" active-class="active">
+              <router-link :to="{ name: 'login' }" class="nav-link" active-class="active">
                 {{ $t('login') }}
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link :to="{ name: 'register' }" class="nav-link text-light" active-class="active">
+              <router-link :to="{ name: 'register' }" class="nav-link" active-class="active">
                 {{ $t('register') }}
               </router-link>
             </li>
           </template>
-          <locale-dropdown />
         </ul>
       </div>
     </div>
@@ -54,10 +59,18 @@
 </template>
 
 <script>
-import { baseImageUrl } from '~/utils/constant'
 import { mapGetters } from 'vuex'
+import LocaleDropdown from './LocaleDropdown'
 
 export default {
+  components: {
+    LocaleDropdown
+  },
+
+  data: () => ({
+    appName: window.config.appName
+  }),
+
   computed: mapGetters({
     user: 'auth/user'
   }),
