@@ -5,31 +5,30 @@
          <v-img src="/dist/assets/emebu-logo.svg" class="white-svg" max-width="100" contain />
       </router-link>
 
-      <div id="navbarToggler" class="collapse navbar-collapse">
+      <div class="hide collapse navbar-collapse">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <router-link to="/" class="nav-link text-light">{{ $t('browse_event') }}</router-link>
+            <router-link to="/" class="nav-link text-light">
+              {{ $t('browse') }}
+            </router-link>
           </li>
         </ul>
 
         <ul class="navbar-nav ml-auto">
           <!-- Authenticated -->
           <li v-if="user" class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle text-dark"
-               href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+            <a class="nav-link text-light"
+               href="#" role="button" data-toggle="dropdown"
             >
               <img :src="user.photo_url" class="rounded-circle profile-photo mr-1">
-              {{ user.name }}
             </a>
-            <div class="dropdown-menu">
-              <router-link :to="{ name: 'settings.profile' }" class="dropdown-item pl-3 text-light">
-                <fa icon="cog" fixed-width />
+            <div class="dropdown-custom dropdown-menu bg-gradient-primary">
+              <router-link :to="{ name: 'settings.profile' }" class="dropdown-item pl-3 text-light d-flex align-items-center">
+                <v-img src="/dist/assets/settings.svg" max-width="15" max-height="15" contain class="white-svg mr-3"/>
                 {{ $t('settings') }}
               </router-link>
-
-              <div class="dropdown-divider" />
-              <a href="#" class="dropdown-item pl-3" @click.prevent="logout">
-                <fa icon="sign-out-alt" fixed-width />
+              <a href="#" class="dropdown-item pl-3 text-light d-flex align-items-center" @click.prevent="logout">
+                <v-img src="/dist/assets/log-out.svg" max-width="15" max-height="15" contain class="white-svg mr-3"/>
                 {{ $t('logout') }}
               </a>
             </div>
@@ -57,17 +56,8 @@
 <script>
 import { baseImageUrl } from '~/utils/constant'
 import { mapGetters } from 'vuex'
-import LocaleDropdown from './LocaleDropdown'
 
 export default {
-  components: {
-    LocaleDropdown
-  },
-
-  data: () => ({
-    appName: window.config.appName
-  }),
-
   computed: mapGetters({
     user: 'auth/user'
   }),
