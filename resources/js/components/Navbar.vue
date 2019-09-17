@@ -46,6 +46,7 @@
               </router-link>
             </li>
           </template>
+          <locale-dropdown />
         </ul>
       </div>
     </div>
