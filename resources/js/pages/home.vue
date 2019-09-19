@@ -1,7 +1,7 @@
 <template>
-  <card :title="$t('home')"  style="height: 2400px;">
+  <div>
     {{ $t('you_are_logged_in') }}
-  </card>
+  </div>
 </template>
 
 <script>

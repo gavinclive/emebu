@@ -15,6 +15,7 @@
   }
 
   .dropdown-custom {
+
     position: absolute !important;
     transform: translateX(-6rem) !important;
   }
@@ -22,9 +23,13 @@
 
 @media (max-width: 768px) {
   .navbar {
+    padding: 0 1rem;
     position: absolute;
     .hide {
       display: none !important;
+    }
+    .container {
+      padding: 0;
     }
   }
 }
@@ -95,11 +100,16 @@ a.dropdown-item:hover, a.dropdown-item:focus {
   }
   
   .page-control {
+    padding-top: 5.25rem !important;
     padding-bottom: 1rem !important;
   }
 }
 
 .page-control {
-  padding-top: 5.25rem;
+  padding-top: 2.5rem;
   padding-bottom: 3rem;
+}
+
+.v-item-group.v-bottom-navigation .v-btn {
+  min-width: 20% !important;
 }

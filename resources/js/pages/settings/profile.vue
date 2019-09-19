@@ -1,36 +1,73 @@
 <template>
-  <card :title="$t('your_info')">
-    <form @submit.prevent="update" @keydown="form.onKeydown($event)">
-      <alert-success :form="form" :message="$t('info_updated')" />
+  <form @submit.prevent="update" @keydown="form.onKeydown($event)">
+    <alert-success :form="form" :message="$t('info_updated')" />
 
-      <!-- Name -->
-      <div class="form-group row">
-        <label class="col-md-3 col-form-label text-md-right">{{ $t('name') }}</label>
-        <div class="col-md-7">
-          <input v-model="form.name" :class="{ 'is-invalid': form.errors.has('name') }" class="form-control" type="text" name="name">
-          <has-error :form="form" field="name" />
+    <!-- Name -->
+    <div class="form-group row d-flex justify-content-center mb-0">
+      <div class="col-md-10 py-0">
+        <label class="col-3 pt-0 col-form-label">{{ $t('name') }}</label>
+        <div class="col-md-12 d-flex align-items-center py-1">
+          <input v-model="form.name" :class="{ 'is-invalid': form.errors.has('name') }" class="form-control col-md-11" type="text" name="name" :placeholder="$t('name')">
         </div>
+        <has-error :form="form" field="name" class="d-block pl-3 text-left"/>
       </div>
+    </div>
 
-      <!-- Email -->
-      <div class="form-group row">
-        <label class="col-md-3 col-form-label text-md-right">{{ $t('email') }}</label>
-        <div class="col-md-7">
-          <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }" class="form-control" type="email" name="email">
-          <has-error :form="form" field="email" />
+    <!-- Username -->
+    <div v-if="form.username" class="form-group row d-flex justify-content-center mb-0">
+      <div class="col-md-10 pb-0">
+        <label class="col-3 pt-0 col-form-label">{{ $t('username') }}</label>
+        <div class="col-md-12 d-flex align-items-center py-1">
+          <input v-model="form.username" :class="{ 'is-invalid': form.errors.has('username') }" class="form-control col-md-11" type="text" name="username" :placeholder="$t('username')">
         </div>
+        <has-error :form="form" field="username" class="d-block pl-3 text-left"/>
       </div>
+    </div>
 
-      <!-- Submit Button -->
-      <div class="form-group row">
-        <div class="col-md-9 ml-md-auto">
-          <v-button :loading="form.busy" type="success">
-            {{ $t('update') }}
-          </v-button>
+    <!-- Email -->
+    <div class="form-group row d-flex justify-content-center mb-0">
+      <div class="col-md-10 pb-0">
+        <label class="col-3 col-form-label">{{ $t('email') }}</label>
+        <div class="col-md-12 d-flex align-items-center py-1">
+          <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }" class="form-control col-md-11" type="text" name="name" :placeholder="$t('email')">
         </div>
+        <has-error :form="form" field="email" class="d-block pl-3 text-left"/>
       </div>
-    </form>
-  </card>
+    </div>
+
+    <!-- Profile Picture -->
+    <div v-if="!routeName.includes('m.')" class="form-group row d-flex justify-content-center mb-0">
+      <div class="col-md-10 pb-0">
+        <label class="col-12 col-form-label">{{ $t('profile_picture') }}</label>
+        <div class="col-md-12 d-flex align-items-center py-1 custom-file">
+          <div class="custom-file col-md-11">
+            <input type="file" accept="image/*" class="custom-file-input" @change="imageUpload($event.target.files[0])">
+            <label class="custom-file-label">{{ $t('choose_file') }}</label>
+          </div>
+        </div>
+        <label v-if="imagePreview" class="col-3 col-form-label">{{ $t('image_preview') }}</label>
+        <div class="col-12 py-0">
+          <img :src="imagePreview" class="col-6 px-0">
+        </div>
+        <has-error :form="form" field="email" class="d-block pl-3 text-left"/>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div v-if="!routeName.includes('m.')" class="form-group row d-flex justify-content-center mt-3">
+      <div class="d-flex col-md-9 px-0">
+        <v-button :loading="form.busy" type="success">
+          {{ $t('update') }}
+        </v-button>
+      </div>
+    </div>
+
+    <div v-if="routeName.includes('m.')" class="form-group row d-flex justify-content-center mt-3 mx-0 col-12">
+      <v-button block :loading="form.busy" type="success">
+        {{ $t('update') }}
+      </v-button>
+    </div>
+  </form>
 </template>
 
 <script>
@@ -41,19 +78,27 @@ export default {
   scrollToTop: false,
 
   metaInfo () {
-    return { title: this.$t('settings') }
+    return { title: this.$t('edit_profile') }
   },
 
   data: () => ({
     form: new Form({
+      username: '',
       name: '',
-      email: ''
-    })
+      email: '',
+      img: ''
+    }),
+    imagePreview: ''
   }),
 
-  computed: mapGetters({
-    user: 'auth/user'
-  }),
+  computed: {
+    routeName () {
+      return this.$route.name
+    },
+    ...mapGetters({
+      user: 'auth/user'
+    })
+  },
 
   created () {
     // Fill the form with user data.
@@ -63,10 +108,27 @@ export default {
   },
 
   methods: {
-    async update () {
-      const { data } = await this.form.patch('/api/settings/profile')
+    imageUpload (image) {
+      let fileReader = new FileReader()
+      if(image && image.type.match('image.*')) {
+        fileReader.readAsDataURL(image)
+        fileReader.onload = () => {
+          this.imagePreview = fileReader.result
+        }
+        this.form.img = image
+      }
+    },
 
-      this.$store.dispatch('auth/updateUser', { user: data })
+    async update () {
+      this.form._method = 'PATCH'
+      try {
+        await this.form.submit('post', '/api/settings/profile', {
+          transformRequest: [(data, headers) => objectToFormData(data)]
+        })
+        this.$store.dispatch('auth/fetchUser')
+      } catch (e) {
+        console.log(e)
+      } 
     }
   }
 }
