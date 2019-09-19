@@ -18,8 +18,22 @@ export default [
     children: [
       { path: '', redirect: { name: 'settings.profile' } },
       { path: 'profile', name: 'settings.profile', component: page('settings/profile.vue') },
-      { path: 'password', name: 'settings.password', component: page('settings/password.vue') }
+      { path: 'password', name: 'settings.password', component: page('settings/password.vue') },
+      { path: 'atm', name: 'settings.atm', component: page('settings/atm.vue') }
     ] },
 
+  { path: '/m',
+    component: page('m/index.vue'),
+    children: [
+      { path: '', redirect: { name: 'm.login' } },
+      { path: 'login', name: 'm.login', component: page('m/auth/login.vue') },
+      { path: 'register', name: 'm.register', component: page('m/auth/register.vue') },
+      { path: 'password/reset', name: 'm.password.request', component: page('m/auth/password/email.vue') },
+      { path: 'settings', name: 'm.settings', component: page('m/settings/index.vue') },
+      { path: 'settings/profile', name: 'm.settings.profile', component: page('settings/profile.vue') },
+      { path: 'settings/password', name: 'm.settings.password', component: page('settings/password.vue') },
+      { path: 'settings/atm', name: 'm.settings.atm', component: page('settings/atm.vue') }
+    ]
+  },
   { path: '*', component: page('errors/404.vue') }
 ]

@@ -1,19 +1,20 @@
 <template>
   <div class="row">
-    <div class="col-md-3">
-      <card :title="$t('settings')" class="settings-card">
-        <ul class="nav flex-column nav-pills">
-          <li v-for="tab in tabs" :key="tab.route" class="nav-item">
-            <router-link :to="{ name: tab.route }" class="nav-link" active-class="active">
-              <fa :icon="tab.icon" fixed-width />
-              {{ tab.name }}
-            </router-link>
-          </li>
-        </ul>
-      </card>
+    <div class="col-md-3 d-none d-md-block pl-0">
+      <div class="list-group" role="tablist">
+        <router-link :to="{name: 'settings.profile'}">
+          <div class="list-group-item list-group-item-action" :class="{'active': routeName === 'settings.profile'}" data-toggle="list" role="tab">{{ $t('edit_profile') }}</div>
+        </router-link>
+        <router-link :to="{name: 'settings.password'}">
+          <div class="list-group-item list-group-item-action" :class="{'active': routeName === 'settings.password'}" data-toggle="list" role="tab">{{ $t('change_password') }}</div>
+        </router-link>
+        <router-link v-if="user.role === 1" :to="{name: 'settings.atm'}">
+          <div class="list-group-item list-group-item-action" :class="{'active': routeName === 'settings.atm'}" data-toggle="list" role="tab">{{ $t('edit_atm') }}</div>
+        </router-link>
+      </div>
     </div>
 
-    <div class="col-md-9">
+    <div class="col-md-9 col-xs-12 pr-0">
       <transition name="fade" mode="out-in">
         <router-view />
       </transition>
@@ -22,10 +23,14 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   middleware: 'auth',
 
   computed: {
+    routeName () {
+      return this.$route.name
+    },
     tabs () {
       return [
         {
@@ -39,7 +44,10 @@ export default {
           route: 'settings.password'
         }
       ]
-    }
+    },
+    ...mapGetters ({
+      user: 'auth/user'
+    })
   }
 }
 </script>

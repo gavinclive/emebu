@@ -2,25 +2,25 @@
   <form @submit.prevent="update" @keydown="form.onKeydown($event)">
     <alert-success :form="form" :message="$t('password_updated')" />
 
-    <!-- Password -->
+    <!-- Bank Name -->
     <div class="form-group row d-flex justify-content-center mb-0">
       <div class="col-md-10 py-0">
-        <label class="col-3 pt-0 col-form-label">{{ $t('password') }}</label>
+        <label class="col-12 pt-0 col-form-label">{{ $t('bank') }}</label>
         <div class="col-md-12 d-flex align-items-center py-1">
-          <input v-model="form.password" :class="{ 'is-invalid': form.errors.has('password') }" class="form-control col-md-11" type="password" name="password" :placeholder="$t('password')">
+          <input v-model="form.bank" :class="{ 'is-invalid': form.errors.has('bank') }" class="form-control col-md-11" type="number" name="bank" :placeholder="$t('bank')">
         </div>
-        <has-error :form="form" field="password" class="d-block pl-3 text-left"/>
+        <has-error :form="form" field="bank" class="d-block pl-5 text-left"/>
       </div>
     </div>
 
-    <!-- Password Confirmation -->
+    <!-- Atm Number -->
     <div class="form-group row d-flex justify-content-center mb-0">
-      <div class="col-md-10 pb-0">
-        <label class="col-12 pt-0 col-form-label">{{ $t('confirm_password') }}</label>
+      <div class="col-md-10 py-0">
+        <label class="col-12 pt-0 col-form-label">{{ $t('account_number') }}</label>
         <div class="col-md-12 d-flex align-items-center py-1">
-          <input v-model="form.password_confirmation" :class="{ 'is-invalid': form.errors.has('password_confirmation') }" class="form-control col-md-11" type="password" name="password_confirmation" :placeholder="$t('confirm_password')">
+          <input v-model="form.acc_num" :class="{ 'is-invalid': form.errors.has('acc_num') }" class="form-control col-md-11" type="number" name="acc_num" :placeholder="$t('account_number')">
         </div>
-        <has-error :form="form" field="password_confirmation" class="d-block pl-3 text-left"/>
+        <has-error :form="form" field="acc_num" class="d-block pl-5 text-left"/>
       </div>
     </div>
 
@@ -43,30 +43,34 @@
 
 <script>
 import Form from 'vform'
+import { mapGetters } from 'vuex'
 
 export default {
   scrollToTop: false,
 
   metaInfo () {
-    return { title: this.$t('change_password') }
+    return { title: this.$t('edit_atm') }
   },
 
   data: () => ({
     form: new Form({
-      password: '',
-      password_confirmation: ''
+      bank: '',
+      acc_num: '',
     })
   }),
 
   computed: {
     routeName () {
       return this.$route.name
-    }
+    },
+    ...mapGetters({
+      user: 'auth/user'
+    })
   },
 
   methods: {
     async update () {
-      await this.form.patch('/api/settings/password')
+      await this.form.patch('/api/settings/atm')
 
       this.form.reset()
     }

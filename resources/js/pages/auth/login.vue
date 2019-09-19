@@ -25,24 +25,29 @@
               <has-error :form="form" field="password" class="d-block pl-5 text-left"/>
             </div>
           </div>
+          <div class="col-md-9 d-flex mx-auto my-0 position-relative">
+            <router-link v-if="mobile" :to="{ name: 'password.request' }" class="medium mobile-forget position-absolute pr-4">
+              {{ $t('forgot_password') }}
+            </router-link>
+          </div>
 
           <!-- Remember Me -->
-          <div class="form-group row d-flex justify-content-center mt-3">
-            <div class="col-md-9 d-flex align-items-space-between">
-              <checkbox v-model="remember" name="remember" class="pl-5">
-                {{ $t('remember_me') }}
+          <div class="form-group row d-flex justify-content-center mt-3 text-center">
+            <div class="col-12 col-md-8 d-md-flex align-items-space-between align-center">
+              <checkbox v-model="remember" name="remember" class="login-ckbox mx-m-auto">
+                <span>{{ $t('remember_me') }}</span>
               </checkbox>
 
-              <router-link :to="{ name: 'password.request' }" class="small ml-auto my-auto pr-3">
+              <router-link :to="{ name: 'password.request' }" class="small ml-auto my-auto">
                 {{ $t('forgot_password') }}
               </router-link>
             </div>
           </div>
-
+          
           <div class="form-group row d-flex justify-content-center">
-            <div class="col-md-9 d-flex pl-5">
+            <div class="d-flex pl-5 col-md-9">
               <!-- Submit Button -->
-              <v-button :loading="form.busy" class="ml-3">
+              <v-button class="ml-3" :loading="form.busy">
                 {{ $t('login') }}
               </v-button>
             </div>
@@ -59,10 +64,6 @@ import LoginWithGithub from '~/components/LoginWithGithub'
 
 export default {
   middleware: 'guest',
-
-  components: {
-    LoginWithGithub
-  },
 
   metaInfo () {
     return { title: this.$t('login') }

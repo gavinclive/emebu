@@ -40,11 +40,22 @@ export default {
 
     return {
       title: appName,
-      titleTemplate: `%s · ${appName}`
+      titleTemplate: `%s · ${appName}`,
+      meta: [
+          {
+            name: 'viewport',
+            content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
+          },
+          {
+            name: 'HandheldFriendly',
+            content: 'true'
+          }
+      ]
     }
   },
 
   mounted () {
+
     this.$loading = this.$refs.loading
   },
 

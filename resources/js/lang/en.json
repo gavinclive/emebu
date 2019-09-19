@@ -13,7 +13,7 @@
   "email": "Email",
   "remember_me": "Remember Me",
   "password": "Password",
-  "forgot_password": "Forgot Your Password?",
+  "forgot_password": "Forgot password?",
   "confirm_password": "Confirm Password",
   "name": "Name",
   "toggle_navigation": "Toggle navigation",
@@ -48,5 +48,17 @@
   "tickets": "Tickets",
   "manage": "Manage",
   "pending_tickets": "Pending Tickets",
-  "history": "History"
+  "history": "History",
+  "no_account": "Don't have a account? ",
+  "my_account": "My Account",
+  "edit_profile": "Edit Profile",
+  "change_password": "Change Password",
+  "help": "Help",
+  "edit_atm": "Edit Account Number",
+  "profile_picture": "Profile Picture",
+  "choose_file": "Choose File",
+  "image_preview": "Image Preview",
+  "account_number": "Account Number",
+  "bank" : "Bank",
+  "atm_updated": "Your bank details have been updated!"
 }

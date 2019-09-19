@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-gradient-primary">
+  <nav v-if="!inRoute" class="navbar navbar-expand-lg navbar-light bg-gradient-primary">
     <div class="container">
       <router-link :to="{ name: user ? 'home' : 'welcome' }" class="navbar-brand">
          <v-img src="/dist/assets/emebu-logo.svg" class="white-svg" max-width="100" contain />
@@ -54,13 +54,29 @@
 </template>
 
 <script>
-import { baseImageUrl } from '~/utils/constant'
+import LocaleDropdown from './LocaleDropdown'
 import { mapGetters } from 'vuex'
 
 export default {
-  computed: mapGetters({
-    user: 'auth/user'
-  }),
+  components: {
+    LocaleDropdown
+  },
+
+  computed: {
+    ...mapGetters({
+      user: 'auth/user'
+    }),
+
+    inRoute () {
+      const currentRoute = this.$route.name
+        switch(currentRoute) {
+          case 'm.settings':
+            return true
+            break
+        }
+      return false
+    }
+  },
 
   methods: {
     async logout () {

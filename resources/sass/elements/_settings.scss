@@ -1,0 +1,16 @@
+.settings-title {
+  margin: 0 auto;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.settings-card {
+  z-index: 7;
+  margin-top: -5rem;
+  border-radius: 0;
+}
+
+a:hover {
+  text-decoration: none !important;
+}

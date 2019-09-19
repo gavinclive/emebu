@@ -11,7 +11,9 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import '~/plugins'
 import '~/components'
 import 'vuetify/dist/vuetify.min.css'
+import objectToFormData from './utils/objectToFormData'
 
+window.objectToFormData = objectToFormData
 Vue.config.productionTip = false
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 library.add(fas)
