@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+//Table untuk category events
+
 class CreateCategoriesTable extends Migration
 {
     /**
