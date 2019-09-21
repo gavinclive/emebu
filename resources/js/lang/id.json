@@ -13,7 +13,7 @@
   "email": "邮箱",
   "remember_me": "记住我",
   "password": "密码",
-  "forgot_password": "忘记密码？",
+  "forgot_password": "Lupa kata sandi?",
   "confirm_password": "重复密码",
   "name": "用户名",
   "toggle_navigation": "切换导航",
@@ -43,5 +43,16 @@
   "tickets": "Tiketku",
   "manage": "Atur",
   "pending_tickets": "Pending Tickets",
-  "history": "Riwayat"
+  "history": "Riwayat",
+  "no_account": "Belum memiliki akun? ",
+  "my_account": "Akun Saya",
+  "change_password": "Ubah Kata Sandi",
+  "help": "Bantuan",
+  "edit_atm": "Ubah No. Rekening",
+  "profile_picture": "Gambar Profil",
+  "choose_file": "Pilih Berkas",
+  "image_preview": "Pratinjau Gambar",
+  "account_number": "No. Rekening",
+  "bank" : "Bank",
+  "atm_updated": "Your bank details have been updated!"
 }

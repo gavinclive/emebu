@@ -85,9 +85,6 @@
               <v-button :loading="form.busy" class="ml-3">
                 {{ $t('register') }}
               </v-button>
-
-              <!-- GitHub Register Button -->
-              <login-with-github />
             </div>
           </div>
         </form>

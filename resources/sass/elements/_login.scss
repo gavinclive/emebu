@@ -1,0 +1,22 @@
+.login-ckbox {
+  .custom-control-label {
+    margin: 0 auto;
+  }
+}
+
+.mobile-login {
+  width: 100%;
+  position: absolute;
+  right: 0;
+  top: 1100%;
+  transform: translateY(-50%);
+
+  .mobile-forget {
+    right: 0;
+    top: 0;
+  }
+}
+
+.w-90 {
+  width: 90% !important;
+}
