@@ -102,6 +102,35 @@
       -webkit-border-radius: 0 0 0 20px;
       border-radius: 0 0 0 20px;
   }
+
+  .modal-icon-container {
+    overflow: hidden;
+
+    .modal-icon {
+      filter: blur(.2rem);
+      transform: scale(1.1);
+    }
+
+    .modal-icon-name {
+      left: 0;
+      top: 0;
+      right: 0;
+      transform: translateY(250%);
+      color: white;
+    }
+
+    &:hover {
+      .modal-icon {
+        filter: none;
+      }
+
+      .modal-icon-name {
+        display: none;
+      }
+    }
+  }
+
+  
 }
 
 input[type="number"]::-webkit-outer-spin-button,
