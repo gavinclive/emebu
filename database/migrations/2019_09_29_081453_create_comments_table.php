@@ -18,8 +18,8 @@ class CreateCommentsTable extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('comments', 150);
-            $table->bigInteger('userId');
-            $table->bigInteger('eventId');
+            $table->bigInteger('user_id');
+            $table->bigInteger('event_id');
             $table->timestamps();
         });
     }
