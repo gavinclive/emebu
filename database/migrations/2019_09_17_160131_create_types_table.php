@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+//Table untuk tipe event
+
 class CreateTypesTable extends Migration
 {
     /**
@@ -16,6 +18,7 @@ class CreateTypesTable extends Migration
         Schema::create('types', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name', 32);
+            $table->string('image', 512);
             $table->timestamps();
         });
     }
