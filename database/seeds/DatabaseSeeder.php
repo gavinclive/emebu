@@ -130,7 +130,7 @@ class DatabaseSeeder extends Seeder
                 'image' => 'https://images.pexels.com/photos/413727/pexels-photo-413727.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=250'
             ],
             [
-                'name' => 'Film & Media',
+                'name' => 'Film dan Media',
                 'image' => 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=250'
             ],
             [
@@ -162,6 +162,10 @@ class DatabaseSeeder extends Seeder
                 'image' => 'https://images.pexels.com/photos/461049/pexels-photo-461049.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=250'
             ],
             [
+                'name' => 'Kuliner',
+                'image' => 'https://images.pexels.com/photos/1268558/pexels-photo-1268558.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=250'
+            ],
+            [
                 'name' => 'Liburan',
                 'image' => 'https://images.pexels.com/photos/255377/pexels-photo-255377.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=250'
             ],
@@ -170,15 +174,11 @@ class DatabaseSeeder extends Seeder
                 'image' => 'https://images.pexels.com/photos/235615/pexels-photo-235615.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=250'
             ],
             [
-                'name' => 'Makanan & Minuman',
-                'image' => 'https://images.pexels.com/photos/1268558/pexels-photo-1268558.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=250'
-            ],
-            [
                 'name' => 'Musik',
                 'image' => 'https://images.pexels.com/photos/1763075/pexels-photo-1763075.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=250'
             ],
             [
-                'name' => 'Olahraga & Kebugaran',
+                'name' => 'Olahraga',
                 'image' => 'https://images.pexels.com/photos/1415810/pexels-photo-1415810.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=250'
             ],
             [
@@ -191,7 +191,7 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'name' => 'Pendidikan',
-                'image'=> '"ttps://images.pexels.com/photos/355988/pexels-photo-355988.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=250'
+                'image'=> 'https://images.pexels.com/photos/355988/pexels-photo-355988.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=250'
             ],
             [
                 'name' => 'Penerbangan',
@@ -206,7 +206,7 @@ class DatabaseSeeder extends Seeder
                 'image' => 'https://images.unsplash.com/photo-1495791185843-c73f2269f669?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=250'
             ],
             [
-                'name' => 'Rumah & Gaya Hidup',
+                'name' => 'Gaya Hidup',
                 'image' => 'https://images.unsplash.com/photo-1556912998-c57cc6b63cd7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=250'
             ],
             [
@@ -222,7 +222,7 @@ class DatabaseSeeder extends Seeder
                 'image' => 'https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&h=250'
             ],
             [
-                'name' => 'Travel & Outdoor',
+                'name' => 'Travel dan Outdoor',
                 'image' => 'https://images.pexels.com/photos/2174656/pexels-photo-2174656.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=250'
             ],
             [

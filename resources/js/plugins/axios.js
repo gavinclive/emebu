@@ -7,7 +7,7 @@ import i18n from '~/plugins/i18n'
 // Request interceptor
 axios.interceptors.request.use(request => {
   const token = store.getters['auth/token']
-  if (token) {
+  if (token && !request.url.includes('google')) {
     request.headers.common['Authorization'] = `Bearer ${token}`
   }
 

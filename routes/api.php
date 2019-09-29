@@ -39,3 +39,5 @@ Route::group(['middleware' => 'guest:api'], function () {
 });
 
 Route::resource('event-type', 'EventTypeController');
+Route::resource('event-category', 'EventCategoryController');
+Route::resource('event', 'EventController');
