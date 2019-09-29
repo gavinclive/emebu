@@ -1,5 +1,5 @@
 <template>
-  <form class="col-md-9 mx-auto" @submit.prevent="update" @keydown="form.onKeydown($event)">
+  <form class="col-md-9 mx-auto" @submit.prevent="update" @keydown="form.onKeydown($event)" novalidate>
     <alert-success :form="form" :message="$t('info_updated')" />
 
     <v-stepper v-model="e1" class="stepper">
@@ -41,8 +41,12 @@
             <div class="col-md-10 py-0 justify-content-center">
               <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('type') }}</label>
               <div class="col-md-12 d-flex align-items-center py-1">
-                <select v-model="form.type" :class="{ 'is-invalid': form.errors.has('type') }" class="custom-select col-md-11 mx-auto" data-toggle="modal" data-target="#eventType">
-                </select>
+                <div class="input-group col-md-11 mx-auto px-0 py-0" @click="showTypeModal">
+                  <input v-model="activeType" class="form-control" name="type">
+                  <div class="input-group-append">
+                    <span class="input-group-text">Choose</span>
+                  </div>
+                </div>
               </div>
               <has-error :form="form" field="type" class="d-block pl-3 text-left"/>
             </div>
@@ -57,11 +61,13 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                <div class="modal-body">
-                  {{ $t('type') }}
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-primary">{{ $t('save' )}}</button>
+                <div class="modal-body d-flex justify-content-center flex-wrap">
+                  <div class="position-relative text-center" v-for="(type, index) in types" :key="index">
+                    <div class="modal-icon-container m-1 rounded-lg" width="140" height="140" data-dismiss="modal" @click="setType(index)">
+                      <v-img class="modal-icon" :src="type.image" width="140" height="140" cover></v-img>
+                      <span class="position-absolute modal-icon-name">{{ type.name }}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -71,8 +77,12 @@
             <div class="col-md-10 py-0 justify-content-center">
               <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('category') }}</label>
               <div class="col-md-12 d-flex align-items-center py-1">
-                <select v-model="form.category" :class="{ 'is-invalid': form.errors.has('type') }" class="custom-select col-md-11 mx-auto" data-toggle="modal" data-target="#eventCategory">
-                </select>
+                <div class="input-group col-md-11 mx-auto px-0 py-0" @click="showCategoryModal">
+                  <input v-model="activeCategory" class="form-control" name="category">
+                  <div class="input-group-append">
+                    <span class="input-group-text">Choose</span>
+                  </div>
+                </div>
               </div>
               <has-error :form="form" field="category" class="d-block pl-3 text-left"/>
             </div>
@@ -87,12 +97,13 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                <div class="modal-body">
-                  {{ $t('category') }}
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">{{ $t('save' )}}</button>
+                <div class="modal-body d-flex justify-content-center flex-wrap">
+                  <div class="position-relative text-center" v-for="(category, index) in categories" :key="index">
+                    <div class="modal-icon-container m-1 rounded-lg" width="140" height="140" data-dismiss="modal" @click="setCategory(index)">
+                      <v-img class="modal-icon" :src="category.image" width="140" height="140" cover></v-img>
+                      <span class="position-absolute modal-icon-name">{{ category.name }}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -121,7 +132,7 @@
               <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('event_start') }}</label>
               <div class="col-md-12 d-flex align-items-center py-1">
                 <VueCtkDateTimePicker right v-model="form.startTime" :first-day-of-week=1 :locale="language.includes('id') ? 'id' : 'en'" :minute-interval=30>
-                  <input :class="{ 'is-invalid': form.errors.has('startTime') }" class="form-control col-md-11 mx-auto">
+                  <input :class="{ 'is-invalid': form.errors.has('startTime') }" class="form-control col-md-11 mx-auto" name="start_time">
                 </VueCtkDateTimePicker> 
               </div>
               <has-error :form="form" field="startTime" class="d-block pl-3 text-left"/>
@@ -133,7 +144,7 @@
               <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('event_end') }}</label>
               <div class="col-md-12 d-flex align-items-center py-1">
                 <VueCtkDateTimePicker right v-model="form.endTime" :first-day-of-week=1 :locale="language.includes('id') ? 'id' : 'en'" :minute-interval=30>
-                  <input :class="{ 'is-invalid': form.errors.has('endTime') }" class="form-control col-md-11 mx-auto">
+                  <input :class="{ 'is-invalid': form.errors.has('endTime') }" class="form-control col-md-11 mx-auto" name="end_time">
                 </VueCtkDateTimePicker> 
               </div>
               <has-error :form="form" field="endTime" class="d-block pl-3 text-left"/>
@@ -183,7 +194,7 @@
               </GmapMap>
               </div>
               <div class="col-md-12 d-flex align-items-center py-1">
-                <gmap-autocomplete class="form-control col-md-11 mx-auto" @place_changed="setPlace" :placeholder="$t('venue_placeholder')"/>
+                <gmap-autocomplete class="form-control col-md-11 mx-auto" @place_changed="setPlace" :placeholder="$t('venue_placeholder')" name="venue"/>
               </div>
               <has-error :form="form" field="location" class="d-block pl-3 text-left"/>
             </div>
@@ -246,7 +257,7 @@
           <div class="form-group row d-flex justify-content-center mb-0">
             <div class="col-md-10 py-0 justify-content-center">
               <div class="col-md-12 d-flex align-items-center pt-1 pb-0">
-                <textarea v-model="form.summary" class="form-control col-md-11 mx-auto" maxlength="150" rows="4" style="resize: none;" placeholder="Write a short event summary to get attendees excited."></textarea>
+                <textarea v-model="form.summary" class="form-control col-md-11 mx-auto" maxlength="150" rows="4" style="resize: none;" placeholder="Write a short event summary to get attendees excited." name="summary"></textarea>
               </div>
               <div class="col-md-12 py-1" v-if="form.summary && form.summary.length">
                 <div class="col-md-11 mx-auto py-0 px-0 text-right" :class="{ 'text-danger': form.summary.length === 150 }">{{ form.summary.length }}/150</div>
@@ -406,12 +417,14 @@
 <script>
 import $ from 'jquery'
 import axios from 'axios'
+import store from '~/store'
 import Form from 'vform'
 import { mapGetters } from 'vuex'
-import PictureInput from 'vue-picture-input'
 import { VueEditor } from 'vue2-editor'
 
 export default {
+  middleware: 'auth',
+
   scrollToTop: false,
 
   metaInfo () {
@@ -419,19 +432,19 @@ export default {
   },
 
   components: {
-    PictureInput,
     VueEditor
   },
 
   data: () => ({
     e1: 0,
     form: new Form({
-      username: '',
-      name: '',
-      email: '',
+      title: '',
+      startTime: '',
+      endTime: '',
+      location: '',
       summary: '',
+      description: '',
       img: '',
-      startDate: '',
       ticket: []
     }),
     imagePreview: '',
@@ -448,16 +461,28 @@ export default {
     },
     ticket: [],
     paid: true,
-    removeIndex: ''
+    removeIndex: '',
+    type: '',
+    category: '',
   }),
+
+  
+  mounted () {
+    store.dispatch('category/fetchCategories')
+    store.dispatch('type/fetchTypes')
+  },
 
   computed: {
     routeName () {
       return this.$route.name
     },
+
     ...mapGetters({
-      user: 'auth/user'
+      user: 'auth/user',
+      categories: 'category/getCategories',
+      types: 'type/getTypes'
     }),
+
     marker () {
       return {
         position: this.latLng,
@@ -467,9 +492,19 @@ export default {
         dragended: 0
       }
     },
+
     language () {
       return navigator.language
     },
+
+    activeType () {
+      return this.type ? this.types[this.type].name : ''
+    },
+
+    activeCategory () {
+      return this.category ? this.categories[this.category].name : ''
+    },
+
     ticketInvalid () {
       return (this.tempTicket.name && this.tempTicket.type && this.tempTicket.qty) ? false : true 
     }
@@ -483,7 +518,25 @@ export default {
   },
 
   methods: {
-    reverseGeocode (coordinates){
+    setType (index) {
+      this.type = index
+      this.form.type = this.types[index].id
+    },
+
+    setCategory (index) {
+      this.category = index
+      this.form.category = this.categories[index].id
+    },
+
+    showTypeModal () {
+      $('#eventType').modal('show')
+    },
+
+    showCategoryModal () {
+      $('#eventCategory').modal('show')
+    },
+
+    reverseGeocode (coordinates) {
       axios
         .get()
           .then(response => {
@@ -591,9 +644,9 @@ export default {
     },
 
     async update () {
-      this.form._method = 'PATCH'
+      this.form.location = `${this.latLng.lat}, ${this.latLng.lng}`
       try {
-        await this.form.submit('post', '/api/settings/profile', {
+        await this.form.submit('post', '/api/event', {
           transformRequest: [(data, headers) => objectToFormData(data)]
         })
         this.$store.dispatch('auth/fetchUser')

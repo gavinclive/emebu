@@ -8,3 +8,9 @@ export const UPDATE_USER = 'UPDATE_USER'
 
 // lang.js
 export const SET_LOCALE = 'SET_LOCALE'
+
+// category.js
+export const FETCH_CATEGORY = 'FETCH_CATEGORY'
+
+// type.js
+export const FETCH_TYPE = 'FETCH_TYPE'
