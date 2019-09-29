@@ -7,11 +7,12 @@ require('laravel-mix-versionhash')
 mix
   .js('resources/js/app.js', 'public/dist/js')
   .sass('resources/sass/app.scss', 'public/dist/css')
-  .copy('resources/js/assets/', 'public/dist/assets/')
+  .copyDirectory('resources/assets', 'public/dist/assets')
   .options(
     {
       autoprefixer: true,
-      processCssUrls: false
+      processCssUrls: true,
+      purifyCss: true
     }
   )
 

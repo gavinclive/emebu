@@ -13,7 +13,7 @@
             <div class="col-md-9">
               <div class="col-md-12 d-flex align-items-center py-1">
                 <v-img src="/dist/assets/type.svg" max-width="25" max-height="25" class="mr-2" contain/>
-                <select v-model="form.role" :class="{ 'is-invalid': form.errors.has('username') }" class="custom-select col-md-11">
+                <select v-model="form.role" :class="{ 'is-invalid': form.errors.has('role') }" class="custom-select col-md-11">
                   <option selected disabled value="">{{ $t('register_as') }}</option>
                   <option value="1">{{ $t('organizer') }}</option>
                   <option value="2">{{ $t('attendee') }}</option>
