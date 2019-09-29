@@ -9,7 +9,17 @@
         <ul class="navbar-nav">
           <li class="nav-item">
             <router-link to="/" class="nav-link text-light">
-              {{ $t('browse') }}
+              {{ $t('manage') }}
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link :to="{ name: 'event.input' }" class="nav-link text-light">
+              {{ $t('create') }}
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/" class="nav-link text-light">
+              {{ $t('tickets') }}
             </router-link>
           </li>
         </ul>

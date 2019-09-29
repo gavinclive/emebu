@@ -25,11 +25,6 @@
               <has-error :form="form" field="password" class="d-block pl-5 text-left"/>
             </div>
           </div>
-          <div class="col-md-9 d-flex mx-auto my-0 position-relative">
-            <router-link v-if="mobile" :to="{ name: 'password.request' }" class="medium mobile-forget position-absolute pr-4">
-              {{ $t('forgot_password') }}
-            </router-link>
-          </div>
 
           <!-- Remember Me -->
           <div class="form-group row d-flex justify-content-center mt-3 text-center">

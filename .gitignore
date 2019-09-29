@@ -6,7 +6,6 @@
 /public/dist
 /public/build
 /public/mix-manifest.json
-composer.lock
 package-lock.json
 .env
 .phpunit.result.cache
