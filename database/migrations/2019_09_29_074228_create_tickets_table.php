@@ -20,7 +20,7 @@ class CreateTicketsTable extends Migration
             $table->integer('qty');
             $table->string('price', 16);
             $table->string('desc', 150);
-            $table->bigInteger('eventId');
+            $table->bigInteger('event_id');
             $table->timestamps();
         });
     }
