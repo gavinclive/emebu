@@ -194,7 +194,7 @@
               </GmapMap>
               </div>
               <div class="col-md-12 d-flex align-items-center py-1">
-                <gmap-autocomplete class="form-control col-md-11 mx-auto" @place_changed="setPlace" :placeholder="$t('venue_placeholder')" nam="venue"/>
+                <gmap-autocomplete class="form-control col-md-11 mx-auto" @place_changed="setPlace" :placeholder="$t('venue_placeholder')" name="venue"/>
               </div>
               <has-error :form="form" field="location" class="d-block pl-3 text-left"/>
             </div>
