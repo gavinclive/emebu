@@ -4,21 +4,27 @@ import router from '~/router'
 import i18n from '~/plugins/i18n'
 import Vuetify from 'vuetify'
 import App from '~/components/App'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { fas } from '@fortawesome/free-solid-svg-icons'
+import * as VueGoogleMaps from 'vue2-google-maps'
+import VueCtkDateTimePicker from 'vue-ctk-date-time-picker'
 
 import '~/plugins'
 import '~/components'
 import 'vuetify/dist/vuetify.min.css'
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css'
 import objectToFormData from './utils/objectToFormData'
 
 window.objectToFormData = objectToFormData
 Vue.config.productionTip = false
-Vue.component('font-awesome-icon', FontAwesomeIcon)
-library.add(fas)
 
+Vue.component('VueCtkDateTimePicker', VueCtkDateTimePicker)
 Vue.use(Vuetify)
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyAyhAP-kfAQ9xqD6jEhwnQPkAmxFSNIxZI',
+    libraries: 'places'
+  }
+})
 
 /* eslint-disable no-new */
 new Vue({

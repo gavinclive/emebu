@@ -15,7 +15,7 @@
     RewriteRule ^ %1 [L,R=301]
 
     # Handle Front Controller...
-    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !(\.css|\.js|\.png|\.jpg|\.gif|\.woff|\.woff2|\.ttf|\.eot|\.svg|robots\.txt)$ [NC]
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
