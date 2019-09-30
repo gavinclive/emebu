@@ -36,7 +36,7 @@ new Vue({
   store,
   router,
   icons: {
-    iconfont: 'mdi', // default - only for display purposes
+    iconfont: 'mdi' // default - only for display purposes
   },
   ...App
 })
