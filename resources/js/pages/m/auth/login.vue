@@ -1,5 +1,5 @@
 <template>
-  <div class="mobile-login">
+  <div class="mobile-login col-12">
     <form @submit.prevent="login" @keydown="form.onKeydown($event)">
       <!-- Email -->
       <div class="form-group row d-flex justify-content-center mb-0">

@@ -9,3 +9,8 @@
 @import 'elements/transitions';
 @import 'elements/settings';
 @import 'elements/admin';
+
+body {
+  height: 100%;
+  width: 100vw;
+}

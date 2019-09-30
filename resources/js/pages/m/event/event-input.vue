@@ -1,51 +1,30 @@
 <template>
-  <form class="col-md-9 mx-auto" @submit.prevent="update" @keydown="form.onKeydown($event)" novalidate>
-    <alert-success :form="form" :message="$t('info_updated')" />
+  <div>
+    <form class="col-12 mx-auto py-0 px-0" @submit.prevent="update" @keydown="form.onKeydown($event)" novalidate style="height: 100vh; overflow: scroll;">
+      <alert-success :form="form" :message="$t('info_updated')" />
 
-    <v-stepper v-model="e1" class="stepper">
-      <v-stepper-header class="stepper">
-        <v-stepper-step :complete="e1 > 1" step="1">{{ $t('basic_info') }}</v-stepper-step>
+      <v-stepper v-model="e1" class="stepper" vertical>
+        <v-stepper-step class="px-0" :complete="e1 > 1" step="1">{{ $t('basic_info') }}</v-stepper-step>
 
-        <v-divider></v-divider>
+        <v-stepper-content class="px-0" step="1">
 
-        <v-stepper-step :complete="e1 > 2" step="2">{{ $t('details') }}</v-stepper-step>
-
-        <v-divider></v-divider>
-
-        <v-stepper-step step="3">{{ $t('tickets') }}</v-stepper-step>
-      </v-stepper-header>
-
-      <v-stepper-items>
-        <v-stepper-content step="1">
-
-          <div class="row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0">
-              <div class="col-md-11 py-1 text-center mx-auto">
-                <h5>{{ $t('basic_info') }}</h5>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Event Title -->
-          <div class="form-group row d-flex justify-content-center mb-0">
+          <div class="form-group row d-flex justify-content-center">
             <div class="col-md-10 py-0 justify-content-center">
-              <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('event_title') }}</label>
-              <div class="col-md-12 d-flex align-items-center py-1">
-                <input v-model="form.title" :class="{ 'is-invalid': form.errors.has('title') }" class="form-control col-md-11 mx-auto" type="text" name="title" :placeholder="$t('event_title_placeholder')">
+              <label class="col-11 d-block pt-0 col-form-label">{{ $t('event_title') }}</label>
+              <div class="col-11 d-flex align-items-center py-1">
+                <input v-model="form.title" :class="{ 'is-invalid': form.errors.has('title') }" class="form-control col-12" type="text" name="title" :placeholder="$t('event_title_placeholder')">
               </div>
               <has-error :form="form" field="title" class="d-block pl-3 text-left"/>
             </div>
           </div>
 
-          <div class="form-group row d-flex justify-content-center mb-0">
+          <div class="form-group row d-flex justify-content-center">
             <div class="col-md-10 py-0 justify-content-center">
-              <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('type') }}</label>
-              <div class="col-md-12 d-flex align-items-center py-1">
-                <div class="input-group col-md-11 mx-auto px-0 py-0" @click="showTypeModal">
-                  <input v-model="activeType" class="form-control" name="type">
-                  <div class="input-group-append">
-                    <span class="input-group-text">Choose</span>
-                  </div>
+              <label class="col-11 d-block pt-0 col-form-label">{{ $t('type') }}</label>
+              <div class="col-11 d-flex align-items-center py-1" @click="showTypeModal">
+                <input v-model="activeType" class="form-control" name="type">
+                <div class="input-group-append">
+                  <span class="input-group-text">Choose</span>
                 </div>
               </div>
               <has-error :form="form" field="type" class="d-block pl-3 text-left"/>
@@ -73,15 +52,13 @@
             </div>
           </div>
 
-          <div class="form-group row d-flex justify-content-center mb-0">
+          <div class="form-group row d-flex justify-content-center">
             <div class="col-md-10 py-0 justify-content-center">
-              <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('category') }}</label>
-              <div class="col-md-12 d-flex align-items-center py-1">
-                <div class="input-group col-md-11 mx-auto px-0 py-0" @click="showCategoryModal">
-                  <input v-model="activeCategory" class="form-control" name="category">
-                  <div class="input-group-append">
-                    <span class="input-group-text">Choose</span>
-                  </div>
+              <label class="col-11 d-block pt-0 col-form-label">{{ $t('category') }}</label>
+              <div class="col-11 d-flex align-items-center py-1" @click="showCategoryModal">
+                <input v-model="activeCategory" class="form-control" name="category">
+                <div class="input-group-append">
+                  <span class="input-group-text">Choose</span>
                 </div>
               </div>
               <has-error :form="form" field="category" class="d-block pl-3 text-left"/>
@@ -108,76 +85,45 @@
               </div>
             </div>
           </div>
-          
-          <div class="form-group row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0 justify-content-center">
-              <div class="col-md-12 d-flex align-items-center py-1">
-                <div class="col-md-11 mx-auto px-0">
-                  <v-divider />
-                </div>
-              </div>
-            </div>
-          </div>
+        </v-stepper-content>
 
-          <div class="row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0">
-              <div class="col-md-11 py-1 mx-auto text-center">
-                <h5>{{ $t('date_n_time') }}</h5>
-              </div>
-            </div>
-          </div>
+        <v-stepper-step class="px-0" :complete="e1 > 2" step="2">{{ $t('date_n_time') }}</v-stepper-step>
+        
+        <v-stepper-content class="px-0" step="2">
 
-          <div class="form-group row d-flex justify-content-center mb-0">
+          <div class="form-group row d-flex justify-content-center">
             <div class="col-md-10 py-0 justify-content-center">
-              <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('event_start') }}</label>
-              <div class="col-md-12 d-flex align-items-center py-1">
-                <VueCtkDateTimePicker right v-model="form.startTime" :first-day-of-week=1 :locale="language.includes('id') ? 'id' : 'en'" :minute-interval=30>
-                  <input :class="{ 'is-invalid': form.errors.has('startTime') }" class="form-control col-md-11 mx-auto" name="start_time">
-                </VueCtkDateTimePicker> 
+              <label class="col-12 d-block pt-0 col-form-label mx-auto">{{ $t('event_start') }}</label>
+              <div class="col-11 d-flex align-items-center py-1">
+                <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.startTime" :class="{ 'is-invalid': form.errors.has('endTime') }" class="form-control theme-blue col-md-11 mx-auto"></datetime>
               </div>
               <has-error :form="form" field="startTime" class="d-block pl-3 text-left"/>
             </div>
           </div>
 
-          <div class="form-group row d-flex justify-content-center mb-0">
+          <div class="form-group row d-flex justify-content-center">
             <div class="col-md-10 py-0 justify-content-center">
-              <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('event_end') }}</label>
-              <div class="col-md-12 d-flex align-items-center py-1">
-                <VueCtkDateTimePicker right v-model="form.endTime" :first-day-of-week=1 :locale="language.includes('id') ? 'id' : 'en'" :minute-interval=30>
-                  <input :class="{ 'is-invalid': form.errors.has('endTime') }" class="form-control col-md-11 mx-auto" name="end_time">
-                </VueCtkDateTimePicker> 
+              <label class="col-12 d-block pt-0 col-form-label mx-auto">{{ $t('event_end') }}</label>
+              <div class="col-11 d-flex align-items-center py-1">
+                <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.endTime" :class="{ 'is-invalid': form.errors.has('endTime') }" class="form-control theme-blue col-md-11 mx-auto"></datetime>
               </div>
               <has-error :form="form" field="endTime" class="d-block pl-3 text-left"/>
             </div>
           </div>
+        </v-stepper-content>
 
+        <v-stepper-step class="px-0" :complete="e1 > 3" step="3">{{ $t('location') }}</v-stepper-step>
+        
+        <v-stepper-content class="px-0" step="3">
           <div class="form-group row d-flex justify-content-center mb-0">
             <div class="col-md-10 py-0 justify-content-center">
-              <div class="col-md-12 d-flex align-items-center py-1">
-                <div class="col-md-11 mx-auto px-0">
-                  <v-divider />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0">
-              <div class="col-md-11 py-1 mx-auto text-center">
-                <h5>{{ $t('location') }}</h5>
-              </div>
-            </div>
-          </div>
-          
-          <div class="form-group row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0 justify-content-center">
-              <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('venue') }}</label>
-              <div class="col-md-12 d-flex align-items-center py-1">
+              <label class="col-12 d-block pt-0 col-form-label mx-auto">{{ $t('venue') }}</label>
+              <div class="col-11 d-flex align-items-center py-1 px-0">
                <GmapMap
                 class="mx-auto col-11"
                 :center="latLng"
                 :zoom="zoom"
-                style="width: 100%; height: 300px"
+                style="width: 100%; height: 425px"
                 :options="{
                   streetViewControl: false,
                   mapTypeControl: false,
@@ -193,135 +139,84 @@
                 />
               </GmapMap>
               </div>
-              <div class="col-md-12 d-flex align-items-center py-1">
-                <gmap-autocomplete class="form-control col-md-11 mx-auto" @place_changed="setPlace" :placeholder="$t('venue_placeholder')" name="venue"/>
+              <div class="col-11 d-flex align-items-center py-1">
+                <gmap-autocomplete class="form-control col-12 mx-auto" @place_changed="setPlace" :placeholder="$t('venue_placeholder')" name="venue"/>
               </div>
               <has-error :form="form" field="location" class="d-block pl-3 text-left"/>
             </div>
           </div>
 
-          <div class="form-group row d-flex justify-content-center mt-3 mx-0 col-12">
-            <div class="d-flex col-md-9 px-0 d-flex justify-content-between">
-              <button class="btn btn-primary" @click="e1 = 2" type="button">
-                {{ $t('continue') }}
-              </button>
-            </div>
-          </div>
-    
         </v-stepper-content>
 
-        <v-stepper-content step="2">
-
-          <div class="row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0">
-              <div class="col-md-11 py-1 text-center mx-auto">
-                <h5>{{ $t('main_event_img') }}</h5>
-              </div>
-            </div>
-          </div>
+        <v-stepper-step class="px-0" :complete="e1 > 4" step="4">{{ $t('main_event_img') }}</v-stepper-step>
+         
+        <v-stepper-content class="px-0" step="4">
 
           <div class="form-group row d-flex justify-content-center mb-0">
             <div class="col-md-10 py-0 justify-content-center">
-              <div class="col-md-12 d-flex align-items-center py-1">
-                <div class="custom-file col-md-11 mx-auto">
+              <div class="col-11 d-flex align-items-center py-1 px-0">
+                <div class="custom-file col-11 mx-auto">
                   <input type="file" accept="image/*" class="custom-file-input" @change="imageUpload($event.target.files[0])">
                   <label class="custom-file-label">{{ $t('choose_file') }}</label>
                 </div>
               </div>
-              <label v-if="imagePreview" class="col-11 d-block col-form-label mx-auto">{{ $t('image_preview') }}</label>
-              <div class="col-md-12 d-flex align-items-center py-0">
-                <img :src="imagePreview" class="col-6 mx-auto px-0">
+              <label v-if="imagePreview" class="col-12 d-block col-form-label mx-auto">{{ $t('image_preview') }}</label>
+              <div class="col-12 d-flex align-items-center py-0">
+                <img :src="imagePreview" class="col-12 px-0">
               </div>
               <has-error :form="form" field="type" class="d-block pl-3 text-left"/>
             </div>
           </div>
 
+        </v-stepper-content>
+
+        <v-stepper-step class="px-0" :complete="e1 > 5" step="5">{{ $t('summary') }}</v-stepper-step>
+        
+        <v-stepper-content class="px-0" step="5">
+          
           <div class="form-group row d-flex justify-content-center mb-0">
             <div class="col-md-10 py-0 justify-content-center">
-              <div class="col-md-12 d-flex align-items-center py-1">
-                <div class="col-md-11 mx-auto px-0">
-                  <v-divider />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0">
-              <div class="col-md-11 py-1 text-center mx-auto">
-                <h5>{{ $t('summary') }}</h5>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0 justify-content-center">
-              <div class="col-md-12 d-flex align-items-center pt-1 pb-0">
+              <div class="col-11 d-flex align-items-center pt-1 pb-0">
                 <textarea v-model="form.summary" class="form-control col-md-11 mx-auto" maxlength="150" rows="4" style="resize: none;" placeholder="Write a short event summary to get attendees excited." name="summary"></textarea>
               </div>
-              <div class="col-md-12 py-1" v-if="form.summary && form.summary.length">
+              <div class="col-11 py-1" v-if="form.summary && form.summary.length">
                 <div class="col-md-11 mx-auto py-0 px-0 text-right" :class="{ 'text-danger': form.summary.length === 150 }">{{ form.summary.length }}/150</div>
               </div>
               <has-error :form="form" field="title" class="d-block pl-3 text-left"/>
             </div>
           </div>
 
-          <div class="form-group row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0 justify-content-center">
-              <div class="col-md-12 d-flex align-items-center py-1">
-                <div class="col-md-11 mx-auto px-0">
-                  <v-divider />
-                </div>
-              </div>
-            </div>
-          </div>
+        </v-stepper-content>
 
-          <div class="row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0">
-              <div class="col-md-11 py-1 text-center mx-auto">
-                <h5>{{ $t('description') }}</h5>
-              </div>
-            </div>
-          </div>
+        <v-stepper-step class="px-0" :complete="e1 > 6" step="6">{{ $t('description') }}</v-stepper-step>
+        
+        <v-stepper-content class="px-0" step="6">
 
           <div class="form-group row d-flex justify-content-center mb-0">
             <div class="col-md-10 py-0 justify-content-center">
-              <div class="col-md-12 d-flex align-items-center py-1">
-                <div class="col-md-11 mx-auto px-0">
-                  <vue-editor v-model="form.description" useCustomImageHandler @image-added="handleImageAdded" />
+              <div class="col-11 d-flex align-items-center py-1">
+                <div class="col-11 mx-auto px-0">
+                  <vue-editor v-model="form.description" useCustomImageHandler @image-added="handleImageAdded" :editorToolbar="customToolbar" />
                   <has-error :form="form" field="description" />
                 </div>
               </div>
             </div>
           </div>
-          
-          <div class="form-group row d-flex justify-content-center mt-3 mx-0 col-12">
-            <div class="d-flex col-md-9 px-0 d-flex justify-content-between">
-              <button class="btn btn-primary" @click="e1 = 3" type="button">
-                {{ $t('continue') }}
-              </button>
-              <button class="btn btn-secondary" type="button" @click="e1 = 1">{{ $t('back') }}</button>
-            </div>
-          </div>
+
         </v-stepper-content>
 
-        <v-stepper-content step="3">
-          <div class="row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0">
-              <div class="col-md-11 py-1 text-center mx-auto">
-                <h5>{{ $t('tickets') }}</h5>
-              </div>
-            </div>
-          </div>
+        <v-stepper-step class="px-0" :complete="e1 > 7" step="7">{{ $t('tickets') }}</v-stepper-step>
+
+        <v-stepper-content class="px-0" step ="7">
 
           <div class="form-group row d-flex justify-content-center mb-0">
             <div class="col-md-10 py-0 justify-content-center">
-              <div class="col-md-12 d-flex align-items-center py-1">
+              <div class="col-11 d-flex align-items-center py-1">
                 <div v-if="!form.ticket || form.ticket.length < 1" class="col-md-11 mx-auto text-center">
                   <img src="/dist/assets/movie-tickets.svg" width="100" class="my-4"/>
                   <h5>{{ $t('no_ticket_set') }}</h5>
                 </div>
-                <div v-else class="col-md-11 mx-auto text-center">
+                <div v-else class="col-11 mx-auto text-center">
                   <v-card v-for="(ticket, index) in form.ticket" :key="index" class="ticket mb-2">
                     <v-card-title>{{ ticket.name }}</v-card-title>
                     <v-card-text class="pb-0">
@@ -339,7 +234,7 @@
             </div>
           </div>
 
-          <div class="form-group row d-flex justify-content-center mt-3 mx-0 col-12">
+          <div class="form-group row d-flex justify-content-center mt-3 mx-0 col-11">
             <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addTicket" @click="initAddTicket">
               {{ $t('add') + ' ' + $t('ticket') }}
             </button>
@@ -405,19 +300,35 @@
             </div>
           </div>
 
-          <div class="form-group row d-flex justify-content-center mt-3 mx-0 col-12">
-            <div class="d-flex col-md-9 px-0 d-flex justify-content-between">
-              <v-button :loading="form.busy" type="success">
-                {{ $t('create') }}
-              </v-button>
-              <button class="btn btn-secondary" type="button" @click="e1 = 2">{{ $t('back') }}</button>
+        </v-stepper-content>
+      
+        <v-stepper-step class="px-0" :complete="e1 > 8" step="8">All set, you can create your event now</v-stepper-step>
+
+        <v-stepper-content class="px-0" step="8">
+          <div class="form-group row d-flex col-11 mx-0 pl-0 justify-content-center">
+            <div class="col-md-10 py-0 justify-content-center">
+              <div class="col-12 py-1 px-0 mx-auto">
+                <v-button :loading="form.busy" type="success" class="col-12">
+                  {{ $t('create') }}
+                </v-button>
+              </div>
             </div>
           </div>
-
         </v-stepper-content>
-      </v-stepper-items>
-    </v-stepper>    
-  </form>
+
+      </v-stepper>
+      <div v-if="e1 < 8" class="form-group fixed-bottom row d-flex my-0 mx-0 py-0 col-12 bg-light">
+        <div class="d-flex col-12 px-0 d-flex justify-content-between mr-0">
+          <button class="btn btn-primary col-5" @click="e1++" type="button">
+            {{ $t('continue') }}
+          </button>
+          <button class="btn btn-secondary col-5" @click="e1--" type="button" :disabled="e1 === 1">
+            {{ $t('cancel') }}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -440,7 +351,7 @@ export default {
   },
 
   data: () => ({
-    e1: 0,
+    e1: 7,
     form: new Form({
       title: '',
       startTime: '',
@@ -470,6 +381,11 @@ export default {
     removeIndex: '',
     type: '',
     category: '',
+    customToolbar: [
+      ["bold", "italic", "underline"],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["image", "video"]
+    ]
   }),
 
   
