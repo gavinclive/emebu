@@ -87,5 +87,7 @@
   "ticket_name": "Ticket Name",
   "quantity": "Quantity",
   "price": "Price",
-  "ticket": "Ticket"
+  "ticket": "Ticket",
+  "sales_start": "Sales Start",
+  "sales_end": "Sales End"
 }

@@ -34,7 +34,8 @@ export default [
       { path: 'settings', name: 'm.settings', component: page('m/settings/index.vue') },
       { path: 'settings/profile', name: 'm.settings.profile', component: page('settings/profile.vue') },
       { path: 'settings/password', name: 'm.settings.password', component: page('settings/password.vue') },
-      { path: 'settings/atm', name: 'm.settings.atm', component: page('settings/atm.vue') }
+      { path: 'settings/atm', name: 'm.settings.atm', component: page('settings/atm.vue') },
+      { path: 'event/input', name: 'm.event.input', component: page('m/event/event-input.vue') }
     ]
   },
   { path: '*', component: page('errors/404.vue') }
