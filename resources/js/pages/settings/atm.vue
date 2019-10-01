@@ -7,7 +7,7 @@
       <div class="col-md-10 py-0">
         <label class="col-12 pt-0 col-form-label">{{ $t('bank') }}</label>
         <div class="col-md-12 d-flex align-items-center py-1">
-          <input v-model="form.bank" :class="{ 'is-invalid': form.errors.has('bank') }" class="form-control col-md-11" type="number" name="bank" :placeholder="$t('bank')">
+          <input v-model="form.bank" :class="{ 'is-invalid': form.errors.has('bank') }" class="form-control col-md-11" type="number" name="bank">
         </div>
         <has-error :form="form" field="bank" class="d-block pl-5 text-left"/>
       </div>
@@ -18,7 +18,7 @@
       <div class="col-md-10 py-0">
         <label class="col-12 pt-0 col-form-label">{{ $t('account_number') }}</label>
         <div class="col-md-12 d-flex align-items-center py-1">
-          <input v-model="form.acc_num" :class="{ 'is-invalid': form.errors.has('acc_num') }" class="form-control col-md-11" type="number" name="acc_num" :placeholder="$t('account_number')">
+          <input v-model="form.acc_num" :class="{ 'is-invalid': form.errors.has('acc_num') }" class="form-control col-md-11" type="number" name="acc_num">
         </div>
         <has-error :form="form" field="acc_num" class="d-block pl-5 text-left"/>
       </div>

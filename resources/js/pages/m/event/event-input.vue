@@ -1,10 +1,10 @@
 <template>
   <div>
-    <form class="col-12 mx-auto py-0 px-0" @submit.prevent="update" @keydown="form.onKeydown($event)" novalidate style="height: 100vh; overflow: scroll;">
+    <form class="col-12 mx-auto py-0" @submit.prevent="update" @keydown="form.onKeydown($event)" novalidate>
       <alert-success :form="form" :message="$t('info_updated')" />
 
       <v-stepper v-model="e1" class="stepper" vertical>
-        <v-stepper-step class="px-0" :complete="e1 > 1" step="1">{{ $t('basic_info') }}</v-stepper-step>
+        <v-stepper-step class="px-0 pt-0" :complete="e1 > 1" step="1">{{ $t('basic_info') }}</v-stepper-step>
 
         <v-stepper-content class="px-0" step="1">
 
@@ -322,7 +322,7 @@
           <button class="btn btn-primary col-5" @click="e1++" type="button">
             {{ $t('continue') }}
           </button>
-          <button class="btn btn-secondary col-5" @click="e1--" type="button" :disabled="e1 === 1">
+          <button class="btn btn-secondary col-5" @click="e1 > 1 ? e1-- : $router.go(-1)" type="button">
             {{ $t('cancel') }}
           </button>
         </div>
@@ -351,7 +351,7 @@ export default {
   },
 
   data: () => ({
-    e1: 7,
+    e1: 1,
     form: new Form({
       title: '',
       startTime: '',
