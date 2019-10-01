@@ -81,5 +81,7 @@
   "ticket_name": "Nama Tiket",
   "quantity": "Jumlah",
   "price": "Harga",
-  "ticket": "Tiket"
+  "ticket": "Tiket",
+  "sales_start": "Penjualan Dimulai",
+  "sales_end": "Penjualan Berakhir"
 }

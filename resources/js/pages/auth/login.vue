@@ -1,6 +1,6 @@
 <template>
-  <div class="row">
-    <div class="col-lg-8 m-auto">
+  <div class="row d-flex justify-content-center col-12 mx-0">
+    <div class="col-lg-8 mx-auto">
       <card :title="$t('login')" image="https://image.freepik.com/free-photo/hand-crowd-disco_23-2147717087.jpg" position="50% 65%">
 
         <form @submit.prevent="login" @keydown="form.onKeydown($event)">

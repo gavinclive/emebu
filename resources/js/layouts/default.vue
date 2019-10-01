@@ -1,5 +1,5 @@
 <template>
-  <div class="main-layout">
+  <div class="main-layout px-0 mx-0">
     <navbar />
 
     <div class="container mt-4 page-control px-0 pb-0">

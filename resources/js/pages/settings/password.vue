@@ -7,7 +7,7 @@
       <div class="col-md-10 py-0">
         <label class="col-3 pt-0 col-form-label">{{ $t('password') }}</label>
         <div class="col-md-12 d-flex align-items-center py-1">
-          <input v-model="form.password" :class="{ 'is-invalid': form.errors.has('password') }" class="form-control col-md-11" type="password" name="password" :placeholder="$t('password')">
+          <input v-model="form.password" :class="{ 'is-invalid': form.errors.has('password') }" class="form-control col-md-11" type="password" name="password">
         </div>
         <has-error :form="form" field="password" class="d-block pl-3 text-left"/>
       </div>
@@ -18,7 +18,7 @@
       <div class="col-md-10 pb-0">
         <label class="col-12 pt-0 col-form-label">{{ $t('confirm_password') }}</label>
         <div class="col-md-12 d-flex align-items-center py-1">
-          <input v-model="form.password_confirmation" :class="{ 'is-invalid': form.errors.has('password_confirmation') }" class="form-control col-md-11" type="password" name="password_confirmation" :placeholder="$t('confirm_password')">
+          <input v-model="form.password_confirmation" :class="{ 'is-invalid': form.errors.has('password_confirmation') }" class="form-control col-md-11" type="password" name="password_confirmation">
         </div>
         <has-error :form="form" field="password_confirmation" class="d-block pl-3 text-left"/>
       </div>

@@ -27,7 +27,7 @@
       <v-img src="/dist/assets/tool.svg" class="white-svg navbar-icon" />
     </v-btn>
 
-    <v-btn v-if="user.role === 1">
+    <v-btn v-if="user.role === 1" @click="toCreatePage">
       <span>{{ $t('create') }}</span>
       <v-img src="/dist/assets/plus-circle.svg" class="white-svg main-navbar-icon" />
     </v-btn>
@@ -86,6 +86,10 @@ export default {
 
     toSettingPage () {
       this.$router.push({ name: 'm.settings' })
+    },
+
+    toCreatePage () {
+      this.$router.push({ name: 'm.event.input' })
     }
   }
 }
