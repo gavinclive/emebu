@@ -27,6 +27,7 @@ class CreateEventsTable extends Migration
             $table->string('type',50);
             $table->string('category',50);
             $table->integer('organizer_id');
+            $table->string('status', 1)->default('1'); //1 for OK, 2 for cancelled, 3 for under investigation
             $table->timestamps();
         });
     }

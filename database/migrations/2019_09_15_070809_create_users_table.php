@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->integer('role')->default(1);
+            $table->integer('role')->default(1); //1 = user, 2 = eo, 3 = admin
             $table->string('bank')->nullable();
             $table->string('acc_number')->nullable();
             $table->enum('status', ['active', 'disactive']);
