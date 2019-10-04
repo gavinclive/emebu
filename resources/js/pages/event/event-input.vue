@@ -382,13 +382,13 @@
                   </div>
                   <div class="col-12 form-group px-0 py-1 my-0">
                     <label>{{ $t('sales_start') }}</label>
-                    <VueCtkDateTimePicker right v-model="tempTicket.startTime" :first-day-of-week=1 :locale="language.includes('id') ? 'id' : 'en'" :minute-interval=30 required>
+                    <VueCtkDateTimePicker right v-model="tempTicket.start_time" :first-day-of-week=1 :locale="language.includes('id') ? 'id' : 'en'" :minute-interval=30 required>
                       <input class="form-control mx-auto">
                     </VueCtkDateTimePicker>
                   </div>
                   <div class="col-12 form-group px-0 py-1 my-0">
                     <label>{{ $t('sales_end') }}</label>
-                    <VueCtkDateTimePicker right v-model="tempTicket.endTime" :first-day-of-week=1 :locale="language.includes('id') ? 'id' : 'en'" :minute-interval=30 required>
+                    <VueCtkDateTimePicker right v-model="tempTicket.end_time" :first-day-of-week=1 :locale="language.includes('id') ? 'id' : 'en'" :minute-interval=30 required>
                       <input class="form-control mx-auto">
                     </VueCtkDateTimePicker>
                   </div>
@@ -427,6 +427,7 @@ import store from '~/store'
 import Form from 'vform'
 import { mapGetters } from 'vuex'
 import { VueEditor } from 'vue2-editor'
+import { BASE_URL } from '~/utils/constant'
 
 export default {
   middleware: 'auth',
@@ -461,8 +462,8 @@ export default {
       type: 1,
       qty: '',
       price: 1000,
-      startTime: '',
-      endTime: '',
+      start_time: '',
+      end_time: '',
       desc: ''
     },
     ticket: [],
@@ -603,7 +604,7 @@ export default {
         form.submit('post', '/api/quill', {
           transformRequest: [(data, headers) => objectToFormData(data)]
         }).then(res => {
-          Editor.insertEmbed(cursorLocation, 'image', `${BASE_URL}/${res.data[0]}`)
+          Editor.insertEmbed(cursorLocation, 'image', `${BASE_URL}/storage/quill/${res.data[0]}`)
           resetUploader()
         }).catch(err => {
           console.log(err)
@@ -617,8 +618,8 @@ export default {
         type: this.tempTicket.type,
         qty: this.tempTicket.qty,
         price: this.tempTicket.price,
-        startTime: this.tempTicket.startTime,
-        endTime: this.tempTicket.endTime,
+        start_time: this.tempTicket.start_time,
+        end_time: this.tempTicket.end_time,
         desc: this.tempTicket.desc
       }
       if (this.removeIndex) {
@@ -637,8 +638,8 @@ export default {
       this.tempTicket.type = 1
       this.tempTicket.qty = ''
       this.tempTicket.price = 1000
-      this.tempTicket.startTime = ''
-      this.tempTicket.endTime = ''
+      this.tempTicket.start_time = ''
+      this.tempTicket.end_time = ''
       this.tempTicket.desc = ''
     },
 
