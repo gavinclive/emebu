@@ -216,7 +216,7 @@
                   <img src="/dist/assets/movie-tickets.svg" width="100" class="my-4"/>
                   <h5>{{ $t('no_ticket_set') }}</h5>
                 </div>
-                <div v-else class="col-12 mx-0 p-0 text-center">
+                <div v-else class="col-11 mx-auto text-center">
                   <v-card v-for="(ticket, index) in form.ticket" :key="index" class="ticket mb-2">
                     <v-card-title>{{ ticket.name }}</v-card-title>
                     <v-card-text class="pb-0">
@@ -224,7 +224,7 @@
                       <h5><p class="text-right my-0">{{ ticket.price === 0 ? 'FREE' : 'Rp ' + ticket.price }}</p></h5>
                     </v-card-text>
                     <v-card-actions class="d-flex align justify-content-end">
-                      <img class="mx-3" src='/dist/assets/edit.svg' height="20" @click="editTicket(index)">
+                      <img class="mx-3" src='/dist/assets/edit-2.svg' height="20" @click="editTicket(index)">
                       <img class="mx-1" src='/dist/assets/trash-2.svg' height="20" @click="removeTicket(index)">
                     </v-card-actions>
                   </v-card>
@@ -277,11 +277,15 @@
                   </div>
                   <div class="col-12 form-group px-0 py-1 my-0">
                     <label>{{ $t('sales_start') }}</label>
-                    <datetime type="datetime" :week-start="1" :minute-step="30" v-model="tempTicket.startTime" class="form-control theme-blue mx-auto"></datetime>
+                    <VueCtkDateTimePicker right v-model="tempTicket.startTime" :first-day-of-week=1 :locale="language.includes('id') ? 'id' : 'en'" :minute-interval=30 required>
+                      <input class="form-control mx-auto">
+                    </VueCtkDateTimePicker>
                   </div>
                   <div class="col-12 form-group px-0 py-1 my-0">
                     <label>{{ $t('sales_end') }}</label>
-                    <datetime type="datetime" :week-start="1" :minute-step="30" v-model="tempTicket.endTime" class="form-control theme-blue mx-auto"></datetime>
+                    <VueCtkDateTimePicker right v-model="tempTicket.endTime" :first-day-of-week=1 :locale="language.includes('id') ? 'id' : 'en'" :minute-interval=30 required>
+                      <input class="form-control mx-auto">
+                    </VueCtkDateTimePicker>
                   </div>
                   <div class="col-12 form-group px-0 py-1 my-0">
                     <label>{{ $t('description') }}</label>
@@ -356,8 +360,7 @@ export default {
       summary: '',
       description: '',
       img: '',
-      ticket: [],
-      organizerId: ''
+      ticket: []
     }),
     imagePreview: '',
     latLng: {lat:0.7, lng:118.9},
@@ -417,11 +420,11 @@ export default {
     },
 
     activeType () {
-      return this.type !== '' ? this.types[this.type].name : ''
+      return this.type ? this.types[this.type].name : ''
     },
 
     activeCategory () {
-      return this.category !== '' ? this.categories[this.category].name : ''
+      return this.category ? this.categories[this.category].name : ''
     },
 
     ticketInvalid () {
@@ -535,7 +538,7 @@ export default {
         desc: this.tempTicket.desc
       }
       if (this.removeIndex) {
-        this.ticket.splice(this.removeIndex - 1, 1)
+        this.ticket.splice(this.removeIndex)
         this.removeIndex = ''
       }
       this.ticket.push(obj)
@@ -558,7 +561,7 @@ export default {
     editTicket (index) {
       this.tempTicket = this.form.ticket[index]
       $('#addTicket').modal('show')
-      this.removeIndex = index + 1
+      this.removeIndex = index
     },
 
     removeTicket (index) {
@@ -568,7 +571,6 @@ export default {
 
     async update () {
       this.form.location = `${this.latLng.lat}, ${this.latLng.lng}`
-      this.form.organizerId = this.user.id
       try {
         await this.form.submit('post', '/api/event', {
           transformRequest: [(data, headers) => objectToFormData(data)]

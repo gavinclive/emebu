@@ -14,8 +14,3 @@ export const FETCH_CATEGORY = 'FETCH_CATEGORY'
 
 // type.js
 export const FETCH_TYPE = 'FETCH_TYPE'
-
-// event.js
-export const FETCH_EVENT = 'FETCH_EVENT'
-export const FETCH_EVENT_BY_ID = 'FETCH_EVENT_BY_ID'
-export const FETCH_EVENT_BY_UID = 'FETCH_EVENT_BY_UID'

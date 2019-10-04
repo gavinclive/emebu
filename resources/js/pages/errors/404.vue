@@ -5,7 +5,7 @@
     </h3>
 
     <div class="links">
-      <router-link :to="{ name: user ? 'home' : 'welcome' }">
+      <router-link :to="{ name: 'welcome' }">
         {{ $t('go_home') }}
       </router-link>
     </div>

@@ -61,7 +61,6 @@
 <script>
 import Form from 'vform'
 import LoginWithGithub from '~/components/LoginWithGithub'
-import { md } from '~/utils/mobileDetect'
 
 export default {
   middleware: 'guest',
@@ -77,14 +76,6 @@ export default {
     }),
     remember: false
   }),
-
-  beforeRouteEnter (to, from, next) {
-    if (md.mobile()) {
-      next({ name: 'm.login' })
-    } else {
-      next()
-    }
-  },
 
   methods: {
     async login () {
