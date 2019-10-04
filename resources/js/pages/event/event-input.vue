@@ -131,7 +131,7 @@
             <div class="col-md-10 py-0 justify-content-center">
               <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('event_start') }}</label>
               <div class="col-md-12 d-flex align-items-center py-1">
-                <VueCtkDateTimePicker right v-model="form.startTime" :first-day-of-week=1 :locale="language.includes('id') ? 'id' : 'en'" :minute-interval=30>
+                <VueCtkDateTimePicker right v-model="form.startTime" :first-day-of-week=1 :locale="language.includes('id') ? 'id' : 'en'" :minute-interval=30 format="YYYY-MM-DD HH:mm">
                   <input :class="{ 'is-invalid': form.errors.has('startTime') }" class="form-control col-md-11 mx-auto" name="start_time">
                 </VueCtkDateTimePicker> 
               </div>
@@ -143,7 +143,7 @@
             <div class="col-md-10 py-0 justify-content-center">
               <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('event_end') }}</label>
               <div class="col-md-12 d-flex align-items-center py-1">
-                <VueCtkDateTimePicker right v-model="form.endTime" :first-day-of-week=1 :locale="language.includes('id') ? 'id' : 'en'" :minute-interval=30>
+                <VueCtkDateTimePicker right v-model="form.endTime" :first-day-of-week=1 :locale="language.includes('id') ? 'id' : 'en'" :minute-interval=30 format="YYYY-MM-DD HH:mm">
                   <input :class="{ 'is-invalid': form.errors.has('endTime') }" class="form-control col-md-11 mx-auto" name="end_time">
                 </VueCtkDateTimePicker> 
               </div>
@@ -202,7 +202,7 @@
 
           <div class="form-group row d-flex justify-content-center mt-3 mx-0 col-12">
             <div class="d-flex col-md-9 px-0 d-flex justify-content-between">
-              <button class="btn btn-primary" @click="e1 = 2" type="button">
+              <button class="btn btn-primary" @click="e1 = 2, scrollTop()" type="button">
                 {{ $t('continue') }}
               </button>
             </div>
@@ -297,10 +297,10 @@
           
           <div class="form-group row d-flex justify-content-center mt-3 mx-0 col-12">
             <div class="d-flex col-md-9 px-0 d-flex justify-content-between">
-              <button class="btn btn-primary" @click="e1 = 3" type="button">
+              <button class="btn btn-primary" @click="e1 = 3, scrollTop()" type="button">
                 {{ $t('continue') }}
               </button>
-              <button class="btn btn-secondary" type="button" @click="e1 = 1">{{ $t('back') }}</button>
+              <button class="btn btn-secondary" type="button" @click="e1 = 1, scrollTop()">{{ $t('back') }}</button>
             </div>
           </div>
         </v-stepper-content>
@@ -410,7 +410,7 @@
               <v-button :loading="form.busy" type="success">
                 {{ $t('create') }}
               </v-button>
-              <button class="btn btn-secondary" type="button" @click="e1 = 2">{{ $t('back') }}</button>
+              <button class="btn btn-secondary" type="button" @click="e1 = 2, scrollTop()">{{ $t('back') }}</button>
             </div>
           </div>
 
@@ -449,7 +449,8 @@ export default {
       summary: '',
       description: '',
       img: '',
-      ticket: []
+      ticket: [],
+      organizerId: ''
     }),
     imagePreview: '',
     latLng: {lat:0.7, lng:118.9},
@@ -504,11 +505,11 @@ export default {
     },
 
     activeType () {
-      return this.type ? this.types[this.type].name : ''
+      return this.type !== '' ? this.types[this.type].name : ''
     },
 
     activeCategory () {
-      return this.category ? this.categories[this.category].name : ''
+      return this.category !== '' ? this.categories[this.category].name : ''
     },
 
     ticketInvalid () {
@@ -542,16 +543,8 @@ export default {
       $('#eventCategory').modal('show')
     },
 
-    reverseGeocode (coordinates) {
-      axios
-        .get()
-          .then(response => {
-            console.log(response.data)
-        })
-        .catch(error => {
-          console.log(error)
-        })
-        .finally(() => this.loading = false)
+    scrollTop () {
+      window.scrollTo({ top: 0, behavior: 'auto' })
     },
 
     setPlace (place) {
@@ -562,13 +555,6 @@ export default {
         lng: place.geometry.location.lng(),
       }
       this.zoom = 14
-      axios.get(`https://maps.google.com/maps/api/geocode/json?latlng=${this.latLng.lat},${this.latLng.lng}&key=AIzaSyAyhAP-kfAQ9xqD6jEhwnQPkAmxFSNIxZI`)
-        .then(response => {
-          console.log(response.data)
-        })
-        .catch(error => {
-          console.log(error)
-        })
     },
 
     updateChild (object, field, event) {
@@ -622,7 +608,7 @@ export default {
         desc: this.tempTicket.desc
       }
       if (this.removeIndex) {
-        this.ticket.splice(this.removeIndex)
+        this.ticket.splice(this.removeIndex - 1, 1)
         this.removeIndex = ''
       }
       this.ticket.push(obj)
@@ -645,7 +631,7 @@ export default {
     editTicket (index) {
       this.tempTicket = this.form.ticket[index]
       $('#addTicket').modal('show')
-      this.removeIndex = index
+      this.removeIndex = index + 1
     },
 
     removeTicket (index) {
@@ -655,6 +641,7 @@ export default {
 
     async update () {
       this.form.location = `${this.latLng.lat}, ${this.latLng.lng}`
+      this.form.organizerId = this.user.id
       try {
         await this.form.submit('post', '/api/event', {
           transformRequest: [(data, headers) => objectToFormData(data)]

@@ -2,13 +2,12 @@
   <nav v-if="!inRoute" class="navbar navbar-expand-lg navbar-light bg-gradient-primary">
     <div class="container">
       <router-link :to="{ name: user ? 'home' : 'welcome' }" class="navbar-brand">
-         <v-img src="/dist/assets/emebu-logo.svg" class="white-svg" max-width="100" contain />
+        <v-img src="/dist/assets/emebu-logo.svg" class="white-svg" max-width="100" contain />
       </router-link>
-
       <div class="hide collapse navbar-collapse">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <router-link to="/" class="nav-link text-light">
+            <router-link :to="{ name: 'event.view' }" class="nav-link text-light">
               {{ $t('manage') }}
             </router-link>
           </li>
@@ -66,6 +65,7 @@
 <script>
 import LocaleDropdown from './LocaleDropdown'
 import { mapGetters } from 'vuex'
+import { md } from '~/utils/mobileDetect'
 
 export default {
   components: {
