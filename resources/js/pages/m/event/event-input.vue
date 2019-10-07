@@ -93,9 +93,19 @@
 
           <div class="form-group row d-flex justify-content-center">
             <div class="col-md-10 py-0 justify-content-center">
+              <label class="col-12 d-block pt-0 col-form-label mx-auto">{{ $t('event_publish') }}</label>
+              <div class="col-11 d-flex align-items-center py-1">
+                <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.publishTime" :class="{ 'is-invalid': form.errors.has('publishTime') }" class="form-control theme-blue col-md-11 mx-auto"></datetime>
+              </div>
+              <has-error :form="form" field="publishTime" class="d-block pl-3 text-left"/>
+            </div>
+          </div>
+
+          <div class="form-group row d-flex justify-content-center">
+            <div class="col-md-10 py-0 justify-content-center">
               <label class="col-12 d-block pt-0 col-form-label mx-auto">{{ $t('event_start') }}</label>
               <div class="col-11 d-flex align-items-center py-1">
-                <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.startTime" :class="{ 'is-invalid': form.errors.has('endTime') }" class="form-control theme-blue col-md-11 mx-auto"></datetime>
+                <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.startTime" :class="{ 'is-invalid': form.errors.has('startTime') }" class="form-control theme-blue col-md-11 mx-auto"></datetime>
               </div>
               <has-error :form="form" field="startTime" class="d-block pl-3 text-left"/>
             </div>
@@ -350,6 +360,7 @@ export default {
     e1: 1,
     form: new Form({
       title: '',
+      publishTime: '',
       startTime: '',
       endTime: '',
       location: '',

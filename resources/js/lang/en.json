@@ -138,5 +138,9 @@
   "see_map": "See map",
   "direction": "Direction",
   "starts_from": "Starts from",
-  "get_ticket": "Get ticket"
+  "get_ticket": "Get Ticket",
+  "see_3d": "See 3D image",
+  "address_placeholder": "Write more venue information to guide attendees.",
+  "event_publish": "Event Publish",
+  "panoramic_image": "Panoramic Image (optional)"
 }
