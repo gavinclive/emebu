@@ -129,9 +129,21 @@
 
           <div class="form-group row d-flex justify-content-center mb-0">
             <div class="col-md-10 py-0 justify-content-center">
+              <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('event_publish') }}</label>
+              <div class="col-md-12 d-flex align-items-center py-1">
+                <VueCtkDateTimePicker right v-model="form.publishTime" :first-day-of-week=1 :locale="language.includes('id') ? 'id' : 'en'" :minute-interval=30 format="YYYY-MM-DD HH:mm">
+                  <input :class="{ 'is-invalid': form.errors.has('publishTime') }" class="form-control col-md-11 mx-auto" name="publish_time">
+                </VueCtkDateTimePicker> 
+              </div>
+              <has-error :form="form" field="publishTime" class="d-block pl-3 text-left"/>
+            </div>
+          </div>
+
+          <div class="form-group row d-flex justify-content-center mb-0">
+            <div class="col-md-10 py-0 justify-content-center">
               <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('event_start') }}</label>
               <div class="col-md-12 d-flex align-items-center py-1">
-                <VueCtkDateTimePicker right v-model="form.startTime" :first-day-of-week=1 :locale="language.includes('id') ? 'id' : 'en'" :minute-interval=30>
+                <VueCtkDateTimePicker right v-model="form.startTime" :first-day-of-week=1 :locale="language.includes('id') ? 'id' : 'en'" :minute-interval=30 format="YYYY-MM-DD HH:mm">
                   <input :class="{ 'is-invalid': form.errors.has('startTime') }" class="form-control col-md-11 mx-auto" name="start_time">
                 </VueCtkDateTimePicker> 
               </div>
@@ -143,7 +155,7 @@
             <div class="col-md-10 py-0 justify-content-center">
               <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('event_end') }}</label>
               <div class="col-md-12 d-flex align-items-center py-1">
-                <VueCtkDateTimePicker right v-model="form.endTime" :first-day-of-week=1 :locale="language.includes('id') ? 'id' : 'en'" :minute-interval=30>
+                <VueCtkDateTimePicker right v-model="form.endTime" :first-day-of-week=1 :locale="language.includes('id') ? 'id' : 'en'" :minute-interval=30 format="YYYY-MM-DD HH:mm">
                   <input :class="{ 'is-invalid': form.errors.has('endTime') }" class="form-control col-md-11 mx-auto" name="end_time">
                 </VueCtkDateTimePicker> 
               </div>
@@ -200,9 +212,21 @@
             </div>
           </div>
 
+          <div class="form-group row d-flex justify-content-center mb-0">
+            <div class="col-md-10 py-0 justify-content-center">
+              <div class="col-md-12 d-flex align-items-center pt-1 pb-0">
+                <textarea v-model="form.address" class="form-control col-md-11 mx-auto" maxlength="150" rows="4" style="resize: none;" :placeholder="$t('address_placeholder')" name="summary"></textarea>
+              </div>
+              <div class="col-md-12 py-1" v-if="form.address && form.address.length">
+                <div class="col-md-11 mx-auto py-0 px-0 text-right" :class="{ 'text-danger': form.address.length === 150 }">{{ form.address.length }}/150</div>
+              </div>
+              <has-error :form="form" field="title" class="d-block pl-3 text-left"/>
+            </div>
+          </div>
+
           <div class="form-group row d-flex justify-content-center mt-3 mx-0 col-12">
             <div class="d-flex col-md-9 px-0 d-flex justify-content-between">
-              <button class="btn btn-primary" @click="e1 = 2" type="button">
+              <button class="btn btn-primary" @click="e1 = 2, scrollTop()" type="button">
                 {{ $t('continue') }}
               </button>
             </div>
@@ -232,6 +256,23 @@
               <div class="col-md-12 d-flex align-items-center py-0">
                 <img :src="imagePreview" class="col-6 mx-auto px-0">
               </div>
+              <has-error :form="form" field="img" class="d-block pl-3 text-left"/>
+            </div>
+          </div>
+
+          <div class="form-group row d-flex justify-content-center mb-0">
+            <div class="col-md-10 py-0 justify-content-center">
+              <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('panoramic_image') }}</label>
+              <div class="col-md-12 d-flex align-items-center py-1">
+                <div class="custom-file col-md-11 mx-auto">
+                  <input type="file" accept="image/*" class="custom-file-input" @change="imageUpload2($event.target.files[0])">
+                  <label class="custom-file-label">{{ $t('choose_file') }}</label>
+                </div>
+              </div>
+              <label v-if="imagePreview2" class="col-11 d-block col-form-label mx-auto">{{ $t('image_preview') }}</label>
+              <div class="col-md-12 d-flex align-items-center py-0">
+                <img :src="imagePreview2" class="col-6 mx-auto px-0">
+              </div>
               <has-error :form="form" field="type" class="d-block pl-3 text-left"/>
             </div>
           </div>
@@ -257,7 +298,7 @@
           <div class="form-group row d-flex justify-content-center mb-0">
             <div class="col-md-10 py-0 justify-content-center">
               <div class="col-md-12 d-flex align-items-center pt-1 pb-0">
-                <textarea v-model="form.summary" class="form-control col-md-11 mx-auto" maxlength="150" rows="4" style="resize: none;" placeholder="Write a short event summary to get attendees excited." name="summary"></textarea>
+                <textarea v-model="form.summary" class="form-control col-md-11 mx-auto" maxlength="150" rows="4" style="resize: none;" :placeholder="$t('summary_placeholder')" name="summary"></textarea>
               </div>
               <div class="col-md-12 py-1" v-if="form.summary && form.summary.length">
                 <div class="col-md-11 mx-auto py-0 px-0 text-right" :class="{ 'text-danger': form.summary.length === 150 }">{{ form.summary.length }}/150</div>
@@ -297,10 +338,10 @@
           
           <div class="form-group row d-flex justify-content-center mt-3 mx-0 col-12">
             <div class="d-flex col-md-9 px-0 d-flex justify-content-between">
-              <button class="btn btn-primary" @click="e1 = 3" type="button">
+              <button class="btn btn-primary" @click="e1 = 3, scrollTop()" type="button">
                 {{ $t('continue') }}
               </button>
-              <button class="btn btn-secondary" type="button" @click="e1 = 1">{{ $t('back') }}</button>
+              <button class="btn btn-secondary" type="button" @click="e1 = 1, scrollTop()">{{ $t('back') }}</button>
             </div>
           </div>
         </v-stepper-content>
@@ -410,7 +451,7 @@
               <v-button :loading="form.busy" type="success">
                 {{ $t('create') }}
               </v-button>
-              <button class="btn btn-secondary" type="button" @click="e1 = 2">{{ $t('back') }}</button>
+              <button class="btn btn-secondary" type="button" @click="e1 = 2, scrollTop()">{{ $t('back') }}</button>
             </div>
           </div>
 
@@ -444,15 +485,20 @@ export default {
     e1: 0,
     form: new Form({
       title: '',
+      publishTime: '',
       startTime: '',
       endTime: '',
       location: '',
+      address: '',
       summary: '',
       description: '',
       img: '',
-      ticket: []
+      img_3d: '',
+      ticket: [],
+      organizerId: ''
     }),
     imagePreview: '',
+    imagePreview2: '',
     latLng: {lat:0.7, lng:118.9},
     address: '',
     zoom: 3.75,
@@ -505,11 +551,11 @@ export default {
     },
 
     activeType () {
-      return this.type ? this.types[this.type].name : ''
+      return this.type !== '' ? this.types[this.type].name : ''
     },
 
     activeCategory () {
-      return this.category ? this.categories[this.category].name : ''
+      return this.category !== '' ? this.categories[this.category].name : ''
     },
 
     ticketInvalid () {
@@ -543,16 +589,8 @@ export default {
       $('#eventCategory').modal('show')
     },
 
-    reverseGeocode (coordinates) {
-      axios
-        .get()
-          .then(response => {
-            console.log(response.data)
-        })
-        .catch(error => {
-          console.log(error)
-        })
-        .finally(() => this.loading = false)
+    scrollTop () {
+      window.scrollTo({ top: 0, behavior: 'auto' })
     },
 
     setPlace (place) {
@@ -563,13 +601,6 @@ export default {
         lng: place.geometry.location.lng(),
       }
       this.zoom = 14
-      axios.get(`https://maps.google.com/maps/api/geocode/json?latlng=${this.latLng.lat},${this.latLng.lng}&key=AIzaSyAyhAP-kfAQ9xqD6jEhwnQPkAmxFSNIxZI`)
-        .then(response => {
-          console.log(response.data)
-        })
-        .catch(error => {
-          console.log(error)
-        })
     },
 
     updateChild (object, field, event) {
@@ -592,6 +623,17 @@ export default {
           this.imagePreview = fileReader.result
         }
         this.form.img = image
+      }
+    },
+
+    imageUpload2 (image) {
+      let fileReader = new FileReader()
+      if(image && image.type.match('image.*')) {
+        fileReader.readAsDataURL(image)
+        fileReader.onload = () => {
+          this.imagePreview2 = fileReader.result
+        }
+        this.form.img_3d = image
       }
     },
 
@@ -623,7 +665,7 @@ export default {
         desc: this.tempTicket.desc
       }
       if (this.removeIndex) {
-        this.ticket.splice(this.removeIndex)
+        this.ticket.splice(this.removeIndex - 1, 1)
         this.removeIndex = ''
       }
       this.ticket.push(obj)
@@ -646,7 +688,7 @@ export default {
     editTicket (index) {
       this.tempTicket = this.form.ticket[index]
       $('#addTicket').modal('show')
-      this.removeIndex = index
+      this.removeIndex = index + 1
     },
 
     removeTicket (index) {
@@ -656,6 +698,7 @@ export default {
 
     async update () {
       this.form.location = `${this.latLng.lat}, ${this.latLng.lng}`
+      this.form.organizerId = this.user.id
       try {
         await this.form.submit('post', '/api/event', {
           transformRequest: [(data, headers) => objectToFormData(data)]
