@@ -344,6 +344,7 @@ import store from '~/store'
 import Form from 'vform'
 import { mapGetters } from 'vuex'
 import { VueEditor } from 'vue2-editor'
+import { BASE_URL } from '~/utils/constant'
 
 export default {
   middleware: 'auth',
@@ -527,7 +528,7 @@ export default {
         form.submit('post', '/api/quill', {
           transformRequest: [(data, headers) => objectToFormData(data)]
         }).then(res => {
-          Editor.insertEmbed(cursorLocation, 'image', `${BASE_URL}/${res.data[0]}`)
+          Editor.insertEmbed(cursorLocation, 'image', `${BASE_URL}/storage/quill/${res.data[0]}`)
           resetUploader()
         }).catch(err => {
           console.log(err)
