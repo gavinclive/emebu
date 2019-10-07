@@ -34,6 +34,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { md } from '~/utils/mobileDetect'
 
 export default {
   layout: 'basic',
@@ -45,6 +46,14 @@ export default {
   data: () => ({
     title: window.config.appName
   }),
+
+  beforeRouteEnter (to, from, next) {
+    if (md.mobile()) {
+      next({ name: 'm.login' })
+    } else {
+      next()
+    }
+  },
 
   computed: mapGetters({
     authenticated: 'auth/check'

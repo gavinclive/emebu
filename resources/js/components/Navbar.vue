@@ -65,7 +65,6 @@
 <script>
 import LocaleDropdown from './LocaleDropdown'
 import { mapGetters } from 'vuex'
-import { md } from '~/utils/mobileDetect'
 
 export default {
   components: {

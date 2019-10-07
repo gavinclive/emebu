@@ -49,9 +49,18 @@
 
 <script>
 import Form from 'vform'
+import { md } from '~/utils/mobileDetect'
 
 export default {
   middleware: 'guest',
+
+  beforeRouteEnter (to, from, next) {
+    if (md.mobile()) {
+      next()
+    } else {
+      next({ name: 'login' })
+    }
+  },
 
   metaInfo () {
     return { title: this.$t('login') }
