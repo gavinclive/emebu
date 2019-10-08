@@ -136,5 +136,13 @@
   "see_3d": "Lihat gambar 3D",
   "address_placeholder": "Tulis informasi lokasi tambahan untuk memandu peserta.",
   "event_publish": "Event Diterbitkan",
-  "panoramic_image": "Gambar Panorama (opsional)"
+  "panoramic_image": "Gambar Panorama (opsional)",
+  "transaction_id": "ID Transaksi #",
+  "total_payment": "Total Pembayaran",
+  "ticket_price": "Harga Tiket",
+  "ticket_guide": "Gunakan kode QR ini untuk klaim tiket anda.",
+  "see_event_detail": "Lihat Detil Event",
+  "see_qr": "Lihat QR",
+  "cancel_event_guide": "Apakah anda yakin untuk membatalkan event ini? Proses ini tidak dapat dibalik dan hasil penjualan tiket perlu dikembalikan!",
+  "cancel_event": "Batalkan Event"
 }

@@ -32,7 +32,7 @@
       <v-img src="/dist/assets/plus-circle.svg" class="white-svg main-navbar-icon" />
     </v-btn>
 
-    <v-btn>
+    <v-btn @click="toTransactionPage">
       <span>{{ $t('tickets') }}</span>
       <v-img src="/dist/assets/credit-card.svg" class="white-svg navbar-icon" />
     </v-btn>
@@ -94,6 +94,10 @@ export default {
 
     toManagePage () {
       this.$router.push({ name: 'event.view'})
+    },
+
+    toTransactionPage () {
+      this.$router.push({ name: 'transaction.view' })
     }
   }
 }

@@ -5,7 +5,7 @@
         {{ title }}
       </v-card-title>
     </v-img>
-    <v-card-title v-if="!image && title">
+    <v-card-title v-if="!image && title" class="d-flex justify-content-center">
       {{ title }}
     </v-card-title>
     <v-card-text>

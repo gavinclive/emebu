@@ -1,3 +1,88 @@
 .ticket-selected {
   border: solid .1rem #007bff !important;
 }
+
+.ticket {
+  position: relative !important;
+
+  .ticket-header {
+    .v-image {
+      border-radius: .75rem;
+    }
+
+    &:after {
+      content: "";
+      position: absolute !important;
+      z-index: 5;
+      bottom: -.1%;
+      left: -.2%;
+      border-right: #f8f9fa 1rem solid;
+      border-top: #f8f9fa 1rem solid;
+      border-radius: 0 1rem 0 0;
+    }
+
+    &:before {
+      content: "";
+      position: absolute !important;
+      z-index: 5;
+      bottom: -.1%;
+      right: -.2%;
+      border-left: #f8f9fa 1rem solid;
+      border-top: #f8f9fa 1rem solid;
+      border-radius: 1rem 0 0 0;
+    }
+  }
+}
+
+.ticket-content-wrapper {
+  position: relative;
+  &:after {
+    content: "";
+    position: absolute !important;
+    z-index: 5;
+    bottom: -.1%;
+    left: -.2%;
+    border-right: #f8f9fa 1rem solid;
+    border-top: #f8f9fa 1rem solid;
+    border-radius: 0 1rem 0 0;
+  }
+
+  &:before {
+    content: "";
+    position: absolute !important;
+    z-index: 5;
+    bottom: -.1%;
+    right: -.2%;
+    border-left: #f8f9fa 1rem solid;
+    border-top: #f8f9fa 1rem solid;
+    border-radius: 1rem 0 0 0;
+  }
+
+  .ticket-content {
+    position: relative;
+  
+    &:after {
+      content: "";
+      position: absolute !important;
+      z-index: 5;
+      top: 0;
+      left: -.2%;
+      transform: translateY(-1%);
+      border-right: #f8f9fa 1rem solid;
+      border-bottom: #f8f9fa 1rem solid;
+      border-radius: 0 0 1rem 0;
+    }
+  
+    &:before {
+      content: "";
+      position: absolute !important;
+      z-index: 5;
+      top: 0;
+      right: -.2%;
+      transform: translateY(-1%);
+      border-left: #f8f9fa 1rem solid;
+      border-bottom: #f8f9fa 1rem solid;
+      border-radius: 0 0 0 1rem;
+    }
+  }
+}

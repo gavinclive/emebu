@@ -6,7 +6,7 @@
           {{ $t('verify_email_address') }}
         </div>
       </card>
-      <card v-else :title="$t('register')" image="https://images.unsplash.com/photo-1559223669-e0065fa7f142" position="50% 45%">
+      <card v-else :title="$t('register')">
         <form @submit.prevent="register" @keydown="form.onKeydown($event)">
           <!-- Role -->
           <div class="form-group row d-flex justify-content-center mb-0">
