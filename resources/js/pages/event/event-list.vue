@@ -1,13 +1,13 @@
 <template>
   <div>
     <div class="row col-12 mx-0 pt-0 px-2">
-      <div class="input-group col-md-6 pb-2 px-0 pr-md-1">
+      <div class="input-group col-md-6 pb-2 px-0 px-md-1">
         <input v-model="searchTitle" class="form-control">
         <div class="input-group-append">
           <span class="input-group-text"><img src="/dist/assets/search.svg"></span>
         </div>
       </div>
-      <div class="input-group col-md-6 pb-2 px-0 pl-md-1">
+      <div class="input-group col-md-6 pb-2 px-0 px-md-1">
         <select v-model="searchStatus" class="custom-select">
           <option value="0">{{ $t('all') }}</option>
           <option value="1">{{ $t('published') }}</option>
@@ -17,6 +17,24 @@
         </select>
         <div class="input-group-append">
           <span class="input-group-text"><img src="/dist/assets/activity.svg"></span>
+        </div>
+      </div>
+      <div class="input-group col-md-6 pb-2 px-0 px-md-1">
+        <input v-model="searchLocation" class="form-control">
+        <div class="input-group-append">
+          <span class="input-group-text"><img src="/dist/assets/map-pin.svg"></span>
+        </div>
+      </div>
+      <div class="input-group col-6 pb-2 pr-1 pl-0" @click="showTypeModal">
+        <input v-model="activeType" class="form-control">
+        <div class="input-group-append">
+          <span class="input-group-text">{{ $t('type') }}</span>
+        </div>
+      </div>
+      <div class="input-group col-6 pb-2 pl-1 pr-0" @click="showCategoryModal">
+        <input v-model="activeCategory" class="form-control">
+        <div class="input-group-append">
+          <span class="input-group-text">{{ $t('category') }}</span>
         </div>
       </div>
     </div>
@@ -33,11 +51,53 @@
         @showCancelModal="cancelEvent"
         />
     </div>
+    <div class="modal fade" id="eventType" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalScrollableTitle">{{ $t('type') }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body d-flex justify-content-center flex-wrap">
+            <div class="position-relative text-center" v-for="(type, index) in types" :key="index">
+              <div class="modal-icon-container m-1 rounded-lg" width="140" height="140" data-dismiss="modal" @click="setType(index)">
+                <v-img class="modal-icon" :src="type.image" width="140" height="140" cover></v-img>
+                <span class="position-absolute modal-icon-name">{{ type.name }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="eventCategory" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalScrollableTitle">{{ $t('category') }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body d-flex justify-content-center flex-wrap">
+            <div class="position-relative text-center" v-for="(category, index) in categories" :key="index">
+              <div class="modal-icon-container m-1 rounded-lg" width="140" height="140" data-dismiss="modal" @click="setCategory(index)">
+                <v-img class="modal-icon" :src="category.image" width="140" height="140" cover></v-img>
+                <span class="position-absolute modal-icon-name">{{ category.name }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="modal fade" id="shareEvent" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalScrollableTitle">{{ $t('share_event') }}</h5>
+            <h5 class="modal-title">{{ $t('share_event') }}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -60,13 +120,13 @@
       <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalScrollableTitle">Cancel Event</h5>
+            <h5 class="modal-title">{{ $t('cancel_event') }}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body d-flex justify-content-center flex-wrap text-justify">
-            Are you sure to cancel this event? This action is irreversible and ticket sales will need to be refunded!
+            {{ $t('cancel_event_guide') }}
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" @click="handleCancelEvent" data-dismiss="modal">{{ $t('confirm') }}</button>
@@ -80,6 +140,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import $ from 'jquery'
+import store from '~/store'
 import { baseEventUrl } from '~/utils/url'
 import { encrypt, decrypt } from '~/utils/simpleCrypto'
 
@@ -89,13 +150,24 @@ export default {
   data: () => ({
     searchTitle:'',
     searchStatus: '0',
+    searchLocation: '',
     id: '',
     eventUrl: '',
+    type: '',
+    category: ''
   }),
+
+  mounted () {
+    store.dispatch('category/fetchCategories')
+    store.dispatch('type/fetchTypes')
+  },
   
   computed: {
     ...mapGetters ({
-      events: 'event/events'
+      events: 'event/events',
+      categories: 'category/getCategories',
+      types: 'type/getTypes',
+      user: 'auth/user'
     }),
 
     filteredList () {
@@ -110,6 +182,14 @@ export default {
       }
 
       return list
+    },
+
+    activeType () {
+      return this.type !== '' ? this.types[this.type].name : ''
+    },
+
+    activeCategory () {
+      return this.category !== '' ? this.categories[this.category].name : ''
     }
   },
 
@@ -138,6 +218,22 @@ export default {
     },
 
     encrypt: encrypt,
+
+    showTypeModal () {
+      $('#eventType').modal('show')
+    },
+
+    showCategoryModal () {
+      $('#eventCategory').modal('show')
+    },
+
+    setType (index) {
+      this.type = index
+    },
+
+    setCategory (index) {
+      this.category = index
+    },
 
     cancelEvent (id) {
       $('#cancelEvent').modal('show')

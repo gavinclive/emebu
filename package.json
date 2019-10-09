@@ -24,6 +24,7 @@
     "material-design-icons-iconfont": "^5.0.1",
     "mobile-detect": "^1.4.4",
     "popper.js": "^1.15.0",
+    "qrcode.vue": "^1.6.3",
     "simple-crypto-js": "^2.2.0",
     "sweetalert2": "^8.10.0",
     "vform": "^1.0.1",

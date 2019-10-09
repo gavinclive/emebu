@@ -32,9 +32,19 @@
       <v-img src="/dist/assets/plus-circle.svg" class="white-svg main-navbar-icon" />
     </v-btn>
 
-    <v-btn>
+    <v-btn v-if="user.role !== 3" @click="toTransactionPage">
       <span>{{ $t('tickets') }}</span>
       <v-img src="/dist/assets/credit-card.svg" class="white-svg navbar-icon" />
+    </v-btn>
+
+    <v-btn v-if="user.role === 3" @click="toUsersPage">
+      <span>{{ $t('users') }}</span>
+      <v-img src="/dist/assets/users.svg" class="white-svg navbar-icon" />
+    </v-btn>
+
+    <v-btn v-if="user.role === 3" @click="toManagePage">
+      <span>{{ $t('events') }}</span>
+      <v-img src="/dist/assets/emebu-mini.png" class="white-svg navbar-icon" />
     </v-btn>
 
     <v-btn @click="toSettingPage">
@@ -55,13 +65,13 @@ export default {
 
     activeBtn () {
       const routeName = this.$route.name
-      switch (routeName) {
-      case 'home':
+      if (routeName === 'home') {
         return 0
-        break
-      case 'm.settings':
+      } else if (routeName === 'm.settings') {
+        if (this.user.role === 3) {
+          return 3
+        }
         return 4
-        break
       }
     },
 
@@ -94,6 +104,14 @@ export default {
 
     toManagePage () {
       this.$router.push({ name: 'event.view'})
+    },
+
+    toTransactionPage () {
+      this.$router.push({ name: 'transaction.view' })
+    },
+
+    toUsersPage () {
+      this.$router.push({ name: 'users.admin' })
     }
   }
 }

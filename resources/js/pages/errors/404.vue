@@ -13,7 +13,12 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
-  name: 'NotFound'
+  name: 'NotFound',
+
+  computed: mapGetters ({
+    user: 'auth/user'
+  })
 }
 </script>

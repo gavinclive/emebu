@@ -18,7 +18,7 @@ class EventTypeController extends Controller
     {
         if(!$this->eventType->getAllEventTypes())
         {
-            return response()->json(['success' => false, 500]);
+            return response()->json(['success' => false], 500);
         }
         return response()->json(['success' => true, 'result' => $this->eventType->getAllEventTypes()], 200);
     }
