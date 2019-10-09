@@ -22,7 +22,7 @@
     </v-btn>
 
     <!-- Organizer Account -->
-    <v-btn v-if="user.role === 1">
+    <v-btn v-if="user.role === 1" @click="toManagePage">
       <span>{{ $t('manage') }}</span>
       <v-img src="/dist/assets/tool.svg" class="white-svg navbar-icon" />
     </v-btn>
@@ -90,6 +90,10 @@ export default {
 
     toCreatePage () {
       this.$router.push({ name: 'm.event.input' })
+    },
+
+    toManagePage () {
+      this.$router.push({ name: 'event.view'})
     }
   }
 }

@@ -46,7 +46,7 @@ class EventController extends Controller
         foreach($tickets as $ticket)
         {
             
-            if($ticket)
+            if(current($ticket))
             {
                 $ticketArr[key($ticket)] = current($ticket);
             }

@@ -2,7 +2,7 @@
   <div class="main-layout px-0 mx-0">
     <navbar />
 
-    <div class="container mt-4 page-control px-0 pb-0">
+    <div class="container mt-md-4 page-control pt-5 px-0 pb-0">
       <child />
     </div>
     <BottomNav />

@@ -14,6 +14,9 @@ export default [
 
   { path: '/home', name: 'home', component: page('home.vue') },
   { path: '/event/input', name: 'event.input', component: page('event/event-input.vue') },
+  { path: '/event/:id/edit', name: 'event.edit', component: page('event/event-input.vue') },
+  { path: '/event', name: 'event.view', component: page('event/event-list.vue') },
+  { path: '/event/:id', name: 'event.detail', component: page('event/event-detail.vue') },
 
   { path: '/settings',
     component: page('settings/index.vue'),
@@ -22,7 +25,8 @@ export default [
       { path: 'profile', name: 'settings.profile', component: page('settings/profile.vue') },
       { path: 'password', name: 'settings.password', component: page('settings/password.vue') },
       { path: 'atm', name: 'settings.atm', component: page('settings/atm.vue') }
-    ] },
+    ]
+  },
 
   { path: '/m',
     component: page('m/index.vue'),
@@ -35,7 +39,8 @@ export default [
       { path: 'settings/profile', name: 'm.settings.profile', component: page('settings/profile.vue') },
       { path: 'settings/password', name: 'm.settings.password', component: page('settings/password.vue') },
       { path: 'settings/atm', name: 'm.settings.atm', component: page('settings/atm.vue') },
-      { path: 'event/input', name: 'm.event.input', component: page('m/event/event-input.vue') }
+      { path: 'event/input', name: 'm.event.input', component: page('m/event/event-input.vue') },
+      { path: 'event/:id/edit', name: 'm.event.edit', component: page('m/event/event-input.vue') }
     ]
   },
   { path: '*', component: page('errors/404.vue') }

@@ -93,9 +93,19 @@
 
           <div class="form-group row d-flex justify-content-center">
             <div class="col-md-10 py-0 justify-content-center">
+              <label class="col-12 d-block pt-0 col-form-label mx-auto">{{ $t('event_publish') }}</label>
+              <div class="col-11 d-flex align-items-center py-1">
+                <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.publishTime" :class="{ 'is-invalid': form.errors.has('publishTime') }" class="form-control theme-blue col-md-11 mx-auto"></datetime>
+              </div>
+              <has-error :form="form" field="publishTime" class="d-block pl-3 text-left"/>
+            </div>
+          </div>
+
+          <div class="form-group row d-flex justify-content-center">
+            <div class="col-md-10 py-0 justify-content-center">
               <label class="col-12 d-block pt-0 col-form-label mx-auto">{{ $t('event_start') }}</label>
               <div class="col-11 d-flex align-items-center py-1">
-                <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.startTime" :class="{ 'is-invalid': form.errors.has('endTime') }" class="form-control theme-blue col-md-11 mx-auto"></datetime>
+                <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.startTime" :class="{ 'is-invalid': form.errors.has('startTime') }" class="form-control theme-blue col-md-11 mx-auto"></datetime>
               </div>
               <has-error :form="form" field="startTime" class="d-block pl-3 text-left"/>
             </div>
@@ -216,7 +226,7 @@
                   <img src="/dist/assets/movie-tickets.svg" width="100" class="my-4"/>
                   <h5>{{ $t('no_ticket_set') }}</h5>
                 </div>
-                <div v-else class="col-11 mx-auto text-center">
+                <div v-else class="col-12 mx-0 p-0 text-center">
                   <v-card v-for="(ticket, index) in form.ticket" :key="index" class="ticket mb-2">
                     <v-card-title>{{ ticket.name }}</v-card-title>
                     <v-card-text class="pb-0">
@@ -224,7 +234,7 @@
                       <h5><p class="text-right my-0">{{ ticket.price === 0 ? 'FREE' : 'Rp ' + ticket.price }}</p></h5>
                     </v-card-text>
                     <v-card-actions class="d-flex align justify-content-end">
-                      <img class="mx-3" src='/dist/assets/edit-2.svg' height="20" @click="editTicket(index)">
+                      <img class="mx-3" src='/dist/assets/edit.svg' height="20" @click="editTicket(index)">
                       <img class="mx-1" src='/dist/assets/trash-2.svg' height="20" @click="removeTicket(index)">
                     </v-card-actions>
                   </v-card>
@@ -277,15 +287,11 @@
                   </div>
                   <div class="col-12 form-group px-0 py-1 my-0">
                     <label>{{ $t('sales_start') }}</label>
-                    <VueCtkDateTimePicker right v-model="tempTicket.startTime" :first-day-of-week=1 :locale="language.includes('id') ? 'id' : 'en'" :minute-interval=30 required>
-                      <input class="form-control mx-auto">
-                    </VueCtkDateTimePicker>
+                    <datetime type="datetime" :week-start="1" :minute-step="30" v-model="tempTicket.startTime" class="form-control theme-blue mx-auto"></datetime>
                   </div>
                   <div class="col-12 form-group px-0 py-1 my-0">
                     <label>{{ $t('sales_end') }}</label>
-                    <VueCtkDateTimePicker right v-model="tempTicket.endTime" :first-day-of-week=1 :locale="language.includes('id') ? 'id' : 'en'" :minute-interval=30 required>
-                      <input class="form-control mx-auto">
-                    </VueCtkDateTimePicker>
+                    <datetime type="datetime" :week-start="1" :minute-step="30" v-model="tempTicket.endTime" class="form-control theme-blue mx-auto"></datetime>
                   </div>
                   <div class="col-12 form-group px-0 py-1 my-0">
                     <label>{{ $t('description') }}</label>
@@ -338,6 +344,7 @@ import store from '~/store'
 import Form from 'vform'
 import { mapGetters } from 'vuex'
 import { VueEditor } from 'vue2-editor'
+import { BASE_URL } from '~/utils/constant'
 
 export default {
   middleware: 'auth',
@@ -354,13 +361,15 @@ export default {
     e1: 1,
     form: new Form({
       title: '',
+      publishTime: '',
       startTime: '',
       endTime: '',
       location: '',
       summary: '',
       description: '',
       img: '',
-      ticket: []
+      ticket: [],
+      organizerId: ''
     }),
     imagePreview: '',
     latLng: {lat:0.7, lng:118.9},
@@ -420,11 +429,11 @@ export default {
     },
 
     activeType () {
-      return this.type ? this.types[this.type].name : ''
+      return this.type !== '' ? this.types[this.type].name : ''
     },
 
     activeCategory () {
-      return this.category ? this.categories[this.category].name : ''
+      return this.category !== '' ? this.categories[this.category].name : ''
     },
 
     ticketInvalid () {
@@ -519,7 +528,7 @@ export default {
         form.submit('post', '/api/quill', {
           transformRequest: [(data, headers) => objectToFormData(data)]
         }).then(res => {
-          Editor.insertEmbed(cursorLocation, 'image', `${BASE_URL}/${res.data[0]}`)
+          Editor.insertEmbed(cursorLocation, 'image', `${BASE_URL}/storage/quill/${res.data[0]}`)
           resetUploader()
         }).catch(err => {
           console.log(err)
@@ -538,7 +547,7 @@ export default {
         desc: this.tempTicket.desc
       }
       if (this.removeIndex) {
-        this.ticket.splice(this.removeIndex)
+        this.ticket.splice(this.removeIndex - 1, 1)
         this.removeIndex = ''
       }
       this.ticket.push(obj)
@@ -561,7 +570,7 @@ export default {
     editTicket (index) {
       this.tempTicket = this.form.ticket[index]
       $('#addTicket').modal('show')
-      this.removeIndex = index
+      this.removeIndex = index + 1
     },
 
     removeTicket (index) {
@@ -571,6 +580,7 @@ export default {
 
     async update () {
       this.form.location = `${this.latLng.lat}, ${this.latLng.lng}`
+      this.form.organizerId = this.user.id
       try {
         await this.form.submit('post', '/api/event', {
           transformRequest: [(data, headers) => objectToFormData(data)]
