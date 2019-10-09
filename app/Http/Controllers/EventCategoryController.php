@@ -18,7 +18,7 @@ class EventCategoryController extends Controller
     {
         if(!$this->eventCategory->getAllEventCategories())
         {
-            return response()->json(['success' => false, 500]);
+            return response()->json(['success' => false], 500);
         }
         return response()->json(['success' => true, 'result' => $this->eventCategory->getAllEventCategories()], 200);
     }
