@@ -25,13 +25,13 @@
           <span class="input-group-text"><img src="/dist/assets/map-pin.svg"></span>
         </div>
       </div>
-      <div class="input-group col-md-6 pb-2 px-0 px-md-1" @click="showTypeModal">
+      <div class="input-group col-6 pb-2 pr-1 pl-0" @click="showTypeModal">
         <input v-model="activeType" class="form-control">
         <div class="input-group-append">
           <span class="input-group-text">{{ $t('type') }}</span>
         </div>
       </div>
-      <div class="input-group col-md-6 pb-2 px-0 px-md-1" @click="showCategoryModal">
+      <div class="input-group col-6 pb-2 pl-1 pr-0" @click="showCategoryModal">
         <input v-model="activeCategory" class="form-control">
         <div class="input-group-append">
           <span class="input-group-text">{{ $t('category') }}</span>
@@ -97,7 +97,7 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalScrollableTitle">{{ $t('share_event') }}</h5>
+            <h5 class="modal-title">{{ $t('share_event') }}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -120,7 +120,7 @@
       <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalScrollableTitle">{{ $t('cancel_event') }}</h5>
+            <h5 class="modal-title">{{ $t('cancel_event') }}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
