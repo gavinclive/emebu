@@ -24,6 +24,8 @@ class CreateTicketsTable extends Migration
             $table->dateTime('end_time');
             $table->bigInteger('event_id');
             $table->timestamps();
+
+            $table->foreign('event_id')->references('id')->on('events');
         });
     }
 
