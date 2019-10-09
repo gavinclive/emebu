@@ -30,6 +30,10 @@ export default [
     ]
   },
 
+  { path: '/admin/home', name: 'home.admin', component: page('admin/home.vue') },
+  { path: '/admin/users', name: 'users.admin', component: page('admin/user-list.vue') },
+  { path: '/admin/events', name: 'events.admin', component: page('event/event-list.vue') },
+
   { path: '/m',
     component: page('m/index.vue'),
     children: [

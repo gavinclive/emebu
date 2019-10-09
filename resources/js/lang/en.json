@@ -150,5 +150,7 @@
   "see_event_detail": "See Event Detail",
   "see_qr": "See QR",
   "cancel_event_guide": "Are you sure to cancel this event? This action is irreversible and ticket sales will need to be refunded!",
-  "cancel_event": "Cancel Event"
+  "cancel_event": "Cancel Event",
+  "users": "Users",
+  "events": "Events"
 }

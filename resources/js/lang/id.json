@@ -144,5 +144,7 @@
   "see_event_detail": "Lihat Detil Event",
   "see_qr": "Lihat QR",
   "cancel_event_guide": "Apakah anda yakin untuk membatalkan event ini? Proses ini tidak dapat dibalik dan hasil penjualan tiket perlu dikembalikan!",
-  "cancel_event": "Batalkan Event"
+  "cancel_event": "Batalkan Event",
+  "users": "Pengguna",
+  "events": "Event"
 }
