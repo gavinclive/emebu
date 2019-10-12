@@ -35,4 +35,52 @@ class Event extends Model
         }
        return false;
     }
+
+    #region Search
+    //Search event by parameter (by title/type/category/status)
+    public function getEventByParam($params)
+    {
+        if($params)
+        {
+            return $this->where([
+                ['title', 'like', '%'.$params['title'].'%'],
+                ['type', 'like', '%'.$params['type'].'%'],
+                ['category', 'like', '%'.$params['category'].'%'],
+                ['status', '=', $params['status']]
+            ]);
+        }
+        return false;
+    }
+    #endregion
+
+    #region Get Event by Id
+    // Will be used in other functions
+    public function getEventById($params)
+    {
+        if($params)
+        {
+            try
+            {
+                $result = $this->findOrFail($params);   
+            }
+            catch(Exception $e)
+            {
+                $result = 'QUERRY_NOT_FOUND';
+            }
+        }
+        return $result; 
+    }
+    #endregion
+
+    #region Update Event
+    public function updateEventById($eventArr, $id)
+    {
+        if($eventArr && $id)
+        {
+            return $this->where('id', $id)->update($eventArr);
+        }
+        return false;
+    }
+    #endregion
+
 }

@@ -19,7 +19,6 @@ class UserController extends Controller
         if (!$this->user->getAllUser()) {
             return response()->json(['success' => false], 500);
         }
-
         return response()->json(['success' => true, 'result' => $this->user->getAllUser()], 200);
     }
 
@@ -28,7 +27,6 @@ class UserController extends Controller
         if (!$this->user->getUserByName($values)) {
             return response()->json(['success' => false], 500);
         }
-
         return response()->json(['success' => true, 'result' => $this->user->getUserByName($values)], 200);
     }
 }
