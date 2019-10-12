@@ -5,7 +5,7 @@
     <div class="container mt-md-4 page-control pt-5 px-0 pb-0">
       <child />
     </div>
-    <BottomNav />
+    <BottomNav class="position-fixed"/>
   </div>
 </template>
 
