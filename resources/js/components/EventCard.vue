@@ -78,11 +78,7 @@ export default {
 
   methods: {
     handleEventUrl () {
-      if (md.mobile()) {
-        this.$router.push(`event/${this.id}`)
-      } else {
-        this.$router.push(`event/${this.id}`)
-      }
+      this.$router.push(`event/${this.id}`)
     },
 
     handleEditUrl () {

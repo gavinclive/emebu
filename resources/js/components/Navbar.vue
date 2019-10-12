@@ -17,7 +17,7 @@
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/" class="nav-link text-light">
+            <router-link :to="{ name: 'transaction.view' }" class="nav-link text-light">
               {{ $t('tickets') }}
             </router-link>
           </li>
@@ -29,7 +29,7 @@
             <a class="nav-link text-light"
                href="#" role="button" data-toggle="dropdown"
             >
-              <img :src="user.photo_url" class="rounded-circle profile-photo mr-1">
+              <img v-if="user.photo_url" :src="user.photo_url" class="rounded-circle profile-photo mr-1">
             </a>
             <div class="dropdown-custom dropdown-menu bg-gradient-primary">
               <router-link :to="{ name: 'settings.profile' }" class="dropdown-item pl-3 text-light d-flex align-items-center">

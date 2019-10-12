@@ -17,6 +17,8 @@ export default [
   { path: '/event/:id/edit', name: 'event.edit', component: page('event/event-input.vue') },
   { path: '/event', name: 'event.view', component: page('event/event-list.vue') },
   { path: '/event/:id', name: 'event.detail', component: page('event/event-detail.vue') },
+  { path: '/transaction', name: 'transaction.view', component: page('transaction/transaction-list.vue') },
+  { path: '/transaction/:id', name: 'transaction.detail', component: page('transaction/transaction-detail.vue') },
 
   { path: '/settings',
     component: page('settings/index.vue'),
@@ -27,6 +29,10 @@ export default [
       { path: 'atm', name: 'settings.atm', component: page('settings/atm.vue') }
     ]
   },
+
+  { path: '/admin/home', name: 'home.admin', component: page('admin/home.vue') },
+  { path: '/admin/users', name: 'users.admin', component: page('admin/user-list.vue') },
+  { path: '/admin/events', name: 'events.admin', component: page('event/event-list.vue') },
 
   { path: '/m',
     component: page('m/index.vue'),

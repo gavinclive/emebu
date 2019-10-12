@@ -1,12 +1,12 @@
 <template>
   <div class="row">
     <div class="col-lg-8 m-auto">
-      <card v-if="mustVerifyEmail" :title="$t('register')">
+      <card v-if="mustVerifyEmail" :title="$t('register')" class="mt-5">
         <div class="alert alert-success" role="alert">
           {{ $t('verify_email_address') }}
         </div>
       </card>
-      <card v-else :title="$t('register')" image="https://images.unsplash.com/photo-1559223669-e0065fa7f142" position="50% 45%">
+      <card v-else :title="$t('register')">
         <form @submit.prevent="register" @keydown="form.onKeydown($event)">
           <!-- Role -->
           <div class="form-group row d-flex justify-content-center mb-0">
@@ -115,7 +115,8 @@ export default {
       email: '',
       password: '',
       password_confirmation: '',
-      role: ''
+      role: '',
+      status: 'active'
     }),
     mustVerifyEmail: false
   }),
@@ -128,19 +129,7 @@ export default {
       // Must verify email fist.
       if (data.status) {
         this.mustVerifyEmail = true
-      } else {
-        // Log in the user.
-        const { data: { token } } = await this.form.post('/api/login')
-
-        // Save the token.
-        this.$store.dispatch('auth/saveToken', { token })
-
-        // Update the user.
-        await this.$store.dispatch('auth/updateUser', { user: data })
-
-        // Redirect home.
-        this.$router.push({ name: 'home' })
-      }
+      } 
     }
   }
 }

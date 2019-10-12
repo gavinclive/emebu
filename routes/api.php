@@ -43,3 +43,4 @@ Route::resource('event-category', 'EventCategoryController');
 Route::resource('event', 'EventController');
 
 Route::resource('quill', 'QuillController');
+Route::resource('users', 'UserController');

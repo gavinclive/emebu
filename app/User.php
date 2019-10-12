@@ -19,7 +19,7 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'status', 'last_login'
     ];
 
     /**
@@ -104,5 +104,18 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function getAllUser ()
+    {
+        return $this->where('role', '!=', '3')->paginate(10);
+    }
+
+    public function getUserByName ($values)
+    {
+        return $this->where([
+            ['role', '!=', '3'],
+            ['name', 'ilike', '%'.$values.'%']
+        ])->paginate(10);
     }
 }

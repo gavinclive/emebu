@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Faker\Factory as Faker;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,11 +14,11 @@ class DatabaseSeeder extends Seeder
     {
         // $this->call(UsersTableSeeder::class);
         DB::table('users')->insert([
-            'username' => 'admin',
-        	'email' => 'admin@es.com',
-            'password' => bcrypt('admin'),
+            'username' => '',
+        	'email' => 'eo@es.com',
+            'password' => bcrypt('eo'),
             'role' => 1,
-            'name' => 'Admin',
+            'name' => 'Organizer Keren',
             'status' => 'active',
             'last_login' => \Carbon\Carbon::now(),
         	'created_at' => \Carbon\Carbon::now(),
@@ -36,6 +37,35 @@ class DatabaseSeeder extends Seeder
             'updated_at' => \Carbon\Carbon::now(),
         ]);
 
+        DB::table('users')->insert([
+            'username' => 'Admin',
+            'email' => 'admin@es.com',
+            'password' => bcrypt('admin'),
+            'role' => 3,
+            'name' => 'Admin',
+            'status' => 'active',
+            'last_login' => \Carbon\Carbon::now(),
+            'created_at' => \Carbon\Carbon::now(),
+            'updated_at' => \Carbon\Carbon::now(),
+        ]);
+
+        $faker = Faker::create();
+        foreach(range(0, 50) as $i) {
+            DB::table('users')->insert([
+                'username' => $faker->name,
+                'email' => $faker->email,
+                'password' => bcrypt('secret'),
+                'role' => 1,
+                'name' => $faker->name,
+                'status' => 'active',
+                'last_login' => \Carbon\Carbon::now(),
+                'created_at' => \Carbon\Carbon::now(),
+                'updated_at' => \Carbon\Carbon::now(),
+                'image' => $faker->imageUrl(125, 125)
+            ]);
+        }
+
+        
         $ArrType = [
         [
             'name' => 'Atraksi',

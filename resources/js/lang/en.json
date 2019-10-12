@@ -142,5 +142,15 @@
   "see_3d": "See 3D image",
   "address_placeholder": "Write more venue information to guide attendees.",
   "event_publish": "Event Publish",
-  "panoramic_image": "Panoramic Image (optional)"
+  "panoramic_image": "Panoramic Image (optional)",
+  "transaction_id": "Transaction ID #",
+  "total_payment": "Total Payment",
+  "ticket_price": "Ticket Price",
+  "ticket_guide": "Use this QR code to claim your ticket.",
+  "see_event_detail": "See Event Detail",
+  "see_qr": "See QR",
+  "cancel_event_guide": "Are you sure to cancel this event? This action is irreversible and ticket sales will need to be refunded!",
+  "cancel_event": "Cancel Event",
+  "users": "Users",
+  "events": "Events"
 }

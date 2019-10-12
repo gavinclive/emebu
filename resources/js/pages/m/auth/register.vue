@@ -1,12 +1,30 @@
 <template>
   <div>
     <form @submit.prevent="register" @keydown="form.onKeydown($event)">
+      
+      <div class="modal fade" id="verifyEmail" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">{{ $t('register') }}</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body d-flex justify-content-center flex-wrap text-justify">
+              <div class="alert alert-success" role="alert">
+                {{ $t('verify_email_address') }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- Role -->
       <div class="form-group row d-flex justify-content-center mb-0">
         <div class="col-md-9">
           <div class="col-md-12 d-flex align-items-center py-1">
             <v-img src="/dist/assets/type.svg" max-width="25" max-height="25" class="mr-2" contain/>
-            <select v-model="form.role" :class="{ 'is-invalid': form.errors.has('username') }" class="custom-select col-md-11">
+            <select v-model="form.role" :class="{ 'is-invalid': form.errors.has('username') }" class="custom-select col-md-11 py-0">
               <option selected disabled value="">{{ $t('register_as') }}</option>
               <option value="1">{{ $t('organizer') }}</option>
               <option value="2">{{ $t('attendee') }}</option>
@@ -86,6 +104,7 @@
 
 <script>
 import Form from 'vform'
+import $ from 'jquery'
 
 export default {
   middleware: 'guest',
@@ -101,7 +120,8 @@ export default {
       email: '',
       password: '',
       password_confirmation: '',
-      role: ''
+      role: '',
+      status: 'active'
     }),
     mustVerifyEmail: false
   }),
@@ -113,19 +133,7 @@ export default {
 
       // Must verify email fist.
       if (data.status) {
-        this.mustVerifyEmail = true
-      } else {
-        // Log in the user.
-        const { data: { token } } = await this.form.post('/api/login')
-
-        // Save the token.
-        this.$store.dispatch('auth/saveToken', { token })
-
-        // Update the user.
-        await this.$store.dispatch('auth/updateUser', { user: data })
-
-        // Redirect home.
-        this.$router.push({ name: 'home' })
+        $('#verifyEmail').modal('show')
       }
     }
   }

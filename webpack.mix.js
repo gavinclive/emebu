@@ -11,8 +11,7 @@ mix
   .options(
     {
       autoprefixer: true,
-      processCssUrls: true,
-      purifyCss: true
+      processCssUrls: true
     }
   )
 
@@ -28,6 +27,10 @@ if (mix.inProduction()) {
 }
 
 mix.webpackConfig({
+  devServer: {
+    https: true,
+    port: 999
+  },
   plugins: [
     // new BundleAnalyzerPlugin()
   ],
