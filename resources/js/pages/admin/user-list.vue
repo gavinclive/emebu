@@ -8,7 +8,10 @@
         </div>
       </div>
     </div>
-    <div class="col-12 col-md-10 mx-auto">
+    <div
+      class="col-12 col-md-10 mx-auto"
+      v-infinite-scroll="loadMore"
+      infinite-scroll-distance="0">
       <div class="col-12 d-flex px-0 mx-auto" :class="{ 'border-top': index > 0 }" v-for="(user, index) in pageList" :key="index">
         <div>
           <v-img :src="user.image" width="75" height="75" class="rounded-circle" cover/>
@@ -57,10 +60,6 @@ export default {
     next()
   },
 
-  mounted () {
-    this.scroll()
-  },
-
   computed: {
     users () {
       const data = this.$store.getters['admin/users']
@@ -85,19 +84,15 @@ export default {
   },
 
   methods: {
-    scroll () {
-      window.onscroll = () => {
-        this.offsetY = window.pageYOffset
-        let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight === document.documentElement.offsetHeight
-
-        if (bottomOfWindow  && this.page <= this.lastPage) {
-          this.page++
-          setTimeout( () => {
-            store.dispatch('admin/fetchUsers', this.page)
-          }, 1500)
-        }
+    loadMore () {
+      if (this.page <= this.lastPage) {
+        this.page++
+        setTimeout( () => {
+          store.dispatch('admin/fetchUsers', this.page)
+        }, 750)
       }
     },
+
     search () {
       this.page = 1
       this.userData = []

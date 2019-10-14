@@ -7,6 +7,7 @@ import App from '~/components/App'
 import * as VueGoogleMaps from 'vue2-google-maps'
 import VueCtkDateTimePicker from 'vue-ctk-date-time-picker'
 import Datetime from 'vue-datetime'
+import infiniteScroll from 'vue-infinite-scroll'
 
 import '~/plugins'
 import '~/components'
@@ -23,6 +24,7 @@ Vue.config.productionTip = false
 Vue.component('VueCtkDateTimePicker', VueCtkDateTimePicker)
 Vue.use(Vuetify)
 Vue.use(Datetime)
+Vue.use(infiniteScroll)
 Vue.use(VueGoogleMaps, {
   load: {
     key: 'AIzaSyAyhAP-kfAQ9xqD6jEhwnQPkAmxFSNIxZI',
