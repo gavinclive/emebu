@@ -8,14 +8,10 @@
         </div>
       </div>
     </div>
-<<<<<<< HEAD
     <div
       class="col-12 col-md-10 mx-auto"
       v-infinite-scroll="loadMore"
       infinite-scroll-distance="0">
-=======
-    <div class="col-12 col-md-10 mx-auto">
->>>>>>> master
       <div class="col-12 d-flex px-0 mx-auto" :class="{ 'border-top': index > 0 }" v-for="(user, index) in pageList" :key="index">
         <div>
           <v-img :src="user.image" width="75" height="75" class="rounded-circle" cover/>
@@ -64,13 +60,6 @@ export default {
     next()
   },
 
-<<<<<<< HEAD
-=======
-  mounted () {
-    this.scroll()
-  },
-
->>>>>>> master
   computed: {
     users () {
       const data = this.$store.getters['admin/users']
