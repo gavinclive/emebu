@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('image', 255)->default('https://user-images.githubusercontent.com/16608864/35882949-bbe13aa0-0bab-11e8-859c-ceda3b213818.jpeg');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('image');
             $table->integer('role')->default(1); //1 = user, 2 = eo, 3 = admin
             $table->string('bank')->nullable();
             $table->string('acc_number')->nullable();

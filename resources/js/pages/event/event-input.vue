@@ -423,15 +423,11 @@
                   </div>
                   <div class="col-12 form-group px-0 py-1 my-0">
                     <label>{{ $t('sales_start') }}</label>
-                    <VueCtkDateTimePicker right v-model="tempTicket.start_time" :first-day-of-week=1 :locale="language.includes('id') ? 'id' : 'en'" :minute-interval=30 required>
-                      <input class="form-control mx-auto">
-                    </VueCtkDateTimePicker>
+                    <datetime type="datetime" :week-start="1" :minute-step="30" v-model="tempTicket.startTime" class="form-control theme-blue mx-auto"></datetime>
                   </div>
                   <div class="col-12 form-group px-0 py-1 my-0">
                     <label>{{ $t('sales_end') }}</label>
-                    <VueCtkDateTimePicker right v-model="tempTicket.end_time" :first-day-of-week=1 :locale="language.includes('id') ? 'id' : 'en'" :minute-interval=30 required>
-                      <input class="form-control mx-auto">
-                    </VueCtkDateTimePicker>
+                    <datetime type="datetime" :week-start="1" :minute-step="30" v-model="tempTicket.endTime" class="form-control theme-blue mx-auto"></datetime>
                   </div>
                   <div class="col-12 form-group px-0 py-1 my-0">
                     <label>{{ $t('description') }}</label>
