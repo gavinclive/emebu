@@ -1,7 +1,7 @@
 <template>
   <nav v-if="!inRoute" class="navbar navbar-expand-lg navbar-light bg-gradient-primary">
     <div class="container">
-      <div class="side-menu">
+      <div class="side-menu d-md-none">
         <v-img v-if="inEoHome" src="/dist/assets/camera.svg" class="white-svg" height="28" width="28" cover @click="handleCamera"/>
         <v-img v-if="inNavigations" src="/dist/assets/arrow-left.svg" class="white-svg" height="28" width="28" cover @click="handleBack"/>
       </div>
