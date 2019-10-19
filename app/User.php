@@ -108,13 +108,13 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
 
     public function getAllUser ()
     {
-        return $this->where('role', '!=', '3')->paginate(10);
+        return $this->where('role', '!=', '2')->paginate(10);
     }
 
     public function getUserByName ($values)
     {
         return $this->where([
-            ['role', '!=', '3'],
+            ['role', '!=', '2'],
             ['name', 'ilike', '%'.$values.'%']
         ])->paginate(10);
     }
