@@ -14,10 +14,10 @@ class DatabaseSeeder extends Seeder
     {
         // $this->call(UsersTableSeeder::class);
         DB::table('users')->insert([
-            'username' => '',
+            'username' => 'eokeren',
         	'email' => 'eo@es.com',
             'password' => bcrypt('eo'),
-            'role' => 1,
+            'role' => 3,
             'name' => 'Organizer Keren',
             'status' => 'active',
             'last_login' => \Carbon\Carbon::now(),
@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
             'username' => 'ucok_keren86',
             'email' => 'ucok@es.com',
             'password' => bcrypt('ucok'),
-            'role' => 3,
+            'role' => 1,
             'name' => 'Ucok H',
             'status' => 'active',
             'last_login' => \Carbon\Carbon::now(),

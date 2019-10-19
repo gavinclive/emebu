@@ -25,7 +25,9 @@ class Event extends Model
 
     public function getAllEvent()
     {
-        return $this->paginate(10);
+        return $this->where('published_date', '>=', Carbon::now())
+                    ->where('end_date', '>=', Carbon::now()->subDays(180))
+                    ->paginate(10);
     }
 
     public function storeEvent($eventArr)
@@ -84,12 +86,4 @@ class Event extends Model
     }
     #endregion
 
-    #region Hide Event
-    public function hideEvent()
-    {
-        return $this->where('published_date', '>=', Carbon::now())
-                    ->where('end_date', '>=', Carbon::now()->subDays(180))
-                    ->paginate(10);
-    }
-    #endregion
 }
