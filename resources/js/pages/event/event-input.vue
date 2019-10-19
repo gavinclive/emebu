@@ -131,9 +131,7 @@
             <div class="col-md-10 py-0 justify-content-center">
               <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('event_publish') }}</label>
               <div class="col-md-12 d-flex align-items-center py-1">
-                <VueCtkDateTimePicker right v-model="form.publishTime" :first-day-of-week=1 :locale="language.includes('id') ? 'id' : 'en'" :minute-interval=30 format="YYYY-MM-DD HH:mm">
-                  <input :class="{ 'is-invalid': form.errors.has('publishTime') }" class="form-control col-md-11 mx-auto" name="publish_time">
-                </VueCtkDateTimePicker> 
+                <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.publishTime" :class="{ 'is-invalid': form.errors.has('publishTime') }" class="form-control theme-blue col-md-11 mx-auto p-0"></datetime>
               </div>
               <has-error :form="form" field="publishTime" class="d-block pl-3 text-left"/>
             </div>
@@ -143,9 +141,7 @@
             <div class="col-md-10 py-0 justify-content-center">
               <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('event_start') }}</label>
               <div class="col-md-12 d-flex align-items-center py-1">
-                <VueCtkDateTimePicker right v-model="form.startTime" :first-day-of-week=1 :locale="language.includes('id') ? 'id' : 'en'" :minute-interval=30 format="YYYY-MM-DD HH:mm">
-                  <input :class="{ 'is-invalid': form.errors.has('startTime') }" class="form-control col-md-11 mx-auto" name="start_time">
-                </VueCtkDateTimePicker> 
+                <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.startTime" :class="{ 'is-invalid': form.errors.has('startTime') }" class="form-control theme-blue col-md-11 mx-auto p-0"></datetime>
               </div>
               <has-error :form="form" field="startTime" class="d-block pl-3 text-left"/>
             </div>
@@ -155,9 +151,7 @@
             <div class="col-md-10 py-0 justify-content-center">
               <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('event_end') }}</label>
               <div class="col-md-12 d-flex align-items-center py-1">
-                <VueCtkDateTimePicker right v-model="form.endTime" :first-day-of-week=1 :locale="language.includes('id') ? 'id' : 'en'" :minute-interval=30 format="YYYY-MM-DD HH:mm">
-                  <input :class="{ 'is-invalid': form.errors.has('endTime') }" class="form-control col-md-11 mx-auto" name="end_time">
-                </VueCtkDateTimePicker> 
+                <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.endTime" :class="{ 'is-invalid': form.errors.has('endTime') }" class="form-control theme-blue col-md-11 mx-auto"></datetime>
               </div>
               <has-error :form="form" field="endTime" class="d-block pl-3 text-left"/>
             </div>
