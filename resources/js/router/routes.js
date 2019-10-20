@@ -46,7 +46,8 @@ export default [
       { path: 'settings/password', name: 'm.settings.password', component: page('settings/password.vue') },
       { path: 'settings/atm', name: 'm.settings.atm', component: page('settings/atm.vue') },
       { path: 'event/input', name: 'm.event.input', component: page('m/event/event-input.vue') },
-      { path: 'event/:id/edit', name: 'm.event.edit', component: page('m/event/event-input.vue') }
+      { path: 'event/:id/edit', name: 'm.event.edit', component: page('m/event/event-input.vue') },
+      { path: 'camera', name: 'camera', component: page('m/camera.vue') }
     ]
   },
   { path: '*', component: page('errors/404.vue') }

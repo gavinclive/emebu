@@ -3,7 +3,7 @@
     <navbar />
 
     <div class="container mt-md-4 page-control pt-5 px-0 pb-0">
-      <child />
+      <child class="mt-2 mt-md-0"/>
     </div>
     <BottomNav class="position-fixed"/>
   </div>

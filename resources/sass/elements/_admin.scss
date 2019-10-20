@@ -89,18 +89,6 @@ input[type="number"] {
 
 .v-stepper--vertical .v-stepper__content {
   margin-left: 11px !important;
-
-  .theme-blue .vdatetime-popup__header,
-  .theme-blue .vdatetime-calendar__month__day--selected > span > span,
-  .theme-blue .vdatetime-calendar__month__day--selected:hover > span > span {
-    background: #007bff linear-gradient(180deg, #258efe, #007bff) repeat-x;
-  }
-
-  .theme-blue .vdatetime-year-picker__item--selected,
-  .theme-blue .vdatetime-time-picker__item--selected,
-  .theme-blue .vdatetime-popup__actions__button {
-    color: #007bff linear-gradient(180deg, #258efe, #007bff) repeat-x;
-  }
 }
 
 .v-list-item__subtitle {
@@ -132,4 +120,21 @@ input[type="number"] {
       display: none;
     }
   }
+}
+
+.theme-blue .vdatetime-popup__header,
+  .theme-blue .vdatetime-calendar__month__day--selected > span > span,
+  .theme-blue .vdatetime-calendar__month__day--selected:hover > span > span {
+    background: #007bff linear-gradient(180deg, #258efe, #007bff) repeat-x;
+  }
+
+  .theme-blue .vdatetime-year-picker__item--selected,
+  .theme-blue .vdatetime-time-picker__item--selected,
+  .theme-blue .vdatetime-popup__actions__button {
+    color: #007bff linear-gradient(180deg, #258efe, #007bff) repeat-x;
+  }
+
+.vdatetime-input {
+  height: 100% !important;
+  width: 100% !important;
 }

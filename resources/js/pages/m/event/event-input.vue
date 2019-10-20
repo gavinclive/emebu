@@ -154,6 +154,18 @@
               </div>
               <has-error :form="form" field="location" class="d-block pl-3 text-left"/>
             </div>
+
+            <div class="form-group col-12 p-0 d-flex justify-content-center">
+              <div class="col-md-10 py-0 justify-content-center">
+                <div class="col-11 d-flex align-items-center pb-0">
+                  <textarea v-model="form.address" class="form-control col-md-11 mx-auto" maxlength="150" rows="4" style="resize: none;" :placeholder="$t('address_placeholder')" name="summary"></textarea>
+                </div>
+                <div class="col-11 py-1" v-if="form.address && form.address.length">
+                  <div class="col-md-11 mx-auto py-0 px-0 text-right" :class="{ 'text-danger': form.address.length === 150 }">{{ form.address.length }}/150</div>
+                </div>
+                <has-error :form="form" field="endTime" class="d-block pl-3 text-left"/>
+              </div>
+            </div>
           </div>
 
         </v-stepper-content>
@@ -173,6 +185,23 @@
               <label v-if="imagePreview" class="col-12 d-block col-form-label mx-auto">{{ $t('image_preview') }}</label>
               <div class="col-12 d-flex align-items-center py-0">
                 <img :src="imagePreview" class="col-12 px-0">
+              </div>
+              <has-error :form="form" field="type" class="d-block pl-3 text-left"/>
+            </div>
+          </div>
+
+          <div class="form-group row d-flex justify-content-center mb-0">
+            <div class="col-md-10 py-0 justify-content-center">
+              <label class="col-12 d-block pt-0 col-form-label mx-auto">{{ $t('panoramic_image') }}</label>
+              <div class="col-11 d-flex align-items-center py-1 px-0">
+                <div class="custom-file col-11 mx-auto">
+                  <input type="file" accept="image/*" class="custom-file-input" @change="imageUpload2($event.target.files[0])">
+                  <label class="custom-file-label">{{ $t('choose_file') }}</label>
+                </div>
+              </div>
+              <label v-if="imagePreview2" class="col-12 d-block col-form-label mx-auto">{{ $t('image_preview') }}</label>
+              <div class="col-12 d-flex align-items-center py-0">
+                <img :src="imagePreview2" class="col-12 px-0">
               </div>
               <has-error :form="form" field="type" class="d-block pl-3 text-left"/>
             </div>
@@ -307,29 +336,18 @@
           </div>
 
         </v-stepper-content>
-      
-        <v-stepper-step class="px-0" :complete="e1 > 8" step="8">All set, you can create your event now</v-stepper-step>
-
-        <v-stepper-content class="px-0" step="8">
-          <div class="form-group row d-flex col-11 mx-0 pl-0 justify-content-center">
-            <div class="col-md-10 py-0 justify-content-center">
-              <div class="col-12 py-1 px-0 mx-auto">
-                <v-button :loading="form.busy" type="success" class="col-12">
-                  {{ $t('create') }}
-                </v-button>
-              </div>
-            </div>
-          </div>
-        </v-stepper-content>
 
       </v-stepper>
-      <div v-if="e1 < 8" class="form-group fixed-bottom row d-flex my-0 mx-0 py-0 col-12 bg-light">
+      <div class="form-group fixed-bottom row d-flex my-0 mx-0 py-0 col-12 bg-light">
         <div class="d-flex col-12 px-0 d-flex justify-content-between mr-0">
-          <button class="btn btn-primary col-5" @click="e1++" type="button">
+          <button v-if="e1 < 7" class="btn btn-primary col-5" @click="e1++" type="button">
             {{ $t('continue') }}
           </button>
+          <v-button :loading="form.busy" class="col-5" type="success" v-if="e1 === 7">
+            {{ $t('create') }}
+          </v-button>
           <button class="btn btn-secondary col-5" @click="e1 > 1 ? e1-- : $router.go(-1)" type="button">
-            {{ $t('cancel') }}
+            {{ e1 > 1 ? $t('cancel') : $t('back') }}
           </button>
         </div>
       </div>
@@ -350,7 +368,7 @@ export default {
   middleware: 'auth',
 
   metaInfo () {
-    return { title: this.$t('edit_profile') }
+    return { title: this.$t('create') }
   },
 
   components: {
@@ -365,13 +383,16 @@ export default {
       startTime: '',
       endTime: '',
       location: '',
+      address: '',
       summary: '',
       description: '',
       img: '',
+      img_3d: '',
       ticket: [],
       organizerId: ''
     }),
     imagePreview: '',
+    imagePreview2: '',
     latLng: {lat:0.7, lng:118.9},
     address: '',
     zoom: 3.75,
@@ -516,6 +537,17 @@ export default {
           this.imagePreview = fileReader.result
         }
         this.form.img = image
+      }
+    },
+
+    imageUpload2 (image) {
+      let fileReader = new FileReader()
+      if(image && image.type.match('image.*')) {
+        fileReader.readAsDataURL(image)
+        fileReader.onload = () => {
+          this.imagePreview2 = fileReader.result
+        }
+        this.form.img_3d = image
       }
     },
 

@@ -24,8 +24,9 @@
         <v-card-actions class="text-right d-flex flex-column justify-content-between px-0 py-1" style="height: 125px;">
           <img v-if="status === '3'" src='/dist/assets/alert-triangle.svg' height="20">
           <img v-if="status !== '3'" src='/dist/assets/share-2.svg' height="20" @click="showShareModal">
-          <img v-if="user.role === 1 && status !== '3'" src='/dist/assets/edit.svg' height="20" @click="handleEditUrl">
-          <img v-if="user.role === 1 && status !== '3'" src='/dist/assets/x-circle.svg' height="20" @click="showCancelModal">
+          <img v-if="status !== '3'" src='/dist/assets/tag.svg' height="20" @click="showVoucherModal">
+          <img v-if="user.role > 2 && status !== '3'" src='/dist/assets/edit.svg' height="20" @click="handleEditUrl">
+          <img v-if="user.role > 2 && status !== '3'" src='/dist/assets/x-circle.svg' height="20" @click="showCancelModal">
         </v-card-actions>
       </v-list-item>
     </v-card>
