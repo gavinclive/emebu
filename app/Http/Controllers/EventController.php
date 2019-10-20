@@ -9,10 +9,12 @@ use Illuminate\Http\Request;
 class EventController extends Controller
 {
     private $event;
+    private $ticket;
 
     public function __construct()
     {
         $this->event = new Event();
+        $this->ticket = new Ticket();
     }
 
     public function index()
@@ -42,7 +44,7 @@ class EventController extends Controller
             $image = $request->file('img');
             $imageName = time().$image->getClientOriginalName();
             $image->move('storage/uploads/events/', $imageName);
-            $eventArr = $imageName;
+            $eventArr['image'] = $imageName;
         }
         $this->event->storeEvent($eventArr);
         $tickets = $request->input('ticket');
@@ -77,7 +79,7 @@ class EventController extends Controller
         else
         {
             $result = $this->getEventById($values);
-            if($result == 'QUERRY_NOT_FOUND' || !$result)
+            if($result == 'QUERY_NOT_FOUND' || !$result)
             {
                 return response()->json(['success' => false], 500);
             }
@@ -88,7 +90,7 @@ class EventController extends Controller
     public function edit($id)
     {
         $result = $this->getEventById($id);
-            if($result == 'QUERRY_NOT_FOUND' || !$result)
+            if($result == 'QUERY_NOT_FOUND' || !$result)
             {
                 return response()->json(['success' => false], 500);
             }
@@ -117,5 +119,22 @@ class EventController extends Controller
         }
 
         $this->event->updateEventById($eventArr, $request->input('id'));
+        $tickets = $request->input('ticket');
+        $ticketArr = array();
+        foreach($tickets as $ticket)
+        {
+            if(current($ticket))
+            {
+                $ticketArr[key($ticket)] = current($ticket);
+            }
+            else
+            {
+                $ticketArr[key($ticket)] = '';
+            }
+            if (key($ticket) == 'desc') 
+            {
+                $this->ticket->storeTicket($ticketArr);
+            }
+        }
     }
 }

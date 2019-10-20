@@ -29,6 +29,7 @@ class CreateEventsTable extends Migration
             $table->string('image_3d', 1024)->nullable();
             $table->bigInteger('eo_id');
             $table->string('status', 1)->default('1'); //1 for OK, 2 for cancelled, 3 for under investigation
+            $table->integer('report_amount')->default('0');
             $table->timestamps();
 
             $table->foreign('eo_id')->references('id')->on('users');
