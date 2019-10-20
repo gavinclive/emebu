@@ -209,7 +209,7 @@
           <div class="form-group row d-flex justify-content-center mb-0">
             <div class="col-md-10 py-0 justify-content-center">
               <div class="col-md-12 d-flex align-items-center pt-1 pb-0">
-                <textarea v-model="form.address" class="form-control col-md-11 mx-auto" maxlength="150" rows="4" style="resize: none;" :placeholder="$t('address_placeholder')" name="summary"></textarea>
+                <textarea v-model="form.address" class="form-control col-md-11 mx-auto" maxlength="150" rows="4" style="resize: none;" :placeholder="$t('address_placeholder')" name="address"></textarea>
               </div>
               <div class="col-md-12 py-1" v-if="form.address && form.address.length">
                 <div class="col-md-11 mx-auto py-0 px-0 text-right" :class="{ 'text-danger': form.address.length === 150 }">{{ form.address.length }}/150</div>
@@ -464,7 +464,7 @@ export default {
   middleware: 'auth',
 
   metaInfo () {
-    return { title: this.$t('edit_profile') }
+    return { title: this.$t('create') }
   },
 
   components: {
