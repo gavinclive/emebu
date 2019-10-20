@@ -94,7 +94,7 @@ export default {
 
     inEoHome () {
       const currentRoute = this.$route.name ? this.$route.name : ''
-      if((currentRoute.includes('home')) && this.user.role === 1) return true
+      if((currentRoute.includes('home')) && this.user.role > 2) return true
       return false
     },
 
