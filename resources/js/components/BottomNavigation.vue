@@ -11,38 +11,38 @@
     </v-btn>
 
     <!-- Attendee Account -->
-    <v-btn v-if="user.role === 2">
+    <v-btn v-if="user.role === 1">
       <span>{{ $t('history') }}</span>
       <v-img src="/dist/assets/file-text.svg" class="white-svg navbar-icon" />
     </v-btn>
 
-    <v-btn v-if="user.role === 2">
+    <v-btn v-if="user.role === 1">
       <span>{{ $t('browse') }}</span>
       <v-img src="/dist/assets/compass.svg" class="white-svg main-navbar-icon" />
     </v-btn>
 
     <!-- Organizer Account -->
-    <v-btn v-if="user.role === 1" @click="toManagePage">
+    <v-btn v-if="user.role > 2" @click="toManagePage">
       <span>{{ $t('manage') }}</span>
       <v-img src="/dist/assets/tool.svg" class="white-svg navbar-icon" />
     </v-btn>
 
-    <v-btn v-if="user.role === 1" @click="toCreatePage">
+    <v-btn v-if="user.role > 2" @click="toCreatePage">
       <span>{{ $t('create') }}</span>
       <v-img src="/dist/assets/plus-circle.svg" class="white-svg main-navbar-icon" />
     </v-btn>
 
-    <v-btn v-if="user.role !== 3" @click="toTransactionPage">
+    <v-btn v-if="user.role !== 2" @click="toTransactionPage">
       <span>{{ $t('tickets') }}</span>
       <v-img src="/dist/assets/credit-card.svg" class="white-svg navbar-icon" />
     </v-btn>
 
-    <v-btn v-if="user.role === 3" @click="toUsersPage">
+    <v-btn v-if="user.role === 2" @click="toUsersPage">
       <span>{{ $t('users') }}</span>
       <v-img src="/dist/assets/users.svg" class="white-svg navbar-icon" />
     </v-btn>
 
-    <v-btn v-if="user.role === 3" @click="toManagePage">
+    <v-btn v-if="user.role === 2" @click="toManagePage">
       <span>{{ $t('events') }}</span>
       <v-img src="/dist/assets/emebu-mini.png" class="white-svg navbar-icon" />
     </v-btn>
@@ -68,7 +68,7 @@ export default {
       if (routeName === 'home') {
         return 0
       } else if (routeName === 'm.settings') {
-        if (this.user.role === 3) {
+        if (this.user.role === 2) {
           return 3
         }
         return 4

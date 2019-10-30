@@ -15,8 +15,8 @@
                 <v-img src="/dist/assets/type.svg" max-width="25" max-height="25" class="mr-2" contain/>
                 <select v-model="form.role" :class="{ 'is-invalid': form.errors.has('role') }" class="custom-select col-md-11">
                   <option selected disabled value="">{{ $t('register_as') }}</option>
-                  <option value="1">{{ $t('organizer') }}</option>
-                  <option value="2">{{ $t('attendee') }}</option>
+                  <option value="3">{{ $t('organizer') }}</option>
+                  <option value="1">{{ $t('attendee') }}</option>
                 </select>
               </div>
               <has-error :form="form" field="role" class="d-block pl-5 text-left"/>
@@ -38,8 +38,8 @@
           <div class="form-group row d-flex justify-content-center mb-0">
             <div class="col-md-9">
               <div class="col-md-12 d-flex align-items-center py-1">
-                <v-img :src="form.role === '1' ? '/dist/assets/users.svg' : '/dist/assets/user.svg'" max-width="25" max-height="25" class="mr-2" contain/>
-                <input v-model="form.name" :class="{ 'is-invalid': form.errors.has('name') }" class="form-control col-md-11" type="text" name="name" :placeholder="form.role === '' ? $t('name') : form.role === '2' ? $t('full_name') : $t('organizer_name')">
+                <v-img :src="form.role === '3' ? '/dist/assets/users.svg' : '/dist/assets/user.svg'" max-width="25" max-height="25" class="mr-2" contain/>
+                <input v-model="form.name" :class="{ 'is-invalid': form.errors.has('name') }" class="form-control col-md-11" type="text" name="name" :placeholder="form.role === '' ? $t('name') : form.role === '1' ? $t('full_name') : $t('organizer_name')">
               </div>
               <has-error :form="form" field="name" class="d-block pl-5 text-left"/>
             </div>
