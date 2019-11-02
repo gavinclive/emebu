@@ -17,9 +17,14 @@ npm install
 Copy & paste .env.sample to your .env; then adjust local environment config like DB name, username, and password.
 For macOS user preferably use [**Valet**](https://laravel.com/docs/5.8/valet) for local server, [**Postgres.app**](https://postgresapp.com/downloads.html), and [**pgadmin**](https://www.pgadmin.org/download/pgadmin-4-macos/).
 
-To create table in your database, run command below.
+To create tables in your database and seed the datas, run command below.
 ```
-php artisan migration
+php artisan migrate --seed
+```
+
+If you previously already have old tables in your database, run command below.
+```
+php artisan migrate:fresh --seed
 ```
 
 Go to `storage/app/public` and run command below.
