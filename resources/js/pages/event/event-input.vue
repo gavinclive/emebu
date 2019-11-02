@@ -498,8 +498,8 @@ export default {
       type: 1,
       qty: '',
       price: 1000,
-      start_time: '',
-      end_time: '',
+      startTime: '',
+      endTime: '',
       desc: ''
     },
     ticket: [],
@@ -650,8 +650,8 @@ export default {
         type: this.tempTicket.type,
         qty: this.tempTicket.qty,
         price: this.tempTicket.price,
-        start_time: this.tempTicket.start_time,
-        end_time: this.tempTicket.end_time,
+        startTime: new Date(this.tempTicket.startTime),
+        endTime: new Date(this.tempTicket.endTime),
         desc: this.tempTicket.desc
       }
       if (this.removeIndex) {
@@ -670,8 +670,8 @@ export default {
       this.tempTicket.type = 1
       this.tempTicket.qty = ''
       this.tempTicket.price = 1000
-      this.tempTicket.start_time = ''
-      this.tempTicket.end_time = ''
+      this.tempTicket.startTime = ''
+      this.tempTicket.endTime = ''
       this.tempTicket.desc = ''
     },
 

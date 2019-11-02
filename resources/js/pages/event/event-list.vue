@@ -7,7 +7,7 @@
           <span class="input-group-text"><img src="/dist/assets/search.svg"></span>
         </div>
       </div>
-      <div class="input-group col-md-6 pb-2 px-0 px-md-1">
+      <div v-if="user.role > 2" class="input-group col-md-6 pb-2 px-0 px-md-1">
         <select v-model="searchStatus" class="custom-select">
           <option value="0">{{ $t('all') }}</option>
           <option value="1">{{ $t('published') }}</option>
@@ -19,19 +19,19 @@
           <span class="input-group-text"><img src="/dist/assets/activity.svg"></span>
         </div>
       </div>
-      <div class="input-group col-md-6 pb-2 px-0 px-md-1">
+      <div v-if="user.role === 1" class="input-group col-md-6 pb-2 px-0 px-md-1">
         <input v-model="searchLocation" class="form-control">
         <div class="input-group-append">
           <span class="input-group-text"><img src="/dist/assets/map-pin.svg"></span>
         </div>
       </div>
-      <div class="input-group col-6 pb-2 pr-1 pl-0" @click="showTypeModal">
+      <div v-if="user.role === 1" class="input-group col-6 pb-2 pr-1 pl-0" @click="showTypeModal">
         <input v-model="activeType" class="form-control">
         <div class="input-group-append">
           <span class="input-group-text">{{ $t('type') }}</span>
         </div>
       </div>
-      <div class="input-group col-6 pb-2 pl-1 pr-0" @click="showCategoryModal">
+      <div v-if="user.role === 1" class="input-group col-6 pb-2 pl-1 pr-0" @click="showCategoryModal">
         <input v-model="activeCategory" class="form-control">
         <div class="input-group-append">
           <span class="input-group-text">{{ $t('category') }}</span>
@@ -49,6 +49,7 @@
         :status="event.status"
         @showShareModal="shareEvent"
         @showCancelModal="cancelEvent"
+        @showCouponModal="inputCoupon"
         />
     </div>
     <div class="modal fade" id="eventType" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
@@ -134,6 +135,69 @@
         </div>
       </div>
     </div>
+
+    <form @submit.prevent="coupon" @keydown="form.onKeydown($event)">
+      <div class="modal fade" id="inputCoupon" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Coupon</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body d-flex justify-content-center flex-wrap text-justify">
+              <div class="col-12 form-group py-1 px-0 my-0">
+                <label>{{ $t('coupon_code') }}</label>
+                <input class="form-control col-12 mx-auto" type="text" maxlength="10" oninput="this.value = this.value.toUpperCase()" required>
+              </div>
+              <div class="col-12 form-group py-1 px-0 my-0">
+                <label>{{ $t('quantity') }}</label>
+                <input class="form-control col-12 mx-auto" type="number" required min="1">
+              </div>
+              <div class="col-12 form-group px-0 py-1 my-0">
+                <label>{{ $t('starts') }}</label>
+                <datetime type="datetime" :week-start="1" :minute-step="30" class="form-control theme-blue mx-auto" required></datetime>
+              </div>
+              <div class="col-12 form-group px-0 py-1 my-0">
+                <label>{{ $t('ends') }}</label>
+                <datetime type="datetime" :week-start="1" :minute-step="30" class="form-control theme-blue mx-auto" required></datetime>
+              </div>
+              <div class="col-12 form-group py-1 px-0 my-0">
+                <input type="checkbox">
+                <label>{{ $t('daily_reset') }}</label>
+              </div>
+              <div class="col-12 row py-1 px-0 my-0">
+                <div class="col-6 form-group pr-1 pl-0 py-0 my-0">
+                  <label>{{ $t('discount_rate') }}</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" min="1" max="100" required>
+                    <div class="input-group-append">
+                      <span class="input-group-text">%</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 form-group pr-0 pl-1 py-0 my-0">
+                  <label>{{ $t('max_cut') }}</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Rp</span>
+                    </div>
+                    <input type="number" class="form-control" step="1000" required>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <v-button :loading="form.busy" type="success">
+                {{ $t('create') }}
+              </v-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
   </div>
 </template>
 
@@ -143,6 +207,7 @@ import $ from 'jquery'
 import store from '~/store'
 import { baseEventUrl } from '~/utils/url'
 import { encrypt, decrypt } from '~/utils/simpleCrypto'
+import Form from 'vform'
 
 export default {
   middleware: 'auth',
@@ -154,7 +219,10 @@ export default {
     id: '',
     eventUrl: '',
     type: '',
-    category: ''
+    category: '',
+    form: new Form({
+
+    }),
   }),
 
   mounted () {
@@ -217,6 +285,10 @@ export default {
       }
     },
 
+    inputCoupon (id) {
+      $('#inputCoupon').modal('show')
+    },
+
     encrypt: encrypt,
 
     showTypeModal () {
@@ -242,6 +314,10 @@ export default {
 
     handleCancelEvent () {
       console.log(`cancel event id ${decrypt(this.id)}  ${decrypt('42')}`)
+    },
+
+    coupon() {
+      console.log('hehe')
     }
   }
 }
