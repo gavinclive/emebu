@@ -16,13 +16,8 @@ class CreateTransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('user_id');
-            $table->bigInteger('ticket_id');
             $table->integer('qty');
-            $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('ticket_id')->references('id')->on('tickets');
+            $table->timestamp('created_at');
         });
     }
 

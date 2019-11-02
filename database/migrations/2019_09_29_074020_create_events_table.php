@@ -17,22 +17,18 @@ class CreateEventsTable extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title',100);
-            $table->dateTime('start_time');
-            $table->dateTime('end_time');
-            $table->string('location',100);
-            $table->string('summary',150);
+            $table->string('title', 100);
+            $table->timestamp('publish_time');
+            $table->timestamp('start_time');
+            $table->timestamp('end_time');
+            $table->string('location', 100);
+            $table->string('location_guide', 150);
+            $table->string('summary', 150)->nullable();
             $table->text('description');
-            $table->string('image',512);
-            $table->string('type',50);
-            $table->string('category',50);
-            $table->string('image_3d', 1024)->nullable();
-            $table->bigInteger('eo_id');
+            $table->string('image');
+            $table->string('image_3d')->nullable();
             $table->string('status', 1)->default('1'); //1 for OK, 2 for cancelled, 3 for under investigation
-            $table->integer('report_amount')->default('0');
             $table->timestamps();
-
-            $table->foreign('eo_id')->references('id')->on('users');
         });
     }
 
