@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use App\Ticket;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -30,14 +31,16 @@ class EventController extends Controller
     {
         $eventArr = [
             'title' => $request->input('title'),
+            'publish_time' => $request->input('publishTime'),
             'start_time' => $request->input('startTime'),
             'end_time' => $request->input('endTime'),
             'location' => $request->input('location'),
+            'address' => $request->input('address'),
             'summary' => $request->input('summary'),
             'description' => $request->input('description'),
             'type' => $request->input('type'),
             'category' => $request->input('category'),
-            'organizer_id' => $request->input('organizerId')
+            'eo_id' => $request->input('organizerId')
         ];
         if($request->has('img') && $request->file('img'))
         {
@@ -45,6 +48,13 @@ class EventController extends Controller
             $imageName = time().$image->getClientOriginalName();
             $image->move('storage/uploads/events/', $imageName);
             $eventArr['image'] = $imageName;
+        }
+        if($request->has('img_3d') && $request->file('img_3d'))
+        {
+            $image = $request->file('img_3d');
+            $imageName = time().$image->getClientOriginalName();
+            $image->move('storage/uploads/events/', $imageName);
+            $eventArr['image_3d'] = $imageName;
         }
         $this->event->storeEvent($eventArr);
         $tickets = $request->input('ticket');
@@ -101,23 +111,31 @@ class EventController extends Controller
     {
         $eventArr = [
             'title' => $request->input('title'),
+            'publish_time' => $request->input('publishTime'),
             'start_time' => $request->input('startTime'),
             'end_time' => $request->input('endTime'),
             'location' => $request->input('location'),
+            'address' => $request->input('address'),
             'summary' => $request->input('summary'),
             'description' => $request->input('description'),
-            'image' => $request->input('image'),
             'type' => $request->input('type'),
-            'category' => $request->input('category')
+            'category' => $request->input('category'),
+            'eo_id' => $request->input('organizerId')
         ];
-
         if($request->has('img') && $request->file('img'))
         {
             $image = $request->file('img');
             $imageName = time().$image->getClientOriginalName();
             $image->move('storage/uploads/events/', $imageName);
+            $eventArr['image'] = $imageName;
         }
-
+        if($request->has('img_3d') && $request->file('img_3d'))
+        {
+            $image = $request->file('img_3d');
+            $imageName = time().$image->getClientOriginalName();
+            $image->move('storage/uploads/events/', $imageName);
+            $eventArr['image_3d'] = $imageName;
+        }
         $this->event->updateEventById($eventArr, $request->input('id'));
         $tickets = $request->input('ticket');
         $ticketArr = array();

@@ -574,8 +574,8 @@ export default {
         type: this.tempTicket.type,
         qty: this.tempTicket.qty,
         price: this.tempTicket.price,
-        startTime: this.tempTicket.startTime,
-        endTime: this.tempTicket.endTime,
+        startTime: new Date(this.tempTicket.startTime),
+        endTime: new Date(this.tempTicket.endTime),
         desc: this.tempTicket.desc
       }
       if (this.removeIndex) {

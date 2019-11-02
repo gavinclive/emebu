@@ -6,7 +6,7 @@
         <img src='/dist/assets/share-2.svg' height="28" class="white-svg mx-auto">
       </div>
       <div class="event-info col-12 p-0 border-top-0 border-md-primary row m-0">
-        <div class="col-md-6 col-12 p-0">
+        <div class="col-sm-6 col-12 p-0">
           <div class="event-name col-12 pb-0">
             <h4>{{ event.title }}</h4>
           </div>
@@ -46,8 +46,9 @@
             <span class="font-weight-bold">{{ $t('location') }}</span>
             <div class="d-flex flex-align-center mt-2">
               <img src="/dist/assets/map-pin.svg" width="20">
-              <span class="px-2">{{ address }}</span>
+              <span class="px-2">{{ venue }}</span>
             </div>
+            <span class="px-2">{{ event.address }}</span>
           </div>
           <div class="col-12 p-2 d-flex justify-content-around">
             <div class="d-flex justify-content-center"  @click="showMap = !showMap">
@@ -210,7 +211,7 @@ export default {
       return dateFormat(new Date(this.event.endTime), 'ddd, DD MMMM YYYY @ hh.mm')
     },
 
-    address () {
+    venue () {
       return this.addressData ? this.addressData.formatted_address : 'Error'
     },
 
