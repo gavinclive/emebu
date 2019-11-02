@@ -152,5 +152,12 @@
   "cancel_event_guide": "Are you sure to cancel this event? This action is irreversible and ticket sales will need to be refunded!",
   "cancel_event": "Cancel Event",
   "users": "Users",
-  "events": "Events"
+  "events": "Events",
+  "coupon_code": "Coupon Code",
+  "starts": "Starts" ,
+  "ends": "Ends",
+  "daily_reset": "Daily Reset",
+  "discount_rate": "Discount Rate",
+  "max_cut": "Max Cut",
+  "create_coupon": "Coupon"
 }

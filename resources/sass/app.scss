@@ -18,3 +18,9 @@ body {
   height: 100vh;
   width: 100vw;
 }
+
+body.modal-open {
+  position:static !important;
+  overflow:visible;
+  padding:0 !important;
+}
