@@ -9,27 +9,35 @@ class Event extends Model
 {
     protected $fillable = [
         'title',
+        'publish_time',
         'start_time',
         'end_time',
         'location',
+        'address',
         'summary',
         'description',
         'image',
         'type',
         'category',
-        'organizer_id',
+        'image_3d',
+        'eo_id',
         'status'
     ];
     
     protected $table = 'events';
 
+    #region get All events according to the conditions
     public function getAllEvent()
     {
-        return $this->where('published_date', '>=', Carbon::now())
-                    ->where('end_date', '>=', Carbon::now()->subDays(180))
+        return $this->where('publish_time', '>=', Carbon::now())
+                    ->where('end_time', '>=', Carbon::now()->subDays(180))
+                    ->where('status', 'not like', '2')
+                    ->where('status', 'not like', '3')
                     ->paginate(10);
     }
+    #endregion
 
+    #region create Event
     public function storeEvent($eventArr)
     {
         if($eventArr)
@@ -38,6 +46,7 @@ class Event extends Model
         }
        return false;
     }
+    #endregion
 
     #region Search
     //Search event by parameter (by title/type/category/status)
@@ -49,7 +58,9 @@ class Event extends Model
                 ['title', 'like', '%'.$params['title'].'%'],
                 ['type', 'like', '%'.$params['type'].'%'],
                 ['category', 'like', '%'.$params['category'].'%'],
-                ['status', '=', $params['status']]
+                ['status', '=', $params['status'],
+                ['end_time', '>=', Carbon::now()->subDays(180)].
+                ['publish_time', '>=', Carbon::now()]]
             ]);
         }
         return false;
