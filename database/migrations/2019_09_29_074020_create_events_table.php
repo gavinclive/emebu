@@ -17,7 +17,6 @@ class CreateEventsTable extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->bigIncrements('id');
-<<<<<<< HEAD
             $table->string('title', 100);
             $table->timestamp('publish_time');
             $table->timestamp('start_time');
@@ -25,15 +24,6 @@ class CreateEventsTable extends Migration
             $table->string('location', 100);
             $table->string('location_guide', 150);
             $table->string('summary', 150)->nullable();
-=======
-            $table->string('title',100);
-            $table->dateTime('publish_time');
-            $table->dateTime('start_time');
-            $table->dateTime('end_time');
-            $table->string('location',100);
-            $table->string('address', 150);
-            $table->string('summary',150);
->>>>>>> master
             $table->text('description');
             $table->string('image');
             $table->string('image_3d')->nullable();
