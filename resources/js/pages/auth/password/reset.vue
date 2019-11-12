@@ -78,6 +78,8 @@ export default {
       this.status = data.status
 
       this.form.reset()
+
+      this.$router.push({ name: 'login' })
     }
   }
 }
