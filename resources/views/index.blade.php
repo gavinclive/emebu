@@ -26,6 +26,6 @@ $config = [
   </script>
 
   {{-- Load the application scripts --}}
-  <script src="{{ mix('dist/js/app.js') }}"></script>
+  <script src="{{ mix('dist/js/app.5f5c95.js') }}"></script>
 </body>
 </html>

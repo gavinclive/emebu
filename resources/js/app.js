@@ -11,7 +11,6 @@ import infiniteScroll from 'vue-infinite-scroll'
 
 import '~/plugins'
 import '~/components'
-import 'vuetify/dist/vuetify.min.css'
 import 'vue-datetime/dist/vue-datetime.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css'
