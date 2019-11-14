@@ -4,6 +4,7 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Event extends Model
 {
@@ -33,7 +34,7 @@ class Event extends Model
                     ->where('end_time', '>=', Carbon::now()->subDays(180))
                     ->where('status', 'not like', '2')
                     ->where('status', 'not like', '3')
-                    ->paginate(10);
+                    ->get();
     }
     #endregion
 
@@ -52,16 +53,30 @@ class Event extends Model
     //Search event by parameter (by title/type/category/status)
     public function getEventByParam($params)
     {
+        $params = json_decode($params);
+        $queryParams = array();
         if($params)
         {
-            return $this->where([
-                ['title', 'like', '%'.$params['title'].'%'],
-                ['type', 'like', '%'.$params['type'].'%'],
-                ['category', 'like', '%'.$params['category'].'%'],
-                ['status', '=', $params['status'],
-                ['end_time', '>=', Carbon::now()->subDays(180)].
-                ['publish_time', '>=', Carbon::now()]]
-            ]);
+            if ($params->title) {
+                array_push($queryParams, ['title', 'like', '%'.$params->title.'%']);
+            }
+            if ((int) $params->type) {
+                array_push($queryParams, ['type_id', '=', (int) $params->type]);
+            }
+            if ((int) $params->category) {
+                array_push($queryParams, ['category_id', '=', (int) $params->category]);
+            }
+            if ((int) $params->status) {
+                array_push($queryParams, ['status', '=', (int) $params->status]);
+            }
+            if ((int) $params->role == 1) {
+                array_push($queryParams, ['end_time', '>=', Carbon::now()->subDays(180)], ['publish_time', '>=', Carbon::now()]);
+            } else {
+                array_push($queryParams, ['eo_id', '=', (int) $params->id]);
+            }
+            return $this->where($queryParams)
+                        ->orderBy('start_time', 'asc')
+                        ->get();
         }
         return false;
     }

@@ -35,11 +35,11 @@ class EventController extends Controller
             'start_time' => $request->input('startTime'),
             'end_time' => $request->input('endTime'),
             'location' => $request->input('location'),
-            'address' => $request->input('address'),
+            'location_guide' => $request->input('address'),
             'summary' => $request->input('summary'),
             'description' => $request->input('description'),
-            'type' => $request->input('type'),
-            'category' => $request->input('category'),
+            'type_id' => $request->input('type'),
+            'category_id' => $request->input('category'),
             'eo_id' => $request->input('organizerId')
         ];
         if($request->has('img') && $request->file('img'))
@@ -78,23 +78,11 @@ class EventController extends Controller
 
     public function show($values)
     {
-        if(gettype($values == 'object'))
+        if(!$this->event->getEventByParam($values))
         {
-            if(!$this->event->getEventByParam($values))
-            {
-                return response()->json(['success' => false], 500);
-            }
-            return response()->json(['success' => true, 'result' => $this->event->getEventByParam($values)], 200);
+            return response()->json(['success' => false], 500);
         }
-        else
-        {
-            $result = $this->getEventById($values);
-            if($result == 'QUERY_NOT_FOUND' || !$result)
-            {
-                return response()->json(['success' => false], 500);
-            }
-            return response()->json(['success' => true, 'result' => $this->event->getEventById($values)], 200);
-        }
+        return response()->json(['success' => true, 'result' => $this->event->getEventByParam($values)], 200);
     }
 
     public function edit($id)

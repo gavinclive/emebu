@@ -42,8 +42,8 @@
       <EventCard v-for="(event, index) in filteredList" :key="index" 
         :id="encrypt(event.id)"
         :title="event.title"
-        :image="event.img"
-        :date="event.startDate"
+        :image="event.image"
+        :date="event.start_time"
         :sold="event.sold"
         :total="event.qty"
         :status="event.status"
@@ -225,6 +225,18 @@ export default {
     }),
   }),
 
+  beforeRouteEnter (to, from, next) {
+    store.dispatch('event/fetchEventsByParams', {
+      id: store.getters['auth/user'].id,
+      role: store.getters['auth/user'].role,
+      title: '',
+      type: '',
+      category: '',
+      status: ''
+    })
+    .then( () => next())
+  },
+
   mounted () {
     store.dispatch('category/fetchCategories')
     store.dispatch('type/fetchTypes')
@@ -241,7 +253,7 @@ export default {
     filteredList () {
       const list = this.events.filter(data => {
         return data.title.toLowerCase().includes(this.searchTitle.toLowerCase())
-      }).sort((a, b) => b.id - a.id)
+      })
 
       if(this.searchStatus !== '0') {
         return list.filter(data => {

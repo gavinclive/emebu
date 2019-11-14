@@ -15,7 +15,7 @@ class CreateStaticContentsTable extends Migration
     {
         Schema::create('static_contents', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->content('description');
+            $table->text('content');
             $table->timestamps();
         });
     }

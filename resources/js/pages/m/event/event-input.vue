@@ -431,6 +431,7 @@ export default {
 
     ...mapGetters({
       user: 'auth/user',
+      eventDetail: 'event/eventDetail',
       categories: 'category/getCategories',
       types: 'type/getTypes'
     }),

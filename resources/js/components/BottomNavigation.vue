@@ -11,12 +11,12 @@
     </v-btn>
 
     <!-- Attendee Account -->
-    <v-btn v-if="user.role === 1">
+    <v-btn v-if="user.role == 1">
       <span>{{ $t('history') }}</span>
       <v-img src="/dist/assets/file-text.svg" class="white-svg navbar-icon" />
     </v-btn>
 
-    <v-btn v-if="user.role === 1">
+    <v-btn v-if="user.role == 1">
       <span>{{ $t('browse') }}</span>
       <v-img src="/dist/assets/compass.svg" class="white-svg main-navbar-icon" />
     </v-btn>
@@ -45,6 +45,11 @@
     <v-btn v-if="user.role === 2" @click="toManagePage">
       <span>{{ $t('events') }}</span>
       <v-img src="/dist/assets/emebu-mini.png" class="white-svg navbar-icon" />
+    </v-btn>
+
+    <v-btn v-if="user.role === 2" @click="toManagePage">
+      <span>{{ $t('content') }}</span>
+      <v-img src="/dist/assets/file-text.svg" class="white-svg navbar-icon" />
     </v-btn>
 
     <v-btn @click="toSettingPage">
