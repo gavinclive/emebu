@@ -61,7 +61,10 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi",
-            "@php artisan jwt:secret --force --ansi"
+            "@php artisan jwt:secret --force --ansi",
+            "php artisan clear-compiled",
+            "php artisan optimize",
+            "chmod -R 777 public/"
         ]
     }
 }
