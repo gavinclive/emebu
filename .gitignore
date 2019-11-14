@@ -4,7 +4,6 @@
 /storage/*.key
 /vendor
 /public/build
-/public/mix-manifest.json
 package-lock.json
 .env
 .phpunit.result.cache
