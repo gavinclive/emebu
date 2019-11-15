@@ -31,49 +31,49 @@ class EventController extends Controller
     {
         $eventArr = [
             'title' => $request->input('title'),
-            'publish_time' => $request->input('publishTime'),
-            'start_time' => $request->input('startTime'),
-            'end_time' => $request->input('endTime'),
+            'publish_time' => $request->input('publish_time'),
+            'start_time' => $request->input('start_time'),
+            'end_time' => $request->input('end_time'),
             'location' => $request->input('location'),
-            'location_guide' => $request->input('address'),
+            'location_guide' => $request->input('location_guide') ? $request->input('location_guide') : '',
             'summary' => $request->input('summary'),
             'description' => $request->input('description'),
-            'type_id' => $request->input('type'),
-            'category_id' => $request->input('category'),
-            'eo_id' => $request->input('organizerId')
+            'type_id' => $request->input('type_id'),
+            'category_id' => $request->input('category_id'),
+            'eo_id' => $request->input('organizerId'),
+            'created_at' => Carbon::now()->timezone('Asia/Jakarta'),
+            'updated_at' => Carbon::now()->timezone('Asia/Jakarta')
         ];
-        if($request->has('img') && $request->file('img'))
+        if($request->has('image') && $request->file('image'))
         {
-            $image = $request->file('img');
+            $image = $request->file('image');
             $imageName = time().$image->getClientOriginalName();
             $image->move('storage/uploads/events/', $imageName);
             $eventArr['image'] = $imageName;
         }
-        if($request->has('img_3d') && $request->file('img_3d'))
+        if($request->has('image_3d') && $request->file('image_3d'))
         {
-            $image = $request->file('img_3d');
+            $image = $request->file('image_3d');
             $imageName = time().$image->getClientOriginalName();
             $image->move('storage/uploads/events/', $imageName);
             $eventArr['image_3d'] = $imageName;
         }
-        $this->event->storeEvent($eventArr);
+        $id = $this->event->storeEvent($eventArr);
         $tickets = $request->input('ticket');
         $ticketArr = array();
         foreach($tickets as $ticket)
         {
-            if(current($ticket))
+            $ticketArr[key($ticket)] = current($ticket) !== null ? current($ticket) : '';
+            if (key($ticket) == 'description') 
             {
-                $ticketArr[key($ticket)] = current($ticket);
-            }
-            else
-            {
-                $ticketArr[key($ticket)] = '';
-            }
-            if (key($ticket) == 'desc') 
-            {
+                $ticketArr['event_id'] = $id;
+                $ticketArr['updated_at'] = Carbon::now()->timezone('Asia/Jakarta');
+                $ticketArr['created_at'] = Carbon::now()->timezone('Asia/Jakarta');
                 $this->ticket->storeTicket($ticketArr);
             }
         }
+
+        return response()->json(['success' => true, 'result' => $id], 200);
     }
 
     public function show($values)
@@ -87,7 +87,7 @@ class EventController extends Controller
 
     public function edit($id)
     {
-        $result = $this->getEventById($id);
+        $result = $this->event->getEventById($id);
             if($result == 'QUERY_NOT_FOUND' || !$result)
             {
                 return response()->json(['success' => false], 500);
@@ -99,27 +99,28 @@ class EventController extends Controller
     {
         $eventArr = [
             'title' => $request->input('title'),
-            'publish_time' => $request->input('publishTime'),
-            'start_time' => $request->input('startTime'),
-            'end_time' => $request->input('endTime'),
+            'publish_time' => $request->input('publish_time'),
+            'start_time' => $request->input('start_time'),
+            'end_time' => $request->input('end_time'),
             'location' => $request->input('location'),
-            'address' => $request->input('address'),
+            'location_guide' => $request->input('location_guide') ? $request->input('location_guide') : '',
             'summary' => $request->input('summary'),
             'description' => $request->input('description'),
-            'type' => $request->input('type'),
-            'category' => $request->input('category'),
-            'eo_id' => $request->input('organizerId')
+            'type_id' => $request->input('type_id'),
+            'category_id' => $request->input('category_id'),
+            'eo_id' => $request->input('eo_id'),
+            'updated_at' => Carbon::now()->timezone('Asia/Jakarta')
         ];
-        if($request->has('img') && $request->file('img'))
+        if($request->has('image') && $request->file('image'))
         {
-            $image = $request->file('img');
+            $image = $request->file('image');
             $imageName = time().$image->getClientOriginalName();
             $image->move('storage/uploads/events/', $imageName);
             $eventArr['image'] = $imageName;
         }
-        if($request->has('img_3d') && $request->file('img_3d'))
+        if($request->has('image_3d') && $request->file('image_3d'))
         {
-            $image = $request->file('img_3d');
+            $image = $request->file('image_3d');
             $imageName = time().$image->getClientOriginalName();
             $image->move('storage/uploads/events/', $imageName);
             $eventArr['image_3d'] = $imageName;
@@ -129,18 +130,14 @@ class EventController extends Controller
         $ticketArr = array();
         foreach($tickets as $ticket)
         {
-            if(current($ticket))
+            $ticketArr[key($ticket)] = current($ticket) !== null ? current($ticket) : '';
+            if (key($ticket) == 'description') 
             {
-                $ticketArr[key($ticket)] = current($ticket);
-            }
-            else
-            {
-                $ticketArr[key($ticket)] = '';
-            }
-            if (key($ticket) == 'desc') 
-            {
-                $this->ticket->storeTicket($ticketArr);
+                $ticketArr['updated_at'] = Carbon::now()->timezone('Asia/Jakarta');
+                $this->ticket->updateTicket($ticketArr, $ticketArr['id']);
             }
         }
+
+        return response()->json(['success' => true], 200);
     }
 }

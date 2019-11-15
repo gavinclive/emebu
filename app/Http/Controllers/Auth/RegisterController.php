@@ -73,7 +73,7 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
             'role' => $data['role'],
             'status' => $data['status'],
-            'last_login' => Carbon::now()
+            'last_login' => Carbon::now()->timezone('Asia/Jakarta')
         ]);
     }
 }
