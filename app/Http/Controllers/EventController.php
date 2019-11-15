@@ -41,8 +41,8 @@ class EventController extends Controller
             'type_id' => $request->input('type_id'),
             'category_id' => $request->input('category_id'),
             'eo_id' => $request->input('organizerId'),
-            'created_at' => Carbon::now()->timezone('Asia/Jakarta'),
-            'updated_at' => Carbon::now()->timezone('Asia/Jakarta')
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
         ];
         if($request->has('image') && $request->file('image'))
         {
@@ -67,8 +67,8 @@ class EventController extends Controller
             if (key($ticket) == 'description') 
             {
                 $ticketArr['event_id'] = $id;
-                $ticketArr['updated_at'] = Carbon::now()->timezone('Asia/Jakarta');
-                $ticketArr['created_at'] = Carbon::now()->timezone('Asia/Jakarta');
+                $ticketArr['updated_at'] = Carbon::now();
+                $ticketArr['created_at'] = Carbon::now();
                 $this->ticket->storeTicket($ticketArr);
             }
         }
@@ -109,7 +109,7 @@ class EventController extends Controller
             'type_id' => $request->input('type_id'),
             'category_id' => $request->input('category_id'),
             'eo_id' => $request->input('eo_id'),
-            'updated_at' => Carbon::now()->timezone('Asia/Jakarta')
+            'updated_at' => Carbon::now()
         ];
         if($request->has('image') && $request->file('image'))
         {
@@ -133,7 +133,7 @@ class EventController extends Controller
             $ticketArr[key($ticket)] = current($ticket) !== null ? current($ticket) : '';
             if (key($ticket) == 'description') 
             {
-                $ticketArr['updated_at'] = Carbon::now()->timezone('Asia/Jakarta');
+                $ticketArr['updated_at'] = Carbon::now();
                 $this->ticket->updateTicket($ticketArr, $ticketArr['id']);
             }
         }

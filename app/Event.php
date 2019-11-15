@@ -17,6 +17,15 @@ class Event extends Model
         return $this->hasMany('App\Ticket');
     }
 
+    public function eo()
+    {
+        return $this->belongsTo('App\User', 'eo_id', 'id');
+    }
+
+    public function coupon()
+    {
+        return $this->hasOne('App\Coupon', 'event_id', 'id');
+    }
     #region get All events according to the conditions
     public function getAllEvent()
     {
@@ -24,8 +33,8 @@ class Event extends Model
                         $query->select('qty as total');
                     }])
                     ->where([
-                        ['publish_time', '>=', Carbon::now()->timezone('Asia/Jakarta')],
-                        ['end_time', '>=', Carbon::now()->timezone('Asia/Jakarta')->subDays(180)],
+                        ['publish_time', '<=', Carbon::now()],
+                        ['end_time', '>=', Carbon::now()->subDays(180)],
                         ['status', 'not like', '2'],
                         ['status', 'not like', '3']
                     ])
@@ -65,11 +74,14 @@ class Event extends Model
                 array_push($queryParams, ['status', '=', (int) $params->status]);
             }
             if ((int) $params->role == 1) {
-                array_push($queryParams, ['end_time', '>=', Carbon::now()->timezone('Asia/Jakarta')->subDays(180)], ['publish_time', '>=', Carbon::now()->timezone('Asia/Jakarta')]);
+                array_push($queryParams, ['end_time', '>=', Carbon::now()->subDays(180)], ['publish_time', '>=', Carbon::now()]);
             } else {
                 array_push($queryParams, ['eo_id', '=', (int) $params->id]);
             }
             return $this->with(['ticket' => function($query) {
+                            $query->select('*');
+                        }])
+                        ->with(['coupon' => function($query){
                             $query->select('*');
                         }])
                         ->where($queryParams)
@@ -84,8 +96,15 @@ class Event extends Model
     // Will be used in other functions
     public function getEventById($id)
     {
-        return $this->with(['ticket' => function($query) {
-                        $query->select('*');
+        return $this->with(['eo' =>function($query) {
+                        $query->select('id', 'username', 'image');
+                    }])
+                    ->with(['ticket' => function($query) {
+                        $query->where([
+                                    ['start_time', '<=', Carbon::now()],
+                                    ['end_time', '>=', Carbon::now()]
+                                ])
+                                ->select('*');
                     }])
                     ->where('id', '=', $id)
                     ->get();

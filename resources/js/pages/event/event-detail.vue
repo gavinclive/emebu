@@ -27,8 +27,9 @@
         <div class="row px-3">
           <div class="col-12 col-md-4">
             <span class="font-weight-bold">{{ $t('organized_by') }}</span>
-            <div class="mt-2">
-              <span>{{ event.organizer }}</span>
+            <div class="mt-2 d-flex">
+              <img :src="event.eo.image" height="24" contain class="rounded-circle">
+              <span class="ml-1">{{ event.eo.username }}</span>
             </div>
           </div>
           <div class="col-12 col-md-4 px-md-0">
@@ -95,7 +96,7 @@
     <div class="col-12 col-md-10 overflow-hidden event-desc mx-auto mb-5 pb-5" v-html="event.description" />
     <div class="col-12 fixed-bottom bg-light d-md-none" style="box-shadow: 0px -1px 6px 2px rgba(158,158,158,1);">
       <p class="mb-1 text-center" v-if="startFrom >= 0">{{ $t('starts_from') }} Rp {{ startFrom }}</p>
-      <button type="button" class="btn col-12 btn-primary" data-toggle="modal" :data-target="authenticated ? '#getTicket' : ''">{{ $t('get_ticket') }}</button>
+      <button :disabled="startFrom == -2" type="button" class="btn col-12 btn-primary" data-toggle="modal" :data-target="authenticated ? '#getTicket' : ''">{{ $t('get_ticket') }}</button>
     </div>
 
     <div class="modal fade" id="shareEvent" tabindex="-1" role="dialog" aria-hidden="true">
@@ -232,13 +233,17 @@ export default {
     },
 
     startFrom () {
-      const prices = []
-      let allFree = true
-      this.tickets.forEach( ticket => {
-        prices.push(ticket.price)
-        allFree = allFree ? ticket.price == 0 : false
-      })
-      return allFree ? -1 : currencyFormat(Math.min(...prices))
+      if(this.tickets.length == 0) {
+        return -2
+      } else {
+        const prices = []
+        let allFree = true
+        this.tickets.forEach( ticket => {
+          prices.push(ticket.price)
+          allFree = allFree ? ticket.price == 0 : false
+        })
+        return allFree ? -1 : currencyFormat(Math.min(...prices))
+      }
     },
 
     eventUrl () {
