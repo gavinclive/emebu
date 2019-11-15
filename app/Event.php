@@ -8,32 +8,27 @@ use Illuminate\Support\Facades\Auth;
 
 class Event extends Model
 {
-    protected $fillable = [
-        'title',
-        'publish_time',
-        'start_time',
-        'end_time',
-        'location',
-        'address',
-        'summary',
-        'description',
-        'image',
-        'type',
-        'category',
-        'image_3d',
-        'eo_id',
-        'status'
-    ];
+    protected $guarded =[];
     
     protected $table = 'events';
+
+    public function ticket()
+    {
+        return $this->hasMany('App\Ticket');
+    }
 
     #region get All events according to the conditions
     public function getAllEvent()
     {
-        return $this->where('publish_time', '>=', Carbon::now())
-                    ->where('end_time', '>=', Carbon::now()->subDays(180))
-                    ->where('status', 'not like', '2')
-                    ->where('status', 'not like', '3')
+        return $this->with(['ticket' => function($query) {
+                        $query->select('qty as total');
+                    }])
+                    ->where([
+                        ['publish_time', '>=', Carbon::now()->timezone('Asia/Jakarta')],
+                        ['end_time', '>=', Carbon::now()->timezone('Asia/Jakarta')->subDays(180)],
+                        ['status', 'not like', '2'],
+                        ['status', 'not like', '3']
+                    ])
                     ->get();
     }
     #endregion
@@ -43,7 +38,7 @@ class Event extends Model
     {
         if($eventArr)
         {
-            return $this->create($eventArr);
+            return $this->insertGetId($eventArr);
         }
        return false;
     }
@@ -70,11 +65,14 @@ class Event extends Model
                 array_push($queryParams, ['status', '=', (int) $params->status]);
             }
             if ((int) $params->role == 1) {
-                array_push($queryParams, ['end_time', '>=', Carbon::now()->subDays(180)], ['publish_time', '>=', Carbon::now()]);
+                array_push($queryParams, ['end_time', '>=', Carbon::now()->timezone('Asia/Jakarta')->subDays(180)], ['publish_time', '>=', Carbon::now()->timezone('Asia/Jakarta')]);
             } else {
                 array_push($queryParams, ['eo_id', '=', (int) $params->id]);
             }
-            return $this->where($queryParams)
+            return $this->with(['ticket' => function($query) {
+                            $query->select('*');
+                        }])
+                        ->where($queryParams)
                         ->orderBy('start_time', 'asc')
                         ->get();
         }
@@ -84,20 +82,13 @@ class Event extends Model
 
     #region Get Event by Id
     // Will be used in other functions
-    public function getEventById($params)
+    public function getEventById($id)
     {
-        if($params)
-        {
-            try
-            {
-                $result = $this->findOrFail($params);   
-            }
-            catch(Exception $e)
-            {
-                $result = 'QUERY_NOT_FOUND';
-            }
-        }
-        return $result; 
+        return $this->with(['ticket' => function($query) {
+                        $query->select('*');
+                    }])
+                    ->where('id', '=', $id)
+                    ->get();
     }
     #endregion
 

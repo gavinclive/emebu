@@ -8,7 +8,7 @@
           tile
           @click="handleEventUrl"
         >
-          <v-img :src="image"></v-img>
+          <v-img :src="eventImageUrl(image)"></v-img>
         </v-list-item-avatar>
 
         <v-list-item-content class="pl-3 pt-3 align-self-start" @click="handleEventUrl">
@@ -39,6 +39,7 @@ import { dateFormat } from '~/utils/dateFormat'
 import { baseEventUrl } from '~/utils/url'
 import { decrypt } from '~/utils/simpleCrypto'
 import { md } from '~/utils/mobileDetect'
+import { eventImageUrl } from '~/utils/image'
 
 export default {
   name: 'EventCard',
@@ -100,7 +101,9 @@ export default {
 
     showCouponModal (event) {
       this.$emit('showCouponModal', this.id)
-    }
+    },
+
+    eventImageUrl
   }
 }
 </script>

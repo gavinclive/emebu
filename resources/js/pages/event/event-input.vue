@@ -1,6 +1,5 @@
 <template>
   <form class="col-md-9 mx-auto" @submit.prevent="update" @keydown="form.onKeydown($event)" novalidate>
-    <alert-success :form="form" :message="$t('info_updated')" />
 
     <v-stepper v-model="e1" class="stepper">
       <v-stepper-header class="stepper">
@@ -212,7 +211,7 @@
                 <textarea v-model="form.location_guide" class="form-control col-md-11 mx-auto" maxlength="150" rows="4" style="resize: none;" :placeholder="$t('address_placeholder')" name="address"></textarea>
               </div>
               <div class="col-md-12 py-1" v-if="form.location_guide && form.location_guide.length">
-                <div class="col-md-11 mx-auto py-0 px-0 text-right" :class="{ 'text-danger': form.address.length === 150 }">{{ form.address.length }}/150</div>
+                <div class="col-md-11 mx-auto py-0 px-0 text-right" :class="{ 'text-danger': form.location_guide.length === 150 }">{{ form.address.length }}/150</div>
               </div>
               <has-error :form="form" field="title" class="d-block pl-3 text-left"/>
             </div>
@@ -417,20 +416,20 @@
                   </div>
                   <div class="col-12 form-group px-0 py-1 my-0">
                     <label>{{ $t('sales_start') }}</label>
-                    <datetime type="datetime" :week-start="1" :minute-step="30" v-model="tempTicket.startTime" class="form-control theme-blue mx-auto"></datetime>
+                    <datetime type="datetime" :week-start="1" :minute-step="30" v-model="tempTicket.start_time" class="form-control theme-blue mx-auto"></datetime>
                   </div>
                   <div class="col-12 form-group px-0 py-1 my-0">
                     <label>{{ $t('sales_end') }}</label>
-                    <datetime type="datetime" :week-start="1" :minute-step="30" v-model="tempTicket.endTime" class="form-control theme-blue mx-auto"></datetime>
+                    <datetime type="datetime" :week-start="1" :minute-step="30" v-model="tempTicket.end_time" class="form-control theme-blue mx-auto"></datetime>
                   </div>
                   <div class="col-12 form-group px-0 py-1 my-0">
                     <label>{{ $t('description') }}</label>
-                    <textarea v-model="tempTicket.desc" class="form-control col-12 mx-auto" maxlength="150" rows="4" style="resize: none;"></textarea>
-                    <p class="text-right my-0">{{ tempTicket.desc.length }}/150</p>
+                    <textarea v-model="tempTicket.description" class="form-control col-12 mx-auto" maxlength="150" rows="4" style="resize: none;"></textarea>
+                    <p class="text-right my-0">{{ tempTicket.description.length }}/150</p>
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" data-dismiss="modal" @click="addTicket" :disabled="ticketInvalid">{{ $t('save') }}</button>
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" @click="addTicket" :disabled="!ticketValid">{{ $t('save') }}</button>
                 </div>
               </div>
             </div>
@@ -475,9 +474,9 @@ export default {
     e1: 0,
     form: new Form({
       title: '',
-      publishTime: '',
-      startTime: '',
-      endTime: '',
+      publish_time: '',
+      start_time: '',
+      end_time: '',
       location: '',
       location_guide: '',
       summary: '',
@@ -495,12 +494,11 @@ export default {
     showMarker: false,
     tempTicket: {
       name: '',
-      type: 1,
       qty: '',
       price: 1000,
-      startTime: '',
-      endTime: '',
-      desc: ''
+      start_time: '',
+      end_time: '',
+      description: ''
     },
     ticket: [],
     paid: true,
@@ -548,8 +546,14 @@ export default {
       return this.category !== '' ? this.categories[this.category].name : ''
     },
 
-    ticketInvalid () {
-      return (this.tempTicket.name && this.tempTicket.type && this.tempTicket.qty && this.tempTicket.startTime && this.tempTicket.endTime) ? false : true 
+    ticketValid () {
+      const {
+        name,
+        qty,
+        startTime,
+        endTime
+      } = this.tempTicket
+      return name && qty && startTime && endTime
     }
   },
 
@@ -652,7 +656,7 @@ export default {
         price: this.tempTicket.price,
         startTime: new Date(this.tempTicket.startTime),
         endTime: new Date(this.tempTicket.endTime),
-        desc: this.tempTicket.desc
+        description: this.tempTicket.description
       }
       if (this.removeIndex) {
         this.ticket.splice(this.removeIndex - 1, 1)
@@ -667,12 +671,11 @@ export default {
 
     initAddTicket () {
       this.tempTicket.name = ''
-      this.tempTicket.type = 1
       this.tempTicket.qty = ''
       this.tempTicket.price = 1000
-      this.tempTicket.startTime = ''
-      this.tempTicket.endTime = ''
-      this.tempTicket.desc = ''
+      this.tempTicket.start_time = ''
+      this.tempTicket.end_time = ''
+      this.tempTicket.description = ''
     },
 
     editTicket (index) {

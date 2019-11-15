@@ -8,28 +8,30 @@ class Ticket extends Model
 {
     protected $table = 'tickets';
 
-    protected $fillable =
-    [
-        'name',
-        'type',
-        'qty',
-        'price',
-        'desc',
-        'start_time',
-        'end_time',
-        'event_id'
-    ];
+    protected $guarded = [];
 
-    public function getTicketByEventId($event_id)
+    public function event()
     {
-        return $this->getTicketByEventId($event_id);
+        return $this->belongsTo('App\Event', 'event_id', 'id');
     }
 
-    public function storeTicket($ticketArr)
+    public function getTicketByEventId($id)
     {
-        if($ticketArr){
-            return $this->create($ticketArr);
+        return $this->getTicketByEventId($id);
+    }
+
+    public function storeTicket($value)
+    {
+        if($value){
+            return $this->create($value);
         }
         return false;
+    }
+
+    public function updateTicket($value, $id)
+    {
+        unset($value['id']);
+        return $this->where('id', '=', $id)
+                    ->update($value);
     }
 }

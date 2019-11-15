@@ -1,7 +1,7 @@
 <template>
   <div class="event-detail main-layout col-12 p-0 mt-2 mt-md-3">
     <div class="event-heading col-12 col-md-10 mx-auto p-0" >
-      <v-img class="event-image col-12 rounded-lg" :src="event.img" />
+      <v-img class="event-image col-12 rounded-lg" :src="eventImageUrl(event.image)" />
       <div class="share-btn bg-primary p-2 rounded-circle" @click="shareEvent">
         <img src='/dist/assets/share-2.svg' height="28" class="white-svg mx-auto">
       </div>
@@ -55,7 +55,7 @@
               <img :src="showMap ? '/dist/assets/chevron-up.svg' : '/dist/assets/chevron-down.svg'" width="16">
               <span class="pl-2">{{ $t('see_map') }}</span>
             </div>
-            <div v-if="event.img_3d" class="d-flex justify-content-center"  @click="showPanorama = !showPanorama">
+            <div v-if="event.image_3d" class="d-flex justify-content-center"  @click="showPanorama = !showPanorama">
               <img :src="showPanorama ? '/dist/assets/chevron-up.svg' : '/dist/assets/chevron-down.svg'" width="16">
               <span class="pl-2">{{ $t('see_3d') }}</span>
             </div>
@@ -158,6 +158,8 @@ import $ from 'jquery'
 import { dateFormat } from '~/utils/dateFormat'
 import { currencyFormat } from '~/utils/currencyFormat'
 import Panorama from 'vuejs-panorama'
+import { encrypt, decrypt } from '~/utils/simpleCrypto'
+import { eventImageUrl } from '~/utils/image'
 
 export default {
   components: {
@@ -172,14 +174,11 @@ export default {
     addressData: '',
   }),
 
-  async beforeRouteEnter (to, from, next) {
-    try {
-      await store.dispatch('category/fetchCategories')
-      await store.dispatch('type/fetchTypes')
-    } catch (e) {
-      console.log(e)
-    }
-    next()
+  beforeRouteEnter (to, from, next) {
+    store.dispatch('event/fetchEventById', decrypt(to.params.id))
+    .then(() => store.dispatch('category/fetchCategories'))
+    .then(() => store.dispatch('type/fetchTypes'))
+    .then(() => next())
   },
 
   mounted () {
@@ -190,25 +189,32 @@ export default {
     ...mapGetters({
       categories: 'category/getCategories',
       types: 'type/getTypes',
-      event: 'event/eventDetail',
-      tickets: 'ticket/tickets',
+      eventDetail: 'event/eventDetail',
       authenticated: 'auth/user'
     }),
 
+    event (){
+      return this.eventDetail[0]
+    },
+
+    tickets (){
+      return this.eventDetail[0].ticket
+    },
+
     eventType () {
-      return this.types[this.event.type-1].name
+      return this.types[this.event.type_id-1].name
     },
 
     eventCategory () {
-      return this.categories[this.event.category-1].name
+      return this.categories[this.event.category_id-1].name
     },
 
     eventStart () {
-      return dateFormat(new Date(this.event.startTime), 'ddd, DD MMMM YYYY @ hh.mm')
+      return dateFormat(new Date(this.event.start_time), 'ddd, DD MMMM YYYY @ hh.mm')
     },
 
     eventEnd () {
-      return dateFormat(new Date(this.event.endTime), 'ddd, DD MMMM YYYY @ hh.mm')
+      return dateFormat(new Date(this.event.end_time), 'ddd, DD MMMM YYYY @ hh.mm')
     },
 
     venue () {
@@ -286,7 +292,9 @@ export default {
     selectTicket (index) {
       this.activeTicket = index
       console.log(this.activeTicket)
-    }
+    },
+
+    eventImageUrl
   },
 }
 </script>

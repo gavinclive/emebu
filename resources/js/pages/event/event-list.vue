@@ -45,7 +45,7 @@
         :image="event.image"
         :date="event.start_time"
         :sold="event.sold"
-        :total="event.qty"
+        :total="event.total"
         :status="event.status"
         @showShareModal="shareEvent"
         @showCancelModal="cancelEvent"
@@ -234,7 +234,7 @@ export default {
       category: '',
       status: ''
     })
-    .then( () => next())
+    .then( () => next( vm => vm.setSoldCount()))
   },
 
   mounted () {
@@ -326,6 +326,19 @@ export default {
 
     handleCancelEvent () {
       console.log(`cancel event id ${decrypt(this.id)}  ${decrypt('42')}`)
+    },
+
+    setSoldCount () {
+      this.events.forEach( evt => {
+        let total = 0
+        let sold = 0
+        evt.ticket.forEach( t => {
+          total += t.qty
+          sold += t.sold
+        })
+        evt.total = total
+        evt.sold = sold
+      })
     },
 
     coupon() {

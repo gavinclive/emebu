@@ -1,7 +1,6 @@
 <template>
   <div>
     <form class="col-12 mx-auto py-0" @submit.prevent="update" @keydown="form.onKeydown($event)" novalidate>
-      <alert-success :form="form" :message="$t('info_updated')" />
 
       <v-stepper v-model="e1" class="stepper" vertical>
         <v-stepper-step class="px-0 pt-0" :complete="e1 > 1" step="1">{{ $t('basic_info') }}</v-stepper-step>
@@ -95,9 +94,9 @@
             <div class="col-md-10 py-0 justify-content-center">
               <label class="col-12 d-block pt-0 col-form-label mx-auto">{{ $t('event_publish') }}</label>
               <div class="col-11 d-flex align-items-center py-1">
-                <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.publishTime" :class="{ 'is-invalid': form.errors.has('publishTime') }" class="form-control theme-blue col-md-11 mx-auto"></datetime>
+                <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.publish_time" :class="{ 'is-invalid': form.errors.has('publish_time') }" class="form-control theme-blue col-md-11 mx-auto d-flex align-items-center"></datetime>
               </div>
-              <has-error :form="form" field="publishTime" class="d-block pl-3 text-left"/>
+              <has-error :form="form" field="publish_time" class="d-block pl-3 text-left"/>
             </div>
           </div>
 
@@ -105,9 +104,9 @@
             <div class="col-md-10 py-0 justify-content-center">
               <label class="col-12 d-block pt-0 col-form-label mx-auto">{{ $t('event_start') }}</label>
               <div class="col-11 d-flex align-items-center py-1">
-                <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.startTime" :class="{ 'is-invalid': form.errors.has('startTime') }" class="form-control theme-blue col-md-11 mx-auto"></datetime>
+                <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.start_time" :class="{ 'is-invalid': form.errors.has('start_time') }" class="form-control theme-blue col-md-11 mx-auto d-flex align-items-center"></datetime>
               </div>
-              <has-error :form="form" field="startTime" class="d-block pl-3 text-left"/>
+              <has-error :form="form" field="start_time" class="d-block pl-3 text-left"/>
             </div>
           </div>
 
@@ -115,9 +114,9 @@
             <div class="col-md-10 py-0 justify-content-center">
               <label class="col-12 d-block pt-0 col-form-label mx-auto">{{ $t('event_end') }}</label>
               <div class="col-11 d-flex align-items-center py-1">
-                <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.endTime" :class="{ 'is-invalid': form.errors.has('endTime') }" class="form-control theme-blue col-md-11 mx-auto"></datetime>
+                <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.end_time" :class="{ 'is-invalid': form.errors.has('end_time') }" class="form-control theme-blue col-md-11 mx-auto d-flex align-items-center"></datetime>
               </div>
-              <has-error :form="form" field="endTime" class="d-block pl-3 text-left"/>
+              <has-error :form="form" field="end_time" class="d-block pl-3 text-left"/>
             </div>
           </div>
         </v-stepper-content>
@@ -149,6 +148,9 @@
                 />
               </GmapMap>
               </div>
+              <div class="col-11 py-1" v-if="address">
+                Current location: {{ address }}
+              </div>
               <div class="col-11 d-flex align-items-center py-1">
                 <gmap-autocomplete class="form-control col-12 mx-auto" @place_changed="setPlace" :placeholder="$t('venue_placeholder')" name="venue"/>
               </div>
@@ -158,12 +160,12 @@
             <div class="form-group col-12 p-0 d-flex justify-content-center">
               <div class="col-md-10 py-0 justify-content-center">
                 <div class="col-11 d-flex align-items-center pb-0">
-                  <textarea v-model="form.address" class="form-control col-md-11 mx-auto" maxlength="150" rows="4" style="resize: none;" :placeholder="$t('address_placeholder')" name="summary"></textarea>
+                  <textarea v-model="form.location_guide" class="form-control col-md-11 mx-auto" maxlength="150" rows="4" style="resize: none;" :placeholder="$t('address_placeholder')" name="summary"></textarea>
                 </div>
-                <div class="col-11 py-1" v-if="form.address && form.address.length">
-                  <div class="col-md-11 mx-auto py-0 px-0 text-right" :class="{ 'text-danger': form.address.length === 150 }">{{ form.address.length }}/150</div>
+                <div class="col-11 py-1" v-if="form.location_guide && form.location_guide.length">
+                  <div class="col-md-11 mx-auto py-0 px-0 text-right" :class="{ 'text-danger': form.location_guide.length === 150 }">{{ form.location_guide.length }}/150</div>
                 </div>
-                <has-error :form="form" field="endTime" class="d-block pl-3 text-left"/>
+                <has-error :form="form" field="location_guide" class="d-block pl-3 text-left"/>
               </div>
             </div>
           </div>
@@ -290,11 +292,11 @@
                 </div>
                 <div class="modal-body">
                   <ul class="nav nav-pills nav-fill">
-                    <li class="nav-item" @click="tempTicket.type = 1, tempTicket.price = 1000">
-                      <a class="nav-link" :class="{ 'active': tempTicket.type === 1 }">{{ $t('paid') }}</a>
+                    <li class="nav-item" @click="tempTicket.price = 1000">
+                      <a class="nav-link" :class="{ 'active': tempTicket.price >= 1000 }">{{ $t('paid') }}</a>
                     </li>
-                    <li class="nav-item" @click="tempTicket.type = 2, tempTicket.price = 0">
-                      <a class="nav-link" :class="{ 'active': tempTicket.type === 2 }">{{ $t('free') }}</a>
+                    <li class="nav-item" @click="tempTicket.price = 0">
+                      <a class="nav-link" :class="{ 'active': tempTicket.price == 0 }">{{ $t('free') }}</a>
                     </li>
                   </ul>
                   <div class="col-12 form-group pt-4 pb-1 px-0 my-0">
@@ -305,7 +307,7 @@
                     <label>{{ $t('quantity') }}</label>
                     <input v-model="tempTicket.qty" class="form-control col-12 mx-auto" type="number" required>
                   </div>
-                  <div v-if="tempTicket.type === 1" class="col-12 form-group px-0 py-1 my-0">
+                  <div v-if="tempTicket.price !== 0" class="col-12 form-group px-0 py-1 my-0">
                     <label>{{ $t('price') }}</label>
                     <div class="input-group">
                       <div class="input-group-prepend">
@@ -316,20 +318,20 @@
                   </div>
                   <div class="col-12 form-group px-0 py-1 my-0">
                     <label>{{ $t('sales_start') }}</label>
-                    <datetime type="datetime" :week-start="1" :minute-step="30" v-model="tempTicket.startTime" class="form-control theme-blue mx-auto"></datetime>
+                    <datetime type="datetime" :week-start="1" :minute-step="30" v-model="tempTicket.start_time" class="form-control theme-blue mx-auto"></datetime>
                   </div>
                   <div class="col-12 form-group px-0 py-1 my-0">
                     <label>{{ $t('sales_end') }}</label>
-                    <datetime type="datetime" :week-start="1" :minute-step="30" v-model="tempTicket.endTime" class="form-control theme-blue mx-auto"></datetime>
+                    <datetime type="datetime" :week-start="1" :minute-step="30" v-model="tempTicket.end_time" class="form-control theme-blue mx-auto"></datetime>
                   </div>
                   <div class="col-12 form-group px-0 py-1 my-0">
                     <label>{{ $t('description') }}</label>
-                    <textarea v-model="tempTicket.desc" class="form-control col-12 mx-auto" maxlength="150" rows="4" style="resize: none;"></textarea>
-                    <p class="text-right my-0">{{ tempTicket.desc.length }}/150</p>
+                    <textarea v-model="tempTicket.description" class="form-control col-12 mx-auto" maxlength="150" rows="4" style="resize: none;"></textarea>
+                    <p class="text-right my-0">{{ tempTicket.description.length }}/150</p>
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" data-dismiss="modal" @click="addTicket" :disabled="ticketInvalid">{{ $t('save') }}</button>
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" @click="addTicket" :disabled="!ticketValid">{{ $t('save') }}</button>
                 </div>
               </div>
             </div>
@@ -344,10 +346,10 @@
             {{ $t('continue') }}
           </button>
           <v-button :loading="form.busy" class="col-5" type="success" v-if="e1 === 7">
-            {{ $t('create') }}
+            {{ form.id ? $t('save') : $t('create') }}
           </v-button>
           <button class="btn btn-secondary col-5" @click="e1 > 1 ? e1-- : $router.go(-1)" type="button">
-            {{ e1 > 1 ? $t('cancel') : $t('back') }}
+            {{ e1 > 1 ? $t('back') : $t('cancel') }}
           </button>
         </div>
       </div>
@@ -359,10 +361,13 @@
 import $ from 'jquery'
 import axios from 'axios'
 import store from '~/store'
+import router from '~/router'
 import Form from 'vform'
 import { mapGetters } from 'vuex'
 import { VueEditor } from 'vue2-editor'
 import { BASE_URL } from '~/utils/constant'
+import { encrypt, decrypt } from '~/utils/simpleCrypto'
+import { eventImageUrl } from '~/utils/image'
 
 export default {
   middleware: 'auth',
@@ -378,34 +383,35 @@ export default {
   data: () => ({
     e1: 1,
     form: new Form({
+      id: '',
       title: '',
-      publishTime: '',
-      startTime: '',
-      endTime: '',
+      publish_time: '',
+      start_time: '',
+      end_time: '',
       location: '',
-      address: '',
+      location_guide: '',
       summary: '',
       description: '',
-      img: '',
-      img_3d: '',
+      image: '',
+      image_3d: '',
       ticket: [],
-      organizerId: ''
+      eo_id: '',
+      type_id: '',
+      category_id: ''
     }),
     imagePreview: '',
     imagePreview2: '',
     latLng: {lat:0.7, lng:118.9},
-    address: '',
     zoom: 3.75,
     showMarker: false,
     tempTicket: {
       name: '',
-      type: 1,
-      qty: '',
       price: 1000,
-      startTime: '',
-      endTime: '',
-      desc: ''
+      start_time: '',
+      end_time: '',
+      description: ''
     },
+    address: '',
     ticket: [],
     paid: true,
     removeIndex: '',
@@ -418,10 +424,17 @@ export default {
     ]
   }),
 
-  
-  mounted () {
+  beforeRouteEnter (to, from, next) {
     store.dispatch('category/fetchCategories')
-    store.dispatch('type/fetchTypes')
+    .then( () => store.dispatch('type/fetchTypes'))
+    .then( () => {
+      if (to.name.includes('edit')) {
+        store.dispatch('event/fetchEventById', decrypt(to.params.id))
+        .then(() => next( vm => vm.setEventDetail()))
+      } else {
+        next ()
+      }
+    })
   },
 
   computed: {
@@ -458,27 +471,26 @@ export default {
       return this.category !== '' ? this.categories[this.category].name : ''
     },
 
-    ticketInvalid () {
-      return (this.tempTicket.name && this.tempTicket.type && this.tempTicket.qty && this.tempTicket.startTime && this.tempTicket.endTime) ? false : true 
+    ticketValid () {
+      const {
+        name,
+        qty,
+        start_time,
+        end_time
+      } = this.tempTicket
+      return name && qty && start_time && end_time
     }
-  },
-
-  created () {
-    // Fill the form with user data.
-    this.form.keys().forEach(key => {
-      this.form[key] = this.user[key]
-    })
   },
 
   methods: {
     setType (index) {
       this.type = index
-      this.form.type = this.types[index].id
+      this.form.type_id = this.types[index].id
     },
 
     setCategory (index) {
       this.category = index
-      this.form.category = this.categories[index].id
+      this.form.category_id = this.categories[index].id
     },
 
     showTypeModal () {
@@ -489,18 +501,6 @@ export default {
       $('#eventCategory').modal('show')
     },
 
-    reverseGeocode (coordinates) {
-      axios
-        .get()
-          .then(response => {
-            console.log(response.data)
-        })
-        .catch(error => {
-          console.log(error)
-        })
-        .finally(() => this.loading = false)
-    },
-
     setPlace (place) {
       if (!place) return
       this.showMarker = true
@@ -509,25 +509,6 @@ export default {
         lng: place.geometry.location.lng(),
       }
       this.zoom = 14
-      axios.get(`https://maps.google.com/maps/api/geocode/json?latlng=${this.latLng.lat},${this.latLng.lng}&key=AIzaSyAyhAP-kfAQ9xqD6jEhwnQPkAmxFSNIxZI`)
-        .then(response => {
-          console.log(response.data)
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    },
-
-    updateChild (object, field, event) {
-      console.log(object)
-      return
-      if (field === 'position') {
-        object.position = {
-          lat: event.lat(),
-          lng: event.lng()
-        }
-      }
-      this.address = object.position
     },
 
     imageUpload (image) {
@@ -537,7 +518,7 @@ export default {
         fileReader.onload = () => {
           this.imagePreview = fileReader.result
         }
-        this.form.img = image
+        this.form.image = image
       }
     },
 
@@ -548,7 +529,7 @@ export default {
         fileReader.onload = () => {
           this.imagePreview2 = fileReader.result
         }
-        this.form.img_3d = image
+        this.form.image_3d = image
       }
     },
 
@@ -571,13 +552,13 @@ export default {
 
     addTicket () {
       const obj = {
+        id: this.tempTicket.id,
         name: this.tempTicket.name,
-        type: this.tempTicket.type,
         qty: this.tempTicket.qty,
-        price: this.tempTicket.price,
-        startTime: new Date(this.tempTicket.startTime),
-        endTime: new Date(this.tempTicket.endTime),
-        desc: this.tempTicket.desc
+        price: this.tempTicket.price.toString(),
+        start_time: this.tempTicket.start_time,
+        end_time: this.tempTicket.end_time,
+        description: this.tempTicket.description
       }
       if (this.removeIndex) {
         this.ticket.splice(this.removeIndex - 1, 1)
@@ -585,19 +566,19 @@ export default {
       }
       this.ticket.push(obj)
       this.form.ticket = this.ticket
-      setTimeout( () => {
+      set_timeout( () => {
         this.initAddTicket()
       }, 500)
     },
 
     initAddTicket () {
+      this.tempTicket.qty = 0
       this.tempTicket.name = ''
-      this.tempTicket.type = 1
       this.tempTicket.qty = ''
       this.tempTicket.price = 1000
-      this.tempTicket.startTime = ''
-      this.tempTicket.endTime = ''
-      this.tempTicket.desc = ''
+      this.tempTicket.start_time = ''
+      this.tempTicket.end_time = ''
+      this.tempTicket.description = ''
     },
 
     editTicket (index) {
@@ -611,17 +592,50 @@ export default {
       this.form.ticket = this.ticket
     },
 
-    async update () {
-      this.form.location = `${this.latLng.lat}, ${this.latLng.lng}`
-      this.form.organizerId = this.user.id
-      try {
-        await this.form.submit('post', '/api/event', {
+    setEventDetail () {
+      this.form.keys().forEach( key => this.form[key] = this.eventDetail[0][key])
+      this.type = parseInt(this.form['type_id'])
+      this.category = parseInt(this.form['category_id'])
+      this.form.publish_time = new Date(this.form.publish_time).toISOString()
+      this.form.start_time = new Date(this.form.start_time).toISOString()
+      this.form.end_time = new Date(this.form.end_time).toISOString()
+      const coordinate = this.form.location.split(', ')
+      this.showMarker = true
+      this.zoom = 14
+      this.latLng = {
+        lat: parseFloat(coordinate[0]),
+        lng: parseFloat(coordinate[1]),
+      }
+      axios.get(`https://maps.google.com/maps/api/geocode/json?latlng=${this.latLng.lat},${this.latLng.lng}&key=AIzaSyAyhAP-kfAQ9xqD6jEhwnQPkAmxFSNIxZI`)
+      .then(response => {
+        this.address = response.data.results[0].formatted_address
+      })
+      .catch(error => {
+        console.log(error)
+      })
+      this.imagePreview = this.form.image ? eventImageUrl(this.form.image) : ''
+      this.imagePreview2 = this.form.image_3d ? eventImageUrl(this.form.image_3d) : ''
+      this.form.ticket.forEach( ticket => {
+        ticket.start_time = new Date(ticket.start_time).toISOString()
+        ticket.end_time = new Date(ticket.end_time).toISOString()
+      })
+    },
+
+    update () {
+      if (this.form.id) {
+        this.form._method = 'PATCH'
+      } else {
+        this.form.location = `${this.latLng.lat}, ${this.latLng.lng}`
+        this.form.eo_id = this.user.id
+      }
+      
+      this.form.submit('post', `/api/event${this.form.id ? `/${this.form.id}` : ''}`, {
           transformRequest: [(data, headers) => objectToFormData(data)]
+      })
+        .then( res => {
+          this.$store.dispatch('auth/fetchUser')
+          router.push({ name: 'event.detail', params: { id: encrypt(res.data.result ? res.data.result : this.form.id) } })
         })
-        this.$store.dispatch('auth/fetchUser')
-      } catch (e) {
-        console.log(e)
-      } 
     }
   }
 }
