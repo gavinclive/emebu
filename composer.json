@@ -64,7 +64,9 @@
             "@php artisan jwt:secret --force --ansi",
             "php artisan clear-compiled",
             "php artisan optimize",
-            "chmod -R 777 public/"
+            "chmod -R 777 public/",
+            "composer dump-autoload",
+            "php artisan migrate:fresh --seed"
         ]
     }
 }
