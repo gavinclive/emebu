@@ -93,6 +93,7 @@
   "past": "Past",
   "published": "Published",
   "cancelled": "Cancelled",
+  "hided": "Hided",
   "under_investigation": "Under Investigation",
   "all": "All",
   "share_event": "Share Event",
@@ -159,5 +160,11 @@
   "daily_reset": "Daily Reset",
   "discount_rate": "Discount Rate",
   "max_cut": "Max Cut",
-  "create_coupon": "Coupon"
+  "coupon": "Coupon",
+  "hide_event": "Hide Event",
+  "hide_event_guide": "Are you sure to hide this event now? This event won't be able to be searched in the homepage anymore.",
+  "settle": "Settle",
+  "sender_name": "Sender name",
+  "buy": "Buy",
+  "coupon_guide": "Fill with 0 to set no max cut"
 }

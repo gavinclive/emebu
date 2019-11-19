@@ -42,6 +42,9 @@ Route::resource('event-type', 'EventTypeController');
 Route::resource('event-category', 'EventCategoryController');
 Route::resource('event', 'EventController');
 Route::resource('coupon', 'CouponController');
+Route::post('hide-event', 'EventController@hideEvent');
+Route::resource('transaction', 'TransactionController');
+Route::resource('ticket', 'TicketController');
 
 Route::resource('quill', 'QuillController');
 Route::resource('users', 'UserController');

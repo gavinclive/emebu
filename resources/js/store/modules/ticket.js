@@ -5,23 +5,7 @@ import {
 } from '../mutation-types'
 
 export const state = {
-  // tickets: null,
-  tickets: [
-    {
-      name: '3-day Pass',
-      desc: '3 hari',
-      price: '5100000'
-    },
-    {
-      name: 'Nonton dari Tribun',
-      desc: 'hsh',
-      price: '44000'
-    },
-    {
-      name: 'Nonton di Rumah',
-      price: '0'
-    }
-  ],
+  tickets: null,
   ticketDetail: null
 }
 
@@ -50,7 +34,7 @@ export const actions = {
   },
   async fetchTicketById ({ commit }, id) {
     try {
-      const { data } = await axios.get(`/api/event/${id}`)
+      const { data } = await axios.get(`/api/ticket/${id}`)
       commit(FETCH_TICKET_BY_ID, { data })
     } catch (e) {
       console.log(e)

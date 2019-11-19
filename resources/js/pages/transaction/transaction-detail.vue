@@ -10,16 +10,16 @@
         <p>{{ $t('transaction_id') }}{{ transactionDetail.id }}</p>
       </div>
       <div class="col-12 p-0">
-        <p>{{ transactionDetail.title }} - {{ transactionDetail.name }}</p>
+        <p>{{ transactionDetail.event.title }} - {{ transactionDetail.ticket.name }}</p>
       </div>
       <v-divider />
       <div class="col-12 p-0 d-flex justify-content-between blockquote m-0">
         <span><p>{{ $t('total_payment') }}</p></span> 
-        <span><p class="font-weight-bold">Rp {{ total }}</p></span>
+        <span><p class="font-weight-bold">Rp {{ currencyForamt(total) }}</p></span>
       </div>
       <div class="col-12 p-0 d-flex justify-content-between">
         <span><p>{{ $t('ticket_price') }}</p></span> 
-        <span>{{ transactionDetail.qty }} &times; <span class="font-weight-bold">Rp {{ currencyFormat(transactionDetail.price) }}</span></span>
+        <span>{{ transactionDetail.qty }} &times; <span class="font-weight-bold">Rp {{ currencyFormat(transactionDetail.ticket.price) }}</span></span>
       </div>
       <v-divider />
       <p class="text-right" style="font-size: .7rem">{{ $t('ticket_guide') }}</p>
@@ -36,6 +36,7 @@ import { mapGetters } from 'vuex'
 import QrcodeVue from 'qrcode.vue'
 import axios from 'axios'
 import { currencyFormat } from '~/utils/currencyFormat'
+import store from '~/store'
 
 export default {
   components: {
@@ -46,18 +47,14 @@ export default {
     id: ''
   }),
 
-  async beforeRouteEnter (to, from, next) {
+  beforeRouteEnter (to, from, next) {
     const encId = to.params.id
     const id = decrypt(encId)
-    
-    try {
-      await axios.get(`api/transaction/${id}`)
-    } catch(e) {
-      console.log(e)
-    }
-    next(vm => {
+
+    store.dispatch('transaction/fetchTransactionById', id)
+    .then( () => next(vm => {
       vm.id = encId ? encId : ''
-    })
+    }))
   },
 
   computed: {
@@ -74,14 +71,14 @@ export default {
     },
 
     total () {
-      return currencyFormat(this.transactionDetail.price * this.transactionDetail.qty)
+      return currencyFormat(this.transactionDetail.ticket.price * this.transactionDetail.qty)
     }
   },
 
   methods: {
-    decrypt: decrypt,
+    decrypt,
 
-    currencyFormat: currencyFormat,
+    currencyFormat,
 
     handleEventUrl () {
       this.$router.push({ name: 'event.detail', params: { id: this.id } })

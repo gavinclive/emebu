@@ -16,22 +16,23 @@
           <option value="2">{{ $t('cancelled') }}</option>
         </select>
         <div class="input-group-append">
-          <span class="input-group-text"><img src="/dist/assets/activity.svg"></span>
+          <span class="input-group-text"><img src="/dist/assets/grid.svg"></span>
         </div>
       </div>
-      <div v-if="user.role === 1" class="input-group col-md-6 pb-2 px-0 px-md-1">
+      {{ user.role === '1' }}
+      <div v-if="user.role === '1'" class="input-group col-md-6 pb-2 px-0 px-md-1">
         <input v-model="searchLocation" class="form-control">
         <div class="input-group-append">
           <span class="input-group-text"><img src="/dist/assets/map-pin.svg"></span>
         </div>
       </div>
-      <div v-if="user.role === 1" class="input-group col-6 pb-2 pr-1 pl-0" @click="showTypeModal">
+      <div v-if="user.role === '1'" class="input-group col-6 pb-2 pr-1 pl-0" @click="showTypeModal">
         <input v-model="activeType" class="form-control">
         <div class="input-group-append">
           <span class="input-group-text">{{ $t('type') }}</span>
         </div>
       </div>
-      <div v-if="user.role === 1" class="input-group col-6 pb-2 pl-1 pr-0" @click="showCategoryModal">
+      <div v-if="user.role === '1'" class="input-group col-6 pb-2 pl-1 pr-0" @click="showCategoryModal">
         <input v-model="activeCategory" class="form-control">
         <div class="input-group-append">
           <span class="input-group-text">{{ $t('category') }}</span>
@@ -44,12 +45,15 @@
         :title="event.title"
         :image="event.image"
         :date="event.start_time"
+        :end="event.end_time"
         :sold="event.sold"
         :total="event.total"
         :status="event.status"
+        :deleted="event.deleted_at !== null"
         @showShareModal="shareEvent"
         @showCancelModal="cancelEvent"
         @showCouponModal="inputCoupon(index)"
+        @showHideModal="hideEvent"
         />
     </div>
     <div class="modal fade" id="eventType" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
@@ -136,12 +140,31 @@
       </div>
     </div>
 
+    <div class="modal fade" id="hideEvent" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">{{ $t('hide_event') }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body d-flex justify-content-center flex-wrap text-justify">
+            {{ $t('hide_event_guide') }}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" @click="handleHideEvent" data-dismiss="modal">{{ $t('confirm') }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <form @submit.prevent="coupon" @keydown="form.onKeydown($event)">
       <div class="modal fade" id="inputCoupon" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Coupon</h5>
+              <h5 class="modal-title">{{ $t('coupon') }}</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -185,7 +208,7 @@
                     </div>
                     <input type="number" class="form-control" step="1000" v-model="form.max_cut" :disabled="form.id != 0" required>
                   </div>
-                  <small>Fill with 0 to set no max cut</small>
+                  <small>{{ $t('coupon_guide') }}</small>
                 </div>
               </div>
             </div>
@@ -209,9 +232,14 @@ import store from '~/store'
 import { baseEventUrl } from '~/utils/url'
 import { encrypt, decrypt } from '~/utils/simpleCrypto'
 import Form from 'vform'
+import axios from 'axios'
 
 export default {
   middleware: 'auth',
+
+  metaInfo () {
+    return { title: this.$t('events') }
+  },
 
   data: () => ({
     searchTitle:'',
@@ -235,15 +263,21 @@ export default {
   }),
 
   beforeRouteEnter (to, from, next) {
-    store.dispatch('event/fetchEventsByParams', {
-      id: store.getters['auth/user'].id,
-      role: store.getters['auth/user'].role,
-      title: '',
-      type: '',
-      category: '',
-      status: ''
-    })
-    .then( () => next( vm => vm.setSoldCount()))
+    if (store.getters['auth/user'].role == '1') {
+      console.log('ayam')
+      store.dispatch('event/fetchEvents')
+      .then( () => next( vm => vm.setSoldCount()))
+    } else {
+      store.dispatch('event/fetchEventsByParams', {
+        id: store.getters['auth/user'].id,
+        role: store.getters['auth/user'].role,
+        title: '',
+        type: '',
+        category: '',
+        status: ''
+      })
+      .then( () => next( vm => vm.setSoldCount()))
+    }
   },
 
   mounted () {
@@ -308,9 +342,7 @@ export default {
 
     inputCoupon (id) {
       $('#inputCoupon').modal('show')
-      
-      // const index = this.events.findIndex(e => e.id = decrypt(id))
-      // console.log(decrypt(id), index)
+
       if(this.events[id].coupon) {
         this.form.keys().forEach( key => this.form[key] = this.events[id].coupon[key])
         this.form.start_time = new Date(this.form.start_time).toISOString()
@@ -324,6 +356,11 @@ export default {
     },
 
     encrypt,
+
+    hideEvent (id) {
+      $('#hideEvent').modal('show')
+      this.id = id
+    },
 
     showTypeModal () {
       $('#eventType').modal('show')
@@ -347,7 +384,15 @@ export default {
     },
 
     handleCancelEvent () {
-      console.log(`cancel event id ${decrypt(this.id)}  ${decrypt('42')}`)
+      store.dispatch('event/removeEvent', decrypt(this.id))
+      .then( () => this.events.splice(this.events.findIndex(e => e.id = decrypt(this.id)), 1))
+    },
+
+    handleHideEvent () {
+      axios.post('/api/hide-event', {
+        id: decrypt(this.id)
+      })
+      .then( () => router.go(0))
     },
 
     setSoldCount () {

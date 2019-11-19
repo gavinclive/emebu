@@ -15,7 +15,9 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
             CategoriesTableSeeder::class,
             TypesTableSeeder::class,
-            EventsTableSeeder::class
+            EventsTableSeeder::class,
+            TicketsTableSeeder::class,
+            TransactionsTableSeeder::class
         ]);
     }
 }

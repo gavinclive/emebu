@@ -16,13 +16,13 @@
       <v-img src="/dist/assets/file-text.svg" class="white-svg navbar-icon" />
     </v-btn>
 
-    <v-btn v-if="user.role == 1">
+    <v-btn v-if="user.role == 1" @click="toEventsPage">
       <span>{{ $t('browse') }}</span>
       <v-img src="/dist/assets/compass.svg" class="white-svg main-navbar-icon" />
     </v-btn>
 
     <!-- Organizer Account -->
-    <v-btn v-if="user.role > 2" @click="toManagePage">
+    <v-btn v-if="user.role > 2" @click="toEventsPage">
       <span>{{ $t('manage') }}</span>
       <v-img src="/dist/assets/tool.svg" class="white-svg navbar-icon" />
     </v-btn>
@@ -107,7 +107,7 @@ export default {
       this.$router.push({ name: 'm.event.input' })
     },
 
-    toManagePage () {
+    toEventsPage () {
       this.$router.push({ name: 'event.view'})
     },
 

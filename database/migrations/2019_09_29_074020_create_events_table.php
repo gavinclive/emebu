@@ -27,8 +27,9 @@ class CreateEventsTable extends Migration
             $table->text('description');
             $table->string('image');
             $table->string('image_3d')->nullable();
-            $table->string('status', 1)->default('1'); //1 for OK, 2 for cancelled, 3 for under investigation
+            $table->string('status', 1)->default('1'); //1 for OK, 2 for hide, 3 for under investigation
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

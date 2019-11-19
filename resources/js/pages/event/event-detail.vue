@@ -137,13 +137,13 @@
                 <v-card-title>{{ ticket.name }}</v-card-title>
                 <v-card-text>
                   <p class="text-left">{{ ticket.desc }}</p>
-                  <h5><p class="text-right my-0">{{ ticket.price == 0 ? 'FREE' : 'Rp ' + ticket.price }}</p></h5>
+                  <h5><p class="text-right my-0">{{ ticket.price == 0 ? 'FREE' : 'Rp ' + currencyFormat(ticket.price) }}</p></h5>
                 </v-card-text>
               </v-card>
             </div>
           </div>
           <div class="modal-footer">
-            <button type=button class="btn btn-primary">Buy</button>
+            <button type=button class="btn btn-primary" data-dismiss="modal" @click="buyTicket">{{ $t('buy') }}</button>
           </div>
         </div>
       </div>
@@ -154,6 +154,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import store from '~/store'
+import router from '~/router'
 import axios from 'axios'
 import $ from 'jquery'
 import { dateFormat } from '~/utils/dateFormat'
@@ -296,10 +297,16 @@ export default {
 
     selectTicket (index) {
       this.activeTicket = index
-      console.log(this.activeTicket)
     },
 
-    eventImageUrl
+    buyTicket () {
+      const id = encrypt(this.eventDetail[this.activeTicket].id.toString())
+      router.push({ name: 'checkout', params: { id: id } })
+    },
+
+    eventImageUrl,
+
+    currencyFormat
   },
 }
 </script>

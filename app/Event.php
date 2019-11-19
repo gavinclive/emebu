@@ -4,13 +4,14 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Event extends Model
 {
-    protected $guarded =[];
-    
+    use SoftDeletes;
+
     protected $table = 'events';
+    protected $guarded = [];
 
     public function ticket()
     {
@@ -75,10 +76,12 @@ class Event extends Model
             }
             if ((int) $params->role == 1) {
                 array_push($queryParams, ['end_time', '>=', Carbon::now()->subDays(180)], ['publish_time', '>=', Carbon::now()]);
+                $query = $this;
             } else {
                 array_push($queryParams, ['eo_id', '=', (int) $params->id]);
+                $query = $this->withTrashed();
             }
-            return $this->with(['ticket' => function($query) {
+            return $query->with(['ticket' => function($query) {
                             $query->select('*');
                         }])
                         ->with(['coupon' => function($query){
@@ -96,7 +99,8 @@ class Event extends Model
     // Will be used in other functions
     public function getEventById($id)
     {
-        return $this->with(['eo' =>function($query) {
+        return $this->withTrashed()
+                    ->with(['eo' =>function($query) {
                         $query->select('id', 'username', 'image');
                     }])
                     ->with(['ticket' => function($query) {
@@ -106,7 +110,7 @@ class Event extends Model
                                 ])
                                 ->select('*');
                     }])
-                    ->where('id', '=', $id)
+                    ->where('id', $id)
                     ->get();
     }
     #endregion
@@ -121,5 +125,16 @@ class Event extends Model
         return false;
     }
     #endregion
+
+    public function deleteEventById($id)
+    {
+        if($id)
+        {
+            return $this->where('id', $id)
+                        ->delete();
+        }
+
+        return false;
+    }
 
 }

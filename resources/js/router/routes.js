@@ -19,6 +19,7 @@ export default [
   { path: '/event/:id', name: 'event.detail', component: page('event/event-detail.vue') },
   { path: '/transaction', name: 'transaction.view', component: page('transaction/transaction-list.vue') },
   { path: '/transaction/:id', name: 'transaction.detail', component: page('transaction/transaction-detail.vue') },
+  { path: '/checkout/:id', name: 'checkout', component: page('checkout.vue') },
 
   { path: '/settings',
     component: page('settings/index.vue'),

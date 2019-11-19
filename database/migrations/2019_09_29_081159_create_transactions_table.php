@@ -18,6 +18,7 @@ class CreateTransactionsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('qty');
             $table->timestamp('created_at');
+            $table->timestamp('settled_at');
         });
     }
 

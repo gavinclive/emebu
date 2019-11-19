@@ -34,4 +34,13 @@ class Ticket extends Model
         return $this->where('id', '=', $id)
                     ->update($value);
     }
+
+    public function getTicketById($id)
+    {
+        return $this->with(['event' => function($query){
+                        $query->select('*');
+                    }])
+                    ->where('id', $id)
+                    ->first();
+    }
 }

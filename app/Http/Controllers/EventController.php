@@ -87,12 +87,7 @@ class EventController extends Controller
 
     public function edit($id)
     {
-        $result = $this->event->getEventById($id);
-            if($result == 'QUERY_NOT_FOUND' || !$result)
-            {
-                return response()->json(['success' => false], 500);
-            }
-            return response()->json(['success' => true, 'result' => $this->event->getEventById($id)], 200);
+        return response()->json(['success' => true, 'result' => $this->event->getEventById($id)], 200);
     }
 
     public function update(Request $request)
@@ -139,5 +134,23 @@ class EventController extends Controller
         }
 
         return response()->json(['success' => true], 200);
+    }
+
+    public function destroy($id)
+    {
+        $deleteEvent = $this->event->deleteEventById($id);
+
+        if (!$deleteEvent) {
+            return response()->json(['success' => false, 'errMessage' => 'Delete failed'], 500);
+        } 
+        
+        return response()->json(['success' => true], 200);
+    }
+
+    public function hideEvent(Request $request)
+    {
+        $this->event->updateEventById([
+            'status' => '2'
+        ], $request->input('id'));
     }
 }
