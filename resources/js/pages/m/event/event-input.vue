@@ -425,6 +425,7 @@ export default {
   }),
 
   beforeRouteEnter (to, from, next) {
+    console.log(to)
     store.dispatch('category/fetchCategories')
     .then( () => store.dispatch('type/fetchTypes'))
     .then( () => {

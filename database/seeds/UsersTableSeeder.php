@@ -21,9 +21,9 @@ class UsersTableSeeder extends Seeder
             'role' => '2',
             'name' => 'Admin',
             'status' => 'active',
-            'last_login' => Carbon::now()->timezone('Asia/Jakarta'),
-            'created_at' => Carbon::now()->timezone('Asia/Jakarta'),
-            'updated_at' => Carbon::now()->timezone('Asia/Jakarta'),
+            'last_login' => Carbon::now(),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ]);
 
         DB::table('users')->insert([
@@ -47,9 +47,9 @@ class UsersTableSeeder extends Seeder
             'role' => '1',
             'name' => 'Ucok H',
             'status' => 'active',
-            'last_login' => Carbon::now()->timezone('Asia/Jakarta'),
-            'created_at' => Carbon::now()->timezone('Asia/Jakarta'),
-            'updated_at' => Carbon::now()->timezone('Asia/Jakarta'),
+            'last_login' => Carbon::now(),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ]);
 
         foreach(range(0, 20) as $i) {
@@ -62,9 +62,9 @@ class UsersTableSeeder extends Seeder
                 'status' =>  'active',
                 'bank' => $i % 2 == 0 ? NULL : $faker->company,
                 'acc_number' => $i % 2 == 0 ? NULL : $faker->bankAccountNumber,
-                'last_login' => Carbon::now()->timezone('Asia/Jakarta'),
-                'created_at' => Carbon::now()->timezone('Asia/Jakarta'),
-                'updated_at' => Carbon::now()->timezone('Asia/Jakarta'),
+                'last_login' => Carbon::now(),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
                 'image' => $faker->imageUrl(125, 125)
             ]);
         }

@@ -15,12 +15,12 @@ class TicketController extends Controller
         $this->ticket = new Ticket();
     }
 
-    public function show()
+    public function show($id)
     {
-        if(!$this->ticket->getTicketByEventId($event_id))
+        if(!$this->ticket->getTicketById($id))
         {
             return response()->json(['success' => false, 500]);
         }
-        return response()->json(['success' => true, 'result' => $this->event->getTicketByEventId()], 200);
+        return response()->json(['success' => true, 'result' => $this->ticket->getTicketById($id)], 200);
     }
 }

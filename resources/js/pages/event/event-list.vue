@@ -16,22 +16,22 @@
           <option value="2">{{ $t('cancelled') }}</option>
         </select>
         <div class="input-group-append">
-          <span class="input-group-text"><img src="/dist/assets/activity.svg"></span>
+          <span class="input-group-text"><img src="/dist/assets/grid.svg"></span>
         </div>
       </div>
-      <div v-if="user.role === 1" class="input-group col-md-6 pb-2 px-0 px-md-1">
+      <div v-if="user.role === '1'" class="input-group col-md-6 pb-2 px-0 px-md-1">
         <input v-model="searchLocation" class="form-control">
         <div class="input-group-append">
           <span class="input-group-text"><img src="/dist/assets/map-pin.svg"></span>
         </div>
       </div>
-      <div v-if="user.role === 1" class="input-group col-6 pb-2 pr-1 pl-0" @click="showTypeModal">
+      <div v-if="user.role === '1'" class="input-group col-6 pb-2 pr-1 pl-0" @click="showTypeModal">
         <input v-model="activeType" class="form-control">
         <div class="input-group-append">
           <span class="input-group-text">{{ $t('type') }}</span>
         </div>
       </div>
-      <div v-if="user.role === 1" class="input-group col-6 pb-2 pl-1 pr-0" @click="showCategoryModal">
+      <div v-if="user.role === '1'" class="input-group col-6 pb-2 pl-1 pr-0" @click="showCategoryModal">
         <input v-model="activeCategory" class="form-control">
         <div class="input-group-append">
           <span class="input-group-text">{{ $t('category') }}</span>
@@ -44,12 +44,15 @@
         :title="event.title"
         :image="event.image"
         :date="event.start_time"
+        :end="event.end_time"
         :sold="event.sold"
         :total="event.total"
         :status="event.status"
+        :deleted="event.deleted_at !== null"
         @showShareModal="shareEvent"
         @showCancelModal="cancelEvent"
-        @showCouponModal="inputCoupon"
+        @showCouponModal="inputCoupon(index)"
+        @showHideModal="hideEvent"
         />
     </div>
     <div class="modal fade" id="eventType" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
@@ -136,12 +139,31 @@
       </div>
     </div>
 
+    <div class="modal fade" id="hideEvent" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">{{ $t('hide_event') }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body d-flex justify-content-center flex-wrap text-justify">
+            {{ $t('hide_event_guide') }}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" @click="handleHideEvent" data-dismiss="modal">{{ $t('confirm') }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <form @submit.prevent="coupon" @keydown="form.onKeydown($event)">
       <div class="modal fade" id="inputCoupon" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Coupon</h5>
+              <h5 class="modal-title">{{ $t('coupon') }}</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -149,29 +171,29 @@
             <div class="modal-body d-flex justify-content-center flex-wrap text-justify">
               <div class="col-12 form-group py-1 px-0 my-0">
                 <label>{{ $t('coupon_code') }}</label>
-                <input class="form-control col-12 mx-auto" type="text" maxlength="10" oninput="this.value = this.value.toUpperCase()" required>
+                <input class="form-control col-12 mx-auto" type="text" maxlength="10" oninput="this.value = this.value.toUpperCase()" v-model="form.code" :disabled="form.id != 0" required>
               </div>
               <div class="col-12 form-group py-1 px-0 my-0">
                 <label>{{ $t('quantity') }}</label>
-                <input class="form-control col-12 mx-auto" type="number" required min="1">
+                <input class="form-control col-12 mx-auto" type="number" required min="1" v-model="form.qty">
               </div>
               <div class="col-12 form-group px-0 py-1 my-0">
                 <label>{{ $t('starts') }}</label>
-                <datetime type="datetime" :week-start="1" :minute-step="30" class="form-control theme-blue mx-auto" required></datetime>
+                <datetime type="datetime" :week-start="1" :minute-step="30" class="form-control theme-blue mx-auto" v-model="form.start_time" required></datetime>
               </div>
               <div class="col-12 form-group px-0 py-1 my-0">
                 <label>{{ $t('ends') }}</label>
-                <datetime type="datetime" :week-start="1" :minute-step="30" class="form-control theme-blue mx-auto" required></datetime>
+                <datetime type="datetime" :week-start="1" :minute-step="30" class="form-control theme-blue mx-auto" v-model="form.end_time" required></datetime>
               </div>
               <div class="col-12 form-group py-1 px-0 my-0">
-                <input type="checkbox">
+                <input type="checkbox" v-model="form.daily_reset">
                 <label>{{ $t('daily_reset') }}</label>
               </div>
               <div class="col-12 row py-1 px-0 my-0">
                 <div class="col-6 form-group pr-1 pl-0 py-0 my-0">
                   <label>{{ $t('discount_rate') }}</label>
                   <div class="input-group">
-                    <input type="number" class="form-control" min="1" max="100" required>
+                    <input type="number" class="form-control" min="1" max="100" v-model="form.rate" :disabled="form.id != 0" required>
                     <div class="input-group-append">
                       <span class="input-group-text">%</span>
                     </div>
@@ -183,14 +205,15 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text">Rp</span>
                     </div>
-                    <input type="number" class="form-control" step="1000" required>
+                    <input type="number" class="form-control" step="1000" v-model="form.max_cut" :disabled="form.id != 0" required>
                   </div>
+                  <small>{{ $t('coupon_guide') }}</small>
                 </div>
               </div>
             </div>
             <div class="modal-footer">
-              <v-button :loading="form.busy" type="success">
-                {{ $t('create') }}
+              <v-button :loading="form.busy" :type="form.id ? 'primary' : 'success'">
+                {{ form.id ? $t('save') : $t('create') }}
               </v-button>
             </div>
           </div>
@@ -208,9 +231,14 @@ import store from '~/store'
 import { baseEventUrl } from '~/utils/url'
 import { encrypt, decrypt } from '~/utils/simpleCrypto'
 import Form from 'vform'
+import axios from 'axios'
 
 export default {
   middleware: 'auth',
+
+  metaInfo () {
+    return { title: this.$t('events') }
+  },
 
   data: () => ({
     searchTitle:'',
@@ -221,20 +249,34 @@ export default {
     type: '',
     category: '',
     form: new Form({
-
+      id: 0,
+      code: '',
+      qty: '',
+      daily_reset: '',
+      start_time: '',
+      end_time: '',
+      rate: '',
+      max_cut: '',
+      event_id: ''
     }),
   }),
 
   beforeRouteEnter (to, from, next) {
-    store.dispatch('event/fetchEventsByParams', {
-      id: store.getters['auth/user'].id,
-      role: store.getters['auth/user'].role,
-      title: '',
-      type: '',
-      category: '',
-      status: ''
-    })
-    .then( () => next( vm => vm.setSoldCount()))
+    if (store.getters['auth/user'].role == '1') {
+      console.log('ayam')
+      store.dispatch('event/fetchEvents')
+      .then( () => next( vm => vm.setSoldCount()))
+    } else {
+      store.dispatch('event/fetchEventsByParams', {
+        id: store.getters['auth/user'].id,
+        role: store.getters['auth/user'].role,
+        title: '',
+        type: '',
+        category: '',
+        status: ''
+      })
+      .then( () => next( vm => vm.setSoldCount()))
+    }
   },
 
   mounted () {
@@ -299,9 +341,25 @@ export default {
 
     inputCoupon (id) {
       $('#inputCoupon').modal('show')
+
+      if(this.events[id].coupon) {
+        this.form.keys().forEach( key => this.form[key] = this.events[id].coupon[key])
+        this.form.start_time = new Date(this.form.start_time).toISOString()
+        this.form.end_time = new Date(this.form.end_time).toISOString()
+      } else {
+        this.form.keys().forEach( key => {
+          if(key != 'id' || key != 'event_id') this.form[key] = ''
+        })
+        this.form.event_id = this.events[id].id
+      }
     },
 
-    encrypt: encrypt,
+    encrypt,
+
+    hideEvent (id) {
+      $('#hideEvent').modal('show')
+      this.id = id
+    },
 
     showTypeModal () {
       $('#eventType').modal('show')
@@ -325,7 +383,15 @@ export default {
     },
 
     handleCancelEvent () {
-      console.log(`cancel event id ${decrypt(this.id)}  ${decrypt('42')}`)
+      store.dispatch('event/removeEvent', decrypt(this.id))
+      .then( () => this.events.splice(this.events.findIndex(e => e.id = decrypt(this.id)), 1))
+    },
+
+    handleHideEvent () {
+      axios.post('/api/hide-event', {
+        id: decrypt(this.id)
+      })
+      .then( () => router.go(0))
     },
 
     setSoldCount () {
@@ -336,13 +402,25 @@ export default {
           total += t.qty
           sold += t.sold
         })
-        evt.total = total
-        evt.sold = sold
+        evt.total = total.toString()
+        evt.sold = sold.toString()
       })
     },
 
     coupon() {
-      console.log('hehe')
+      if(this.form.id) {
+        this.form.patch(`/api/coupon/${this.form.id}`)
+        .then(() => {
+          $('#inputCoupon').modal('hide')
+          this.form.reset()
+        })
+      } else {
+        this.form.post('/api/coupon')
+        .then(() => {
+          $('#inputCoupon').modal('hide')
+          this.form.reset()
+        })
+      }
     }
   }
 }

@@ -88,6 +88,7 @@
   "past": "Telah Berlalu",
   "published": "Diterbitkan",
   "cancelled": "Dibatalkan",
+  "hided": "Disembunyikan",
   "under_investigation": "Dalam Investigasi",
   "all": "Semua",
   "share_event": "Bagikan Event",
@@ -147,5 +148,13 @@
   "cancel_event_guide": "Apakah anda yakin untuk membatalkan event ini? Proses ini tidak dapat dibalik dan hasil penjualan tiket perlu dikembalikan!",
   "cancel_event": "Batalkan Event",
   "users": "Pengguna",
-  "events": "Event"
+  "events": "Event",
+  "coupon": "Kupon",
+  "hide_event": "Sembunyikan Event",
+  "hide_event_guide": "Apakah anda yakin untuk menyembunyikan event ini? Event ini tidak akan dapat ditemukan di halaman utama lagi.",
+  "settle": "Lunas",
+  "sender_name": "Nama pengirim",
+  "buy": "Beli",
+  "coupon_guide": "Isi dengan 0 untuk meniadakan potongan maks",
+  "checkout": "Bayar sekarang"
 }

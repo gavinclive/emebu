@@ -47,5 +47,9 @@ export const actions = {
     } catch (e) {
       console.log(e)
     }
+  },
+
+  async removeEvent ({ dispatch }, id) {
+    axios.delete(`/api/event/${id}`)
   }
 }
