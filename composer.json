@@ -15,7 +15,7 @@
         "nesbot/carbon": "^2.24",
         "tymon/jwt-auth": "^1.0.0-rc.4.1",
         "webpatser/laravel-uuid": "^3.0",
-        "fzaninotto/faker": "^1.4",
+        "fzaninotto/faker": "^1.4"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
