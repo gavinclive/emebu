@@ -19,7 +19,6 @@
           <span class="input-group-text"><img src="/dist/assets/grid.svg"></span>
         </div>
       </div>
-      {{ user.role === '1' }}
       <div v-if="user.role === '1'" class="input-group col-md-6 pb-2 px-0 px-md-1">
         <input v-model="searchLocation" class="form-control">
         <div class="input-group-append">
