@@ -15,10 +15,10 @@ class CreateTransactionsTable extends Migration
     public function up()
     {
         Schema::create('transactions', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->text('id')->nullable();
             $table->integer('qty');
             $table->timestamp('created_at');
-            $table->timestamp('settled_at');
+            $table->timestamp('settled_at')->nullable();
         });
     }
 

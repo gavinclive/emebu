@@ -18,7 +18,7 @@ class Transaction extends Model
 
     public function event()
     {
-        return $this->hasOneThrough('App\Event', 'App\Ticket', 'event_id', 'id', 'id', 'id');
+        return $this->hasOneThrough('App\Event', 'App\Ticket', 'event_id', 'id', 'ticket_id', 'id');
     }
 
     public function getAllTransaction()

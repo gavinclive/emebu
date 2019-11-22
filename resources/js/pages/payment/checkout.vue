@@ -22,30 +22,29 @@
       <span>{{ qty }} &times; <span class="font-weight-bold">Rp {{ currencyFormat(ticketDetail.price) }}</span></span>
     </div>
     <div class="col-12 fixed-bottom bg-light d-md-none" style="box-shadow: 0px -1px 6px 2px rgba(158,158,158,1);">
-      <button :disabled="!canCheckout" type="button" class="btn col-12 btn-primary" data-toggle="modal" :data-target="authenticated ? '#getTicket' : ''">{{ $t('get_ticket') }}</button>
+      <button :disabled="!canCheckout" type="button" class="btn col-12 btn-primary" @click="createTransaction">{{ $t('checkout') }}</button>
     </div>
   </div>
 </template>
 
 <script>
-import { decrypt } from '~/utils/simpleCrypto'
+import { decrypt, encrypt } from '~/utils/simpleCrypto'
 import store from '~/store'
+import axios from 'axios'
 import { mapGetters } from 'vuex'
 import { currencyFormat } from '~/utils/currencyFormat'
 import { eventImageUrl } from '~/utils/image'
+import router from '~/router'
 
 export default {
   data: () => ({
-    qty: 1
+    qty: 1,
+    ticketId: ''
   }),
   
   beforeRouteEnter (to, from, next) {
     store.dispatch('ticket/fetchTicketById', decrypt(to.params.id))
-    .then(() => next())
-  },
-
-  mounted () {
-    console.log(this.ticketDetail)
+    .then(() => next(vm => vm.ticketId = to.params.id))
   },
 
   computed: {
@@ -65,7 +64,17 @@ export default {
   methods: {
     currencyFormat,
 
-    eventImageUrl
+    eventImageUrl,
+
+    createTransaction () {
+      axios.post('/api/transaction', {
+        ticketId: decrypt(this.ticketId),
+        qty: this.qty
+      })
+      .then( res => {
+        router.push({ name: 'post.checkout', params: { id: encrypt(res.data.result) } })
+      })
+    }
   },
 }
 </script>
