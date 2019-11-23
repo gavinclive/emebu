@@ -20,6 +20,7 @@ class TransactionsTableSeeder extends Seeder
             'settled_at' => Carbon::now(),
             'member_id' => 3,
             'ticket_id' => 1,
+            'coupon_id' => 1,
         ]);
     }
 }

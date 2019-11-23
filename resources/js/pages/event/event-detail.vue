@@ -16,7 +16,7 @@
         </div>
         <div class="col-md-6 d-none d-md-flex flex-row-reverse">
           <div class="col-6 p-0 mx-2">
-            <button type="button" class="btn col-12 btn-primary">{{ $t('get_ticket') }}</button>
+            <button type="button" class="btn col-12 btn-primary" data-toggle="modal" :data-target="authenticated ? '#getTicket' : ''">{{ $t('get_ticket') }}</button>
             <p class="mb-0 text-right" v-if="startFrom >= 0">{{ $t('starts_from') }} Rp {{ startFrom }}</p>
           </div>
         </div>

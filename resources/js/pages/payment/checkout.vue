@@ -1,5 +1,5 @@
 <template>
-  <div class="col- p-0">
+  <div class="col-12 col-md-6 m-auto p-0">
     <v-img class="event-image col-12" :src="eventImageUrl(ticketDetail.event.image)" style="margin-top: -.2rem;"/>
     <div class="col-12">
       <p class="mb-2">{{ ticketDetail.event.title }} - {{ ticketDetail.name }}</p>
@@ -8,18 +8,31 @@
     <v-divider />
     <div class="form-group row d-flex justify-content-center mb-0">
       <div class="col-12 d-flex align-items-center justify-content-center py-1">
-        <label class="m-0 mr-2">{{ $t('quantity') }}</label>
+        <label class="m-0 col-2 pl-0">{{ $t('quantity') }}</label>
         <input class="form-control col-9" v-model="qty" type="number" name="qty" min="1" step="1">
       </div>
     </div>
+    <div v-if="!couponApplied" class="form-group row d-flex justify-content-center mb-0">
+      <div class="col-12 d-flex align-items-center justify-content-center py-1">
+        <label class="m-0 col-2 pl-0">{{ $t('coupon') }}</label>
+        <input class="form-control col-9" v-model="coupon" type="text" name="coupon" oninput="this.value = this.value.toUpperCase()">
+      </div>
+    </div>
+    <div class="col-12" v-if="!couponApplied">
+      <button :disabled="badCode" type="button" class="btn col-12 btn-success" @click="useCoupon">{{ $t('use_coupon') }}</button>
+    </div>
     <v-divider />
+    <div class="col-12 d-flex justify-content-between">
+      <span><p class="mb-0">{{ $t('ticket_price') }}</p></span> 
+      <span>{{ qty }} &times; <span class="font-weight-bold">Rp {{ currencyFormat(ticketDetail.price) }}</span></span>
+    </div>
+    <div v-if="couponApplied" class="col-12 d-flex justify-content-between">
+      <span><p >{{ coupon }}</p></span> 
+      <span><p class="font-weight-bold mb-0">- Rp {{ currencyFormat(countCut) }}</p></span>
+    </div>
     <div class="col-12 d-flex justify-content-between blockquote m-0">
       <span><p class="mb-0">{{ $t('total_payment') }}</p></span> 
       <span><p class="font-weight-bold mb-0">Rp {{ currencyFormat(total) }}</p></span>
-    </div>
-    <div class="col-12 d-flex justify-content-between">
-      <span><p>{{ $t('ticket_price') }}</p></span> 
-      <span>{{ qty }} &times; <span class="font-weight-bold">Rp {{ currencyFormat(ticketDetail.price) }}</span></span>
     </div>
     <div class="col-12 fixed-bottom bg-light d-md-none" style="box-shadow: 0px -1px 6px 2px rgba(158,158,158,1);">
       <button :disabled="!canCheckout" type="button" class="btn col-12 btn-primary" @click="createTransaction">{{ $t('checkout') }}</button>
@@ -39,7 +52,10 @@ import router from '~/router'
 export default {
   data: () => ({
     qty: 1,
-    ticketId: ''
+    coupon: '',
+    ticketId: '',
+    couponId: '',
+    couponApplied: false
   }),
   
   beforeRouteEnter (to, from, next) {
@@ -52,13 +68,30 @@ export default {
       ticketDetail: 'ticket/ticketDetail'
     }),
 
+    badCode () {
+      const code = this.coupon
+      return code !== this.ticketDetail.coupon.code
+    },
+
     total () {
-      return this.qty * this.ticketDetail.price
+      const cut = this.countCut
+      return (this.qty * this.ticketDetail.price) - cut
     },
 
     canCheckout () {
       return !isNaN(parseFloat(this.qty)) && isFinite(this.qty)
-    }
+    },
+
+    countCut () {
+      if (!this.couponApplied) return 0
+
+      const maxCut = parseInt(this.ticketDetail.coupon.max_cut)
+      const totalCut = this.qty * this.ticketDetail.price * (this.ticketDetail.coupon.rate / 100)
+
+      if (maxCut === 0) return totalCut
+
+      return totalCut > maxCut ? maxCut : totalCut 
+    },
   },
 
   methods: {
@@ -66,14 +99,18 @@ export default {
 
     eventImageUrl,
 
+    useCoupon () {
+      this.couponApplied = true
+      this.couponId = this.ticketDetail.coupon.id
+    },
+
     createTransaction () {
       axios.post('/api/transaction', {
         ticketId: decrypt(this.ticketId),
-        qty: this.qty
+        qty: this.qty,
+        coupon_id: this.couponId ? this.couponId : ''
       })
-      .then( res => {
-        router.push({ name: 'post.checkout', params: { id: encrypt(res.data.result) } })
-      })
+      .then( res => router.push({ name: 'transaction.detail', params: { id: encrypt(res.data.result) } }))
     }
   },
 }

@@ -19,12 +19,6 @@
           <span class="input-group-text"><img src="/dist/assets/grid.svg"></span>
         </div>
       </div>
-      <div v-if="user.role === '1'" class="input-group col-md-6 pb-2 px-0 px-md-1">
-        <input v-model="searchLocation" class="form-control">
-        <div class="input-group-append">
-          <span class="input-group-text"><img src="/dist/assets/map-pin.svg"></span>
-        </div>
-      </div>
       <div v-if="user.role === '1'" class="input-group col-6 pb-2 pr-1 pl-0" @click="showTypeModal">
         <input v-model="activeType" class="form-control">
         <div class="input-group-append">

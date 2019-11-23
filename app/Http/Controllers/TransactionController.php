@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Coupon;
+use App\Ticket;
 use App\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -11,10 +13,14 @@ use Webpatser\Uuid\Uuid;
 class TransactionController extends Controller
 {
     private $transaction;
+    private $ticket;
+    private $coupon;
 
     public function __construct()
     {
         $this->transaction = new Transaction();
+        $this->ticket = new Ticket();
+        $this->coupon = new Coupon();
     }
 
     public function index()
@@ -29,12 +35,18 @@ class TransactionController extends Controller
 
     public function store(Request $request)
     {
+        $this->coupon->useCoupon([
+            'qty' => $request->input('qty'),
+            'id' => $request->input('coupon_id')
+        ]);
+        
         $arrTransaction = [
             'id' => Uuid::generate(),
             'ticket_id' => $request->input('ticketId'),
             'qty' => $request->input('qty'),
             'created_at' => Carbon::now(),
-            'member_id' => Auth::id()
+            'member_id' => Auth::id(),
+            'coupon_id' => $request->input('coupon_id')
         ];
         
         $id = $this->transaction->storeTransaction($arrTransaction);

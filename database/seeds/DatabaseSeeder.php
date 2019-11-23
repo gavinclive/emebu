@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             CategoriesTableSeeder::class,
             TypesTableSeeder::class,
             EventsTableSeeder::class,
+            CouponsTableSeeder::class,
             TicketsTableSeeder::class,
             TransactionsTableSeeder::class
         ]);

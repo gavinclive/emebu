@@ -156,5 +156,7 @@
   "sender_name": "Nama pengirim",
   "buy": "Beli",
   "coupon_guide": "Isi dengan 0 untuk meniadakan potongan maks",
-  "checkout": "Bayar sekarang"
+  "checkout": "Bayar sekarang",
+  "no_coupon_text": "Kode kupon yang dimasukkan telah habis digunakan atau tidak tersedia",
+  "transaction": "Transaction"
 }

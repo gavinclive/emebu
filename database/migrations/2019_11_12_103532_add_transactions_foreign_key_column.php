@@ -18,6 +18,8 @@ class AddTransactionsForeignKeyColumn extends Migration
             $table->foreign('member_id')->references('id')->on('users');
             $table->bigInteger('ticket_id');
             $table->foreign('ticket_id')->references('id')->on('tickets');
+            $table->bigInteger('coupon_id')->nullable();
+            $table->foreign('coupon_id')->references('id')->on('coupons');
         });
     }
 
@@ -29,8 +31,9 @@ class AddTransactionsForeignKeyColumn extends Migration
     public function down()
     {
         Schema::table('transactions', function (Blueprint $table) {
-            $table->dropForeign(['member_id', 'ticket_id']);
-            $table->dropColumn(['member_id', 'ticket_id']);
+            $table->dropForeign(['member_id', 'ticket_id', 'coupon_d']);
+            $table->dropColumn(['member_id', 'ticket_id', 'coupon_id
+            ']);
         });
     }
 }

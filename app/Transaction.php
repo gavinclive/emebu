@@ -4,7 +4,6 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Webpatser\Uuid\Uuid;
 
 class Transaction extends Model
 {
@@ -19,6 +18,11 @@ class Transaction extends Model
     public function ticket()
     {
         return $this->belongsTo('App\Ticket', 'ticket_id', 'id');
+    }
+
+    public function coupon()
+    {
+        return $this->hasOne('App\Coupon', 'id', 'coupon_id');
     }
 
     public function event()
@@ -53,7 +57,10 @@ class Transaction extends Model
         return $this->with(['ticket' => function($query) {
                     $query->select('*');
                 }])
-                ->with(['event' => function($query){
+                ->with(['event' => function($query) {
+                    $query->select('*');
+                }])
+                ->with(['coupon' => function($query) {
                     $query->select('*');
                 }])
                 ->where('id', $id)
