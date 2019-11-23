@@ -26,8 +26,8 @@
             <v-img src="/dist/assets/type.svg" max-width="25" max-height="25" class="mr-2" contain/>
             <select v-model="form.role" :class="{ 'is-invalid': form.errors.has('username') }" class="custom-select col-md-11 py-0">
               <option selected disabled value="">{{ $t('register_as') }}</option>
-              <option value="1">{{ $t('organizer') }}</option>
-              <option value="2">{{ $t('attendee') }}</option>
+              <option value="3">{{ $t('organizer') }}</option>
+              <option value="1">{{ $t('member') }}</option>
             </select>
           </div>
           <has-error :form="form" field="role" class="d-block pl-5 text-left"/>

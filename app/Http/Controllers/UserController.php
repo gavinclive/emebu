@@ -29,4 +29,11 @@ class UserController extends Controller
         }
         return response()->json(['success' => true, 'result' => $this->user->getUserByName($values)], 200);
     }
+
+    public function paymentInfo (Request $request) {
+        if (!$this->user->getPaymentInfo($request->input('id'))) {
+            return response()->json(['success' => false], 500);
+        }
+        return response()->json(['success' => true, 'result' => $this->user->getPaymentInfo($request->input('id'))], 200);
+    }
 }

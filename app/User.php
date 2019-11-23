@@ -118,4 +118,10 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
             ['name', 'ilike', '%'.$values.'%']
         ])->paginate(10);
     }
+
+    public function getPaymentInfo ($id) 
+    {
+        return $this->where('id', $id)
+                    ->first();
+    }
 }

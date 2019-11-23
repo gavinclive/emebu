@@ -43,4 +43,18 @@ class Coupon extends Model
         return $this->where('id', '=', $id)
                     ->update($value);
     }
+
+    public function useCoupon($value)
+    {
+        $coupon = $this->where('event_id', $value['id'])
+                        ->first();
+
+        if ($coupon['id']) {
+            $this->updateCoupon([
+                    'qty' => $coupon['qty'] - $value['qty']
+                ], $coupon['id']);
+        }
+
+        return $coupon['id'];
+    }
 }

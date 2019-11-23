@@ -41,7 +41,7 @@
   "full_name": "Full Name",
   "register_as": "Register as",
   "organizer": "Organizer",
-  "attendee": "Attendee",
+  "member": "Member",
   "organizer_name": "Organizer Name",
   "me": "Me",
   "create": "Create",
@@ -167,5 +167,9 @@
   "sender_name": "Sender name",
   "buy": "Buy",
   "coupon_guide": "Fill with 0 to set no max cut",
-  "checkout": "Checkout"
+  "checkout": "Checkout",
+  "use_coupon": "Use Coupon",
+  "no_coupon_text": "The coupon code entered is fully redeemed or invalid",
+  "transaction": "Transaction",
+  "please_transfer_to": "Please transfer to"
 }

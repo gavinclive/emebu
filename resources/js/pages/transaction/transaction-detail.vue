@@ -1,13 +1,17 @@
 <template>
   <div>
-    <qrcode-vue
-      :value="url"
-      :size="size"
-      class="col-12 px-0 d-flex justify-content-center"
-      style="margin-top: 4%" />
+    <div v-if="!paymentInfo">
+      <qrcode-vue
+        :value="url"
+        :size="size"
+        class="col-12 px-0 d-flex justify-content-center"
+        style="margin-top: 4%" />
+      <p class="text-center" style="font-size: .7rem">{{ $t('ticket_guide') }}</p>
+    </div>
     <div class="col-12">
       <div class="col-12 p-0">
-        <p>{{ $t('transaction_id') }}{{ transactionDetail.id }}</p>
+        <p class="m-0">{{ $t('transaction_id') }}</p>
+        <p>{{ transactionDetail.id.toUpperCase() }}</p>
       </div>
       <div class="col-12 p-0">
         <p>{{ transactionDetail.event.title }} - {{ transactionDetail.ticket.name }}</p>
@@ -15,14 +19,18 @@
       <v-divider />
       <div class="col-12 p-0 d-flex justify-content-between blockquote m-0">
         <span><p>{{ $t('total_payment') }}</p></span> 
-        <span><p class="font-weight-bold">Rp {{ currencyForamt(total) }}</p></span>
+        <span><p class="font-weight-bold">Rp {{ currencyFormat(total) }}</p></span>
       </div>
       <div class="col-12 p-0 d-flex justify-content-between">
         <span><p>{{ $t('ticket_price') }}</p></span> 
         <span>{{ transactionDetail.qty }} &times; <span class="font-weight-bold">Rp {{ currencyFormat(transactionDetail.ticket.price) }}</span></span>
       </div>
       <v-divider />
-      <p class="text-right" style="font-size: .7rem">{{ $t('ticket_guide') }}</p>
+      <div>
+        <p>{{ $t('please_transfer_to') }}</p>
+        <p>{{ paymentInfo.name }}</p>
+        <p>{{ paymentInfo.bank }} - {{ paymentInfo.acc_number }}</p>
+      </div>
     </div>
     <div class="col-12 fixed-bottom bg-light d-md-none" style="box-shadow: 0px -1px 6px 2px rgba(158,158,158,1);">
       <button type="button" class="btn col-12 btn-primary" @click="handleEventUrl()">{{ $t('see_event_detail') }}</button>
@@ -54,12 +62,14 @@ export default {
     store.dispatch('transaction/fetchTransactionById', id)
     .then( () => next(vm => {
       vm.id = encId ? encId : ''
+      store.dispatch('transaction/fetchPaymentInfo', vm.transactionDetail.event.eo_id)
     }))
   },
 
   computed: {
     ...mapGetters ({
-      transactionDetail: 'transaction/transactionDetail'
+      transactionDetail: 'transaction/transactionDetail',
+      paymentInfo: 'transaction/paymentInfo'
     }),
 
     url () {
@@ -71,8 +81,20 @@ export default {
     },
 
     total () {
-      return currencyFormat(this.transactionDetail.ticket.price * this.transactionDetail.qty)
-    }
+      const cut = this.countCut
+      return (this.transactionDetail.qty * this.transactionDetail.ticket.price) - cut
+    },
+
+    countCut () {
+      if (!this.transactionDetail.coupon) return 0
+
+      const maxCut = parseInt(this.transactionDetail.coupon.max_cut)
+      const totalCut = this.transactionDetail.qty * this.transactionDetail.ticket.price * (this.transactionDetail.coupon.rate / 100)
+
+      if (maxCut === 0) return totalCut
+
+      return totalCut > maxCut ? maxCut : totalCut 
+    },
   },
 
   methods: {

@@ -15,6 +15,11 @@ class Ticket extends Model
         return $this->belongsTo('App\Event', 'event_id', 'id');
     }
 
+    public function coupon()
+    {
+    return $this->hasOneThrough('App\Coupon', 'App\Event', 'id', 'event_id', 'event_id', 'id');
+    }
+
     public function getTicketByEventId($id)
     {
         return $this->getTicketByEventId($id);
@@ -38,6 +43,9 @@ class Ticket extends Model
     public function getTicketById($id)
     {
         return $this->with(['event' => function($query){
+                        $query->select('*');
+                    }])
+                    ->with(['coupon' => function($query){
                         $query->select('*');
                     }])
                     ->where('id', $id)

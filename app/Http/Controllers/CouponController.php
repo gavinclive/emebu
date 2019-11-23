@@ -76,4 +76,18 @@ class CouponController extends Controller
 
         return response()->json($updateCoupon, 200);
     }
+
+    public function checkCoupon(Request $request)
+    {
+        $result = $this->coupon->checkCoupon([
+                    'code' => $request->input('code') ? $request->input('code') : '',
+                    'id' => $request->input('id')
+                ]);
+
+        if (!$result) {
+            return response()->json(['success' => false, 'errCode' => 'NO_COUPON'], 500);
+        }
+
+        return response()->json(['success' => true, 'result' => $result], 200);
+    }
 }
