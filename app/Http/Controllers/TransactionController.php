@@ -29,9 +29,8 @@ class TransactionController extends Controller
 
     public function store(Request $request)
     {
-        
         $arrTransaction = [
-            'id' => Uuid::generate(3, 'transaction', Carbon::now()),
+            'id' => Uuid::generate(),
             'ticket_id' => $request->input('ticketId'),
             'qty' => $request->input('qty'),
             'created_at' => Carbon::now(),

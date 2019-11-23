@@ -4,12 +4,17 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Webpatser\Uuid\Uuid;
 
 class Transaction extends Model
 {
     protected $table = 'transactions';
 
     protected $guarded = [];
+
+    protected $casts = [
+        'id' => 'string'
+    ];
 
     public function ticket()
     {
@@ -30,6 +35,7 @@ class Transaction extends Model
                         $query->select('*');
                     }])
                     ->get();
+                    
     }
 
     public function storeTransaction($value)

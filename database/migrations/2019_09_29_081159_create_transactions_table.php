@@ -15,7 +15,7 @@ class CreateTransactionsTable extends Migration
     public function up()
     {
         Schema::create('transactions', function (Blueprint $table) {
-            $table->text('id')->nullable();
+            $table->uuid('id');
             $table->integer('qty');
             $table->timestamp('created_at');
             $table->timestamp('settled_at')->nullable();
