@@ -101,7 +101,7 @@ class Event extends Model
     {
         return $this->withTrashed()
                     ->with(['eo' =>function($query) {
-                        $query->select('id', 'username', 'image');
+                        $query->select('id', 'name', 'image');
                     }])
                     ->with(['ticket' => function($query) {
                         $query->where([

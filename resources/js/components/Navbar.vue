@@ -12,19 +12,44 @@
         </div>
         <div class="hide collapse navbar-collapse">
           <ul class="navbar-nav">
-            <li class="nav-item">
+            <li class="nav-item" v-if="user.role !== 2">
+              <router-link :to="{ name: 'event.view' }" class="nav-link text-light">
+                {{ $t('browse') }}
+              </router-link>
+            </li>
+            <li class="nav-item" v-if="user.role == 1">
+              <router-link :to="{ name: 'transaction.history' }" class="nav-link text-light">
+                {{ $t('history') }}
+              </router-link>
+            </li>
+            <li class="nav-item" v-if="user.role > 2">
               <router-link :to="{ name: 'event.view' }" class="nav-link text-light">
                 {{ $t('manage') }}
               </router-link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" v-if="user.role > 2">
               <router-link :to="{ name: 'event.input' }" class="nav-link text-light">
                 {{ $t('create') }}
               </router-link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" v-if="user.role !== 2">
               <router-link :to="{ name: 'transaction.view' }" class="nav-link text-light">
                 {{ $t('tickets') }}
+              </router-link>
+            </li>
+            <li class="nav-item" v-if="user.role === 2">
+              <router-link :to="{ name: 'transaction.view' }" class="nav-link text-light">
+                {{ $t('users') }}
+              </router-link>
+            </li>
+            <li class="nav-item" v-if="user.role === 2">
+              <router-link :to="{ name: 'transaction.view' }" class="nav-link text-light">
+                {{ $t('events') }}
+              </router-link>
+            </li>
+            <li class="nav-item" v-if="user.role === 2">
+              <router-link :to="{ name: 'transaction.view' }" class="nav-link text-light">
+                {{ $t('content') }}
               </router-link>
             </li>
           </ul>

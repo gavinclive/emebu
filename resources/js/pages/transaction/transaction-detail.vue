@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!paymentInfo">
+    <div v-if="transactionDetail.settled_at">
       <qrcode-vue
         :value="url"
         :size="size"
@@ -17,16 +17,20 @@
         <p>{{ transactionDetail.event.title }} - {{ transactionDetail.ticket.name }}</p>
       </div>
       <v-divider />
-      <div class="col-12 p-0 d-flex justify-content-between blockquote m-0">
-        <span><p>{{ $t('total_payment') }}</p></span> 
-        <span><p class="font-weight-bold">Rp {{ currencyFormat(total) }}</p></span>
-      </div>
       <div class="col-12 p-0 d-flex justify-content-between">
         <span><p>{{ $t('ticket_price') }}</p></span> 
         <span>{{ transactionDetail.qty }} &times; <span class="font-weight-bold">Rp {{ currencyFormat(transactionDetail.ticket.price) }}</span></span>
       </div>
-      <v-divider />
-      <div>
+      <div class="col-12 p-0 d-flex justify-content-between" v-if="transactionDetail.coupon">
+        <span><p >{{ transactionDetail.coupon.code }}</p></span> 
+        <span class="font-weight-bold mb-0">- Rp {{ currencyFormat(countCut) }}</span>
+      </div>
+      <div class="col-12 p-0 d-flex justify-content-between blockquote m-0">
+        <span><p>{{ $t('total_payment') }}</p></span> 
+        <span><p class="font-weight-bold">Rp {{ currencyFormat(total) }}</p></span>
+      </div>
+      <div v-if="paymentInfo && !transactionDetail.settled_at">
+        <v-divider />
         <p>{{ $t('please_transfer_to') }}</p>
         <p>{{ paymentInfo.name }}</p>
         <p>{{ paymentInfo.bank }} - {{ paymentInfo.acc_number }}</p>
@@ -86,7 +90,7 @@ export default {
     },
 
     countCut () {
-      if (!this.transactionDetail.coupon) return 0
+      if (!this.transactionDetail.coupon_id) return 0
 
       const maxCut = parseInt(this.transactionDetail.coupon.max_cut)
       const totalCut = this.transactionDetail.qty * this.transactionDetail.ticket.price * (this.transactionDetail.coupon.rate / 100)

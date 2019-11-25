@@ -171,5 +171,7 @@
   "use_coupon": "Use Coupon",
   "no_coupon_text": "The coupon code entered is fully redeemed or invalid",
   "transaction": "Transaction",
-  "please_transfer_to": "Please transfer to"
+  "please_transfer_to": "Please transfer to",
+  "see_payment_dest": "See Payment Destination",
+  "no_history": "You have no event history yet, let's visit some events!"
 }

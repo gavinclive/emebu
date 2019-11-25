@@ -38,6 +38,14 @@ export const actions = {
       console.log(e)
     }
   },
+  async fetchPastTransaction ({ commit }, id) {
+    try {
+      const { data } = await axios.post('/api/history', { member_id: id })
+      commit(FETCH_TRANSACTION, { data })
+    } catch (e) {
+      console.log(e)
+    }
+  },
   async fetchTransactionById ({ commit }, id) {
     try {
       const { data } = await axios.get(`/api/transaction/${id}/edit`)
@@ -48,7 +56,7 @@ export const actions = {
   },
   async fetchPaymentInfo ({ commit }, id) {
     try {
-      const { data } = await axios.get(`/api/payment-info/?id=${id}`)
+      const { data } = await axios.get(`/api/payment-info/${id}`)
       commit(FETCH_PAYMENT_INFO, { data })
     } catch (e) {
       console.log(e)
