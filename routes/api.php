@@ -49,3 +49,4 @@ Route::post('coupon-check', 'CouponController@checkCoupon');
 Route::get('payment-info', 'UserController@paymentInfo');
 Route::resource('quill', 'QuillController');
 Route::resource('users', 'UserController');
+Route::post('history', 'TransactionController@history');

@@ -5,3 +5,8 @@
 .v-label {
   left: 0 !important;
 }
+
+.gray-out {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}

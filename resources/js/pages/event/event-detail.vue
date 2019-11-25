@@ -29,7 +29,7 @@
             <span class="font-weight-bold">{{ $t('organized_by') }}</span>
             <div class="mt-2 d-flex">
               <img :src="event.eo.image" height="24" contain class="rounded-circle">
-              <span class="ml-1">{{ event.eo.username }}</span>
+              <span class="ml-1">{{ event.eo.name }}</span>
             </div>
           </div>
           <div class="col-12 col-md-4 px-md-0">

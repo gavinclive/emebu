@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row col-12 mx-0 pt-0 px-2">
-      <div class="input-group col-md-6 pb-2 px-0 px-md-1">
+      <div class="input-group col-12 pb-2 px-0 px-md-1">
         <input v-model="searchTitle" class="form-control">
         <div class="input-group-append">
           <span class="input-group-text"><img src="/dist/assets/search.svg"></span>
@@ -253,11 +253,12 @@ export default {
       max_cut: '',
       event_id: ''
     }),
+    isHistory: ''
   }),
 
   beforeRouteEnter (to, from, next) {
+    console.log(to.name)
     if (store.getters['auth/user'].role == '1') {
-      console.log('ayam')
       store.dispatch('event/fetchEvents')
       .then( () => next( vm => vm.setSoldCount()))
     } else {

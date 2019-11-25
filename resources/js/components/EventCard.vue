@@ -21,13 +21,13 @@
           <v-list-item-subtitle v-if="user.role !== '1'" v-text="eventStatus" :class="{'text-danger': status === '3', 'text-success': eventStatus === $t('published') }"></v-list-item-subtitle>
         </v-list-item-content>
         <v-card-actions v-if="!deleted" class="text-right d-flex flex-column justify-content-between px-0 py-1" style="height: 125px;">
-          <img v-if="status === '3'" src='/dist/assets/alert-triangle.svg' height="20">
-          <img v-if="user.role > 2 && status !== '3'" src='/dist/assets/activity.svg' height="20">
-          <img v-if="status !== '3' && !isPast" src='/dist/assets/share-2.svg' height="20" @click="showShareModal">
-          <img v-if="user.role > 2 && status !== '3' && !isPast" src='/dist/assets/tag.svg' height="20" @click="showCouponModal">
-          <img v-if="user.role > 2 && status === '1' && isOnGoing" src='/dist/assets/edit.svg' height="20" @click="handleEditUrl">
-          <img v-if="user.role > 2 && isOnGoing" src='/dist/assets/x-circle.svg' height="20" @click="showCancelModal">
-          <img v-if="user.role > 2 && status === '1' && isPast" src='/dist/assets/eye-off.svg' height="20" @click="showHideModal">
+          <img v-if="status === '3'" src="/dist/assets/alert-triangle.svg" height="20">
+          <img v-if="user.role > 2 && status !== '3'" src="/dist/assets/activity.svg" height="20">
+          <img v-if="status !== '3' && !isPast" src="/dist/assets/share-2.svg" height="20" @click="showShareModal">
+          <img v-if="user.role > 2 && status !== '3' && !isPast" src="/dist/assets/tag.svg" height="20" @click="showCouponModal">
+          <img v-if="user.role > 2 && status === '1' && isOnGoing" src="/dist/assets/edit.svg" height="20" @click="handleEditUrl">
+          <img v-if="user.role > 2 && isOnGoing" src="/dist/assets/x-circle.svg" height="20" @click="showCancelModal">
+          <img v-if="user.role > 2 && status === '1' && isPast" src="/dist/assets/eye-off.svg" height="20" @click="showHideModal">
         </v-card-actions>
       </v-list-item>
     </v-card>

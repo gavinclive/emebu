@@ -16,6 +16,7 @@ export default [
   { path: '/event/input', name: 'event.input', component: page('event/event-input.vue') },
   { path: '/event/:id/edit', name: 'event.edit', component: page('event/event-input.vue') },
   { path: '/event', name: 'event.view', component: page('event/event-list.vue') },
+  { path: '/history', name: 'transaction.history', component: page('transaction/transaction-list.vue') },
   { path: '/event/:id', name: 'event.detail', component: page('event/event-detail.vue') },
   { path: '/transaction', name: 'transaction.view', component: page('transaction/transaction-list.vue') },
   { path: '/transaction/:id', name: 'transaction.detail', component: page('transaction/transaction-detail.vue') },

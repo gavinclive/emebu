@@ -11,7 +11,7 @@
     </v-btn>
 
     <!-- Attendee Account -->
-    <v-btn v-if="user.role == 1">
+    <v-btn v-if="user.role == 1" @click="toHistoryPage">
       <span>{{ $t('history') }}</span>
       <v-img src="/dist/assets/file-text.svg" class="white-svg navbar-icon" />
     </v-btn>
@@ -117,6 +117,10 @@ export default {
 
     toUsersPage () {
       this.$router.push({ name: 'users.admin' })
+    },
+
+    toHistoryPage () {
+      this.$router.push({ name: 'transaction.history' })
     }
   }
 }

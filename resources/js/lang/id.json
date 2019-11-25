@@ -158,5 +158,8 @@
   "coupon_guide": "Isi dengan 0 untuk meniadakan potongan maks",
   "checkout": "Bayar sekarang",
   "no_coupon_text": "Kode kupon yang dimasukkan telah habis digunakan atau tidak tersedia",
-  "transaction": "Transaction"
+  "transaction": "Transaction",
+  "please_transfer_to": "Mohon lakukan pembayaran ke",
+  "see_payment_dest": "Lihat Tujuan Pembayaran",
+  "no_history": "Kamu belum memiliki riwayat event, ayo kunjungi event!"
 }

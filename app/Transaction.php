@@ -38,6 +38,10 @@ class Transaction extends Model
                     ->with(['event' => function($query){
                         $query->select('*');
                     }])
+                    ->with(['coupon' => function($query) {
+                        $query->select('*');
+                    }])
+                    ->orderBy('created_at', 'desc')
                     ->get();
                     
     }
@@ -78,5 +82,30 @@ class Transaction extends Model
         }
 
         return false;
+    }
+
+    public function getTransactionByMemberId ($id, $condition)
+    {
+        if ($condition === 'past') 
+        {
+            $timeframe = ['event.end_time', '<=', Carbon::now()];
+        } else {
+            $timeframe = ['end_time', '>', Carbon::now()];
+        }
+        return $this->with(['ticket' => function($query) {
+                    $query->select('*');
+                }])
+                ->with(['event' => function($query){
+                    $query->select('*');
+                }])
+                ->with(['coupon' => function($query) {
+                    $query->select('*');
+                }])
+                ->where([
+                    $timeframe,
+                    ['member_id', $id]
+                ])
+                ->orderBy('created_at', 'desc')
+                ->get();
     }
 }

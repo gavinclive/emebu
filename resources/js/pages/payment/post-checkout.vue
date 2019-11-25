@@ -1,9 +1,6 @@
 <template>
   <div class="col-12 col-md-6 m-auto p-0">
-    <div class="col-12">
-      <p class="mb-2">{{ ticketDetail.event.title }} - {{ ticketDetail.name }}</p>
-      <small>{{ ticketDetail.description }}</small>
-    </div>
+    
   </div>
 </template>
 

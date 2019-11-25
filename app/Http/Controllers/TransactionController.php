@@ -69,4 +69,9 @@ class TransactionController extends Controller
 
         return response()->json(['success' => true], 200);
     }
+
+    public function history(Request $request)
+    {
+        return response()->json(['success' => true, $this->transaction->getTransactionByMemberId($request->input('member_id'), 'past')], 200);
+    }
 }
