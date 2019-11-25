@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row col-12 mx-0 pt-0 px-2">
-      <div class="input-group col-12 pb-2 px-0 px-md-1">
+      <div class="input-group pb-2 px-0 px-md-1" :class="{ 'col-md-6': user.role > 2, 'col-12': user.role === '1', 'pt-2': user.role === '2' }">
         <input v-model="searchTitle" class="form-control">
         <div class="input-group-append">
           <span class="input-group-text"><img src="/dist/assets/search.svg"></span>
@@ -257,9 +257,18 @@ export default {
   }),
 
   beforeRouteEnter (to, from, next) {
-    console.log(to.name)
-    if (store.getters['auth/user'].role == '1') {
+    if (store.getters['auth/user'].role === '2') {
       store.dispatch('event/fetchEvents')
+      .then( () => next())
+    } else if (store.getters['auth/user'].role === '1') {
+      store.dispatch('event/fetchEventsByParams', {
+        id: store.getters['auth/user'].id,
+        role: store.getters['auth/user'].role,
+        title: '',
+        type: '',
+        category: '',
+        status: ''
+      })
       .then( () => next( vm => vm.setSoldCount()))
     } else {
       store.dispatch('event/fetchEventsByParams', {

@@ -23,17 +23,6 @@
             </div>
           </div>
 
-          <!-- Username -->
-          <div v-if="form.role !== '1'" class="form-group row d-flex justify-content-center mb-0">
-            <div class="col-md-9">
-              <div class="col-md-12 d-flex align-items-center py-1">
-                <v-img src="/dist/assets/gitlab.svg" max-width="25" max-height="25" class="mr-2" contain/>
-                <input v-model="form.username" :class="{ 'is-invalid': form.errors.has('username') }" class="form-control col-md-11" type="text" name="username" :placeholder="$t('username')">
-              </div>
-              <has-error :form="form" field="username" class="d-block pl-5 text-left"/>
-            </div>
-          </div>
-
           <!-- Full Name -->
           <div class="form-group row d-flex justify-content-center mb-0">
             <div class="col-md-9">
@@ -110,7 +99,6 @@ export default {
 
   data: () => ({
     form: new Form({
-      username: '',
       name: '',
       email: '',
       password: '',

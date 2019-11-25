@@ -19,7 +19,6 @@
         <v-divider vertical class="my-0 mx-2"/>
         <div class="py-0 px-0 col-6">
           <p class="text-truncate mb-0">{{ user.name ? user.name : '-' }}</p>
-          <p class="text-truncate mb-0">{{ user.username ? user.username : '-' }}</p>
           <p class="text-truncate mb-0">{{ user.email }}</p>
         </div>
         <v-divider vertical class="my-0 mx-2"/>
