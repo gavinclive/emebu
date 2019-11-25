@@ -173,5 +173,7 @@
   "transaction": "Transaction",
   "please_transfer_to": "Please transfer to",
   "see_payment_dest": "See Payment Destination",
-  "no_history": "You have no event history yet, let's visit some events!"
+  "no_history": "You have no event history yet, let's visit some events!",
+  "lets_premium": "Let's become premium EO and get more features with Emebu.",
+  "content": "Content"
 }

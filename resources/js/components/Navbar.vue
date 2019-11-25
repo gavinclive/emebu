@@ -12,7 +12,7 @@
         </div>
         <div class="hide collapse navbar-collapse">
           <ul class="navbar-nav">
-            <li class="nav-item" v-if="user.role !== 2">
+            <li class="nav-item" v-if="user.role > 2">
               <router-link :to="{ name: 'event.view' }" class="nav-link text-light">
                 {{ $t('browse') }}
               </router-link>

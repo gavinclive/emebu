@@ -161,5 +161,7 @@
   "transaction": "Transaction",
   "please_transfer_to": "Mohon lakukan pembayaran ke",
   "see_payment_dest": "Lihat Tujuan Pembayaran",
-  "no_history": "Kamu belum memiliki riwayat event, ayo kunjungi event!"
+  "no_history": "Kamu belum memiliki riwayat event, ayo kunjungi event!",
+  "lets_premium": "Ayo jadi EO premium dan dapatakan lebih banyak fitur dari Emebu.",
+  "content": "Konten"
 }

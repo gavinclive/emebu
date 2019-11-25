@@ -51,5 +51,14 @@ export const actions = {
 
   async removeEvent ({ dispatch }, id) {
     axios.delete(`/api/event/${id}`)
+  },
+
+  async fetchFeaturedEvents ({ commit }, id) {
+    try {
+      const { data } = await axios.get('/api/featured')
+      commit(FETCH_EVENT, { data })
+    } catch (e) {
+      console.log(e)
+    }
   }
 }

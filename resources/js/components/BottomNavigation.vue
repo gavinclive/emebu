@@ -32,22 +32,22 @@
       <v-img src="/dist/assets/plus-circle.svg" class="white-svg main-navbar-icon" />
     </v-btn>
 
-    <v-btn v-if="user.role !== 2" @click="toTransactionPage">
+    <v-btn v-if="user.role != 2" @click="toTransactionPage">
       <span>{{ $t('tickets') }}</span>
       <v-img src="/dist/assets/credit-card.svg" class="white-svg navbar-icon" />
     </v-btn>
 
-    <v-btn v-if="user.role === 2" @click="toUsersPage">
+    <v-btn v-if="user.role == 2" @click="toUsersPage">
       <span>{{ $t('users') }}</span>
       <v-img src="/dist/assets/users.svg" class="white-svg navbar-icon" />
     </v-btn>
 
-    <v-btn v-if="user.role === 2" @click="toManagePage">
+    <v-btn v-if="user.role == 2" @click="toEventsPage">
       <span>{{ $t('events') }}</span>
       <v-img src="/dist/assets/emebu-mini.png" class="white-svg navbar-icon" />
     </v-btn>
 
-    <v-btn v-if="user.role === 2" @click="toManagePage">
+    <v-btn v-if="user.role == 2" @click="toContentPage">
       <span>{{ $t('content') }}</span>
       <v-img src="/dist/assets/file-text.svg" class="white-svg navbar-icon" />
     </v-btn>
@@ -121,6 +121,10 @@ export default {
 
     toHistoryPage () {
       this.$router.push({ name: 'transaction.history' })
+    },
+
+    toContentPage () {
+      this.$router.push({ name: 'content.admin' })
     }
   }
 }

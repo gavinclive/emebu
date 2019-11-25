@@ -13,17 +13,6 @@
       </div>
     </div>
 
-    <!-- Username -->
-    <div v-if="form.username" class="form-group row d-flex justify-content-center mb-0">
-      <div class="col-md-10 pb-0">
-        <label class="col-3 pt-0 col-form-label">{{ $t('username') }}</label>
-        <div class="col-md-12 d-flex align-items-center py-1">
-          <input v-model="form.username" :class="{ 'is-invalid': form.errors.has('username') }" class="form-control col-md-11" type="text" name="username">
-        </div>
-        <has-error :form="form" field="username" class="d-block pl-3 text-left"/>
-      </div>
-    </div>
-
     <!-- Email -->
     <div class="form-group row d-flex justify-content-center mb-0">
       <div class="col-md-10 pb-0">
@@ -83,7 +72,6 @@ export default {
 
   data: () => ({
     form: new Form({
-      username: '',
       name: '',
       email: '',
       img: ''

@@ -50,3 +50,4 @@ Route::get('payment-info', 'UserController@paymentInfo');
 Route::resource('quill', 'QuillController');
 Route::resource('users', 'UserController');
 Route::post('history', 'TransactionController@history');
+Route::resource('featured', 'FeaturedEventController');
