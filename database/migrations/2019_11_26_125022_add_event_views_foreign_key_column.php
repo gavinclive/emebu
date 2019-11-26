@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddReportsForeignKeyColumn extends Migration
+class AddEventViewsForeignKeyColumn extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,7 @@ class AddReportsForeignKeyColumn extends Migration
      */
     public function up()
     {
-        Schema::table('reports', function (Blueprint $table) {
-            $table->bigInteger('member_id');
-            $table->foreign('member_id')->references('id')->on('users');
+        Schema::table('event_views', function (Blueprint $table) {
             $table->bigInteger('event_id');
             $table->foreign('event_id')->references('id')->on('events');
         });
@@ -28,9 +26,9 @@ class AddReportsForeignKeyColumn extends Migration
      */
     public function down()
     {
-        Schema::table('reports', function (Blueprint $table) {
-            $table->dropForeign(['member_id', 'event_id', 'eo_id']);
-            $table->dropColumn(['member_id', 'event_id', 'eo_id']);
+        Schema::table('event_views', function (Blueprint $table) {
+            $table->dropForeign('event_id');
+            $table->dropColumn('event_id');
         });
     }
 }

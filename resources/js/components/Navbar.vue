@@ -5,6 +5,9 @@
         <v-img v-if="inEoHome" src="/dist/assets/camera.svg" class="white-svg" height="28" width="28" cover @click="handleCamera"/>
         <v-img v-if="inNavigations" src="/dist/assets/arrow-left.svg" class="white-svg" height="28" width="28" cover @click="handleBack"/>
       </div>
+      <div class="other-side-menu d-md-none">
+        <v-img v-if="inEventDetail" src="/dist/assets/alert-octagon.svg" class="white-svg" height="28" width="28" cover @click="handleReport" />
+      </div>
       <div class="mx-auto mx-md-0">
         <router-link :to="{ name: user ? 'home' : 'welcome' }" class="navbar-brand">
           <v-img src="/dist/assets/emebu-logo.svg" class="white-svg" max-width="100" contain />
@@ -125,8 +128,14 @@ export default {
 
     inNavigations () {
       const currentRoute = this.$route.name ? this.$route.name : ''
-      if(currentRoute.includes('home')  || currentRoute.includes('login') || currentRoute.includes('register')) return false
+      if(currentRoute.includes('home')  || currentRoute.includes('content.admin') || currentRoute.includes('login') || currentRoute.includes('register')) return false
       return true
+    },
+
+    inEventDetail () {
+      const currentRoute = this.$route.name ? this.$route.name : ''
+      if(currentRoute.includes('event.detail') && this.user.role === '1') return true
+      return false
     }
   },
 
@@ -145,6 +154,10 @@ export default {
 
       // Redirect to login.
       this.$router.push({ name: 'login' })
+    },
+
+    handleReport () {
+      this.$emit('showReportModal')
     }
   }
 }
@@ -159,6 +172,11 @@ export default {
 
 .side-menu {
   position: absolute;
+}
+
+.other-side-menu {
+  position: absolute;
+  right: 0;
 }
 
 .container {

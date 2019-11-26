@@ -175,5 +175,15 @@
   "see_payment_dest": "See Payment Destination",
   "no_history": "You have no event history yet, let's visit some events!",
   "lets_premium": "Let's become premium EO and get more features with Emebu.",
-  "content": "Content"
+  "content": "Content",
+  "remaining": "remaining",
+  "event_analytics": "Event Analytics",
+  "no_analytics": "Sorry, there's no analytics data for this event yet",
+  "views": "Views: ",
+  "first_viewed": "First viewed: ",
+  "last_viewed": "Last viewed: ",
+  "report": "Report",
+  "report_guide": "You're about to report this event. Are you sure?",
+  "report_event": "Report Event",
+  "report_placeholder": "Write a short description about the report"
 }

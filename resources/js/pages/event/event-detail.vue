@@ -137,13 +137,13 @@
                 <v-card-title>{{ ticket.name }}</v-card-title>
                 <v-card-text>
                   <p class="text-left">{{ ticket.desc }}</p>
-                  <h5><p class="text-right my-0">{{ ticket.price == 0 ? 'FREE' : 'Rp ' + currencyFormat(ticket.price) }}</p></h5>
+                  <h5 class="d-flex justify-content-between align-items-end"><small class="text-left m-0">{{ ticket.qty - ticket.sold + ' ' + $t('remaining') }}</small> <span class="text-right m-0">{{ ticket.price == 0 ? 'FREE' : 'Rp ' + currencyFormat(ticket.price) }}</span></h5>
                 </v-card-text>
               </v-card>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal" @click="buyTicket">{{ $t('buy') }}</button>
+            <button type="button" :disabled="authenticated.role > 1" class="btn btn-primary" data-dismiss="modal" @click="buyTicket">{{ $t('buy') }}</button>
           </div>
         </div>
       </div>

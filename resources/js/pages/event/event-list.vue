@@ -47,6 +47,8 @@
         @showCancelModal="cancelEvent"
         @showCouponModal="inputCoupon(index)"
         @showHideModal="hideEvent"
+        @refreshList="refreshEvent"
+        @showAnalyticsModal="analEvent"
         />
     </div>
     <div class="modal fade" id="eventType" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
@@ -152,6 +154,30 @@
       </div>
     </div>
 
+    <div class="modal fade" id="eventAnalytics" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">{{ $t('event_analytics') }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div v-if="!analytics" class="text-center">
+              <img src="/dist/assets/frown.svg" width="60">
+              <p>{{ $t('no_analytics') }}</p>
+            </div>
+            <div v-else>
+              <p>{{ $t('views') + analytics.view }}</p>
+              <p>{{ $t('first_viewed') + dateFormat(new Date(analytics.created_at), 'dd, DD MMM YYYY @ hh.mm') }}</p>
+              <p>{{ $t('last_viewed') + dateFormat(new Date(analytics.updated_at), 'dd, DD MMM YYYY @ hh.mm') }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <form @submit.prevent="coupon" @keydown="form.onKeydown($event)">
       <div class="modal fade" id="inputCoupon" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
@@ -226,6 +252,7 @@ import { baseEventUrl } from '~/utils/url'
 import { encrypt, decrypt } from '~/utils/simpleCrypto'
 import Form from 'vform'
 import axios from 'axios'
+import { dateFormat } from '~/utils/dateFormat'
 
 export default {
   middleware: 'auth',
@@ -257,27 +284,19 @@ export default {
   }),
 
   beforeRouteEnter (to, from, next) {
-    if (store.getters['auth/user'].role === '2') {
+    if (store.getters['auth/user'].role === '1') {
       store.dispatch('event/fetchEvents')
-      .then( () => next())
-    } else if (store.getters['auth/user'].role === '1') {
+      .then( () => next( vm => vm.setSoldCount()))
+    } else if (store.getters['auth/user'].role === '2') {
       store.dispatch('event/fetchEventsByParams', {
         id: store.getters['auth/user'].id,
-        role: store.getters['auth/user'].role,
-        title: '',
-        type: '',
-        category: '',
-        status: ''
+        role: store.getters['auth/user'].role
       })
       .then( () => next( vm => vm.setSoldCount()))
     } else {
       store.dispatch('event/fetchEventsByParams', {
         id: store.getters['auth/user'].id,
-        role: store.getters['auth/user'].role,
-        title: '',
-        type: '',
-        category: '',
-        status: ''
+        role: store.getters['auth/user'].role
       })
       .then( () => next( vm => vm.setSoldCount()))
     }
@@ -293,13 +312,26 @@ export default {
       events: 'event/events',
       categories: 'category/getCategories',
       types: 'type/getTypes',
-      user: 'auth/user'
+      user: 'auth/user',
+      analytics: 'event/analytics'
     }),
 
     filteredList () {
-      const list = this.events.filter(data => {
+      let list = this.events.filter(data => {
         return data.title.toLowerCase().includes(this.searchTitle.toLowerCase())
       })
+
+      if(this.type) {
+        list = list.filter(data => {
+          return data.type_id === this.type
+        })
+      }
+
+      if(this.category) {
+        list = list.filter(data => {
+          return data.category_id === this.category
+        })
+      }
 
       if(this.searchStatus !== '0') {
         return list.filter(data => {
@@ -425,7 +457,21 @@ export default {
           this.form.reset()
         })
       }
-    }
+    },
+
+    refreshEvent() {
+      store.dispatch('event/fetchEventsByParams', {
+        id: store.getters['auth/user'].id,
+        role: store.getters['auth/user'].role
+      })
+    },
+
+    analEvent(id) {
+      store.dispatch('event/fetchAnalytics', decrypt(id))
+      .then( () => $('#eventAnalytics').modal('show'))
+    },
+
+    dateFormat
   }
 }
 </script>

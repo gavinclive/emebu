@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use App\EventViews;
 use App\Ticket;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -11,11 +12,13 @@ class EventController extends Controller
 {
     private $event;
     private $ticket;
+    private $view;
 
     public function __construct()
     {
         $this->event = new Event();
         $this->ticket = new Ticket();
+        $this->view = new EventViews();
     }
 
     public function index()
@@ -87,6 +90,7 @@ class EventController extends Controller
 
     public function edit($id)
     {
+        $this->view->addView($id);
         return response()->json(['success' => true, 'result' => $this->event->getEventById($id)], 200);
     }
 
@@ -151,6 +155,20 @@ class EventController extends Controller
     {
         $this->event->updateEventById([
             'status' => '2'
+        ], $request->input('id'));
+    }
+
+    public function investigateEvent(Request $request)
+    {
+        $this->event->updateEventById([
+            'status' => '3'
+        ], $request->input('id'));
+    }
+
+    public function reactivateEvent(Request $request)
+    {
+        $this->event->updateEventById([
+            'status' => '1'
         ], $request->input('id'));
     }
 }

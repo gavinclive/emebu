@@ -31,7 +31,10 @@ class Event extends Model
     public function getAllEvent()
     {
         return $this->with(['ticket' => function($query) {
-                        $query->select('qty as total');
+                        $query->select('*');
+                    }])
+                    ->with(['coupon' => function($query){
+                        $query->select('*');
                     }])
                     ->where([
                         ['publish_time', '<=', Carbon::now()],
@@ -62,21 +65,8 @@ class Event extends Model
         $queryParams = array();
         if($params)
         {
-            if ($params->title) {
-                array_push($queryParams, ['title', 'like', '%'.$params->title.'%']);
-            }
-            if ((int) $params->type) {
-                array_push($queryParams, ['type_id', '=', (int) $params->type]);
-            }
-            if ((int) $params->category) {
-                array_push($queryParams, ['category_id', '=', (int) $params->category]);
-            }
-            if ((int) $params->status) {
-                array_push($queryParams, ['status', '=', (int) $params->status]);
-            }
-            if ((int) $params->role == 1) {
-                array_push($queryParams, ['end_time', '>=', Carbon::now()->subDays(180)], ['publish_time', '>=', Carbon::now()]);
-                $query = $this;
+            if ((int) $params->role == 2) {
+                $query = $this->withTrashed();
             } else {
                 array_push($queryParams, ['eo_id', '=', (int) $params->id]);
                 $query = $this->withTrashed();

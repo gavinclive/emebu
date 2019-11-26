@@ -1,17 +1,20 @@
 import axios from 'axios'
 import {
   FETCH_EVENT,
-  FETCH_EVENT_BY_ID
+  FETCH_EVENT_BY_ID,
+  FETCH_ANALYTICS
 } from '../mutation-types'
 
 export const state = {
   events: null,
-  eventDetail: null
+  eventDetail: null,
+  analytics: null
 }
 
 export const getters = {
   events: state => state.events,
-  eventDetail: state => state.eventDetail
+  eventDetail: state => state.eventDetail,
+  analytics: state => state.analytics
 }
 
 export const mutations = {
@@ -20,6 +23,9 @@ export const mutations = {
   },
   [FETCH_EVENT_BY_ID] (state, { data }) {
     state.eventDetail = data.result
+  },
+  [FETCH_ANALYTICS] (state, { data }) {
+    state.analytics = data.result
   }
 }
 
@@ -57,6 +63,15 @@ export const actions = {
     try {
       const { data } = await axios.get('/api/featured')
       commit(FETCH_EVENT, { data })
+    } catch (e) {
+      console.log(e)
+    }
+  },
+
+  async fetchAnalytics ({ commit }, id) {
+    try {
+      const { data } = await axios.get(`/api/analytics/${id}`)
+      commit(FETCH_ANALYTICS, { data })
     } catch (e) {
       console.log(e)
     }

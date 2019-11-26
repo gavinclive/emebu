@@ -51,3 +51,7 @@ Route::resource('quill', 'QuillController');
 Route::resource('users', 'UserController');
 Route::post('history', 'TransactionController@history');
 Route::resource('featured', 'FeaturedEventController');
+Route::post('investigate', 'EventController@investigateEvent');
+Route::post('reactivate', 'EventController@reactivateEvent');
+Route::resource('analytics', 'EventViewsController');
+Route::resource('report', 'ReportController');
