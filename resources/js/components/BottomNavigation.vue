@@ -47,8 +47,8 @@
       <v-img src="/dist/assets/emebu-mini.png" class="white-svg navbar-icon" />
     </v-btn>
 
-    <v-btn v-if="user.role == 2" @click="toContentPage">
-      <span>{{ $t('content') }}</span>
+    <v-btn v-if="user.role == 2" @click="toReportPage">
+      <span>{{ $t('report') }}</span>
       <v-img src="/dist/assets/file-text.svg" class="white-svg navbar-icon" />
     </v-btn>
 
@@ -70,7 +70,7 @@ export default {
 
     activeBtn () {
       const routeName = this.$route.name
-      if (routeName === 'home') {
+      if (routeName === 'home' || routeName === 'content.admin') {
         return 0
       } else if (routeName === 'm.settings') {
         if (this.user.role === 2) {
@@ -82,7 +82,7 @@ export default {
 
     inMenus () {
       const routeName = this.$route.name
-      return routeName === 'm.settings' || routeName === 'home'
+      return routeName === 'm.settings' || routeName === 'home' || routeName === 'content.admin'
     }
   },
 
@@ -125,6 +125,10 @@ export default {
 
     toContentPage () {
       this.$router.push({ name: 'content.admin' })
+    },
+    
+    toReportPage () {
+      this.$router.push({ name: 'report.view' })
     }
   }
 }

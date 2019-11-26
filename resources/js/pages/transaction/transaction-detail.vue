@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { decrypt } from '~/utils/simpleCrypto'
+import { encrypt, decrypt } from '~/utils/simpleCrypto'
 import { mapGetters } from 'vuex'
 import QrcodeVue from 'qrcode.vue'
 import axios from 'axios'
@@ -107,7 +107,7 @@ export default {
     currencyFormat,
 
     handleEventUrl () {
-      this.$router.push({ name: 'event.detail', params: { id: this.id } })
+      this.$router.push({ name: 'event.detail', params: { id: encrypt(this.transactionDetail.event.id) } })
     }
   }
 }

@@ -37,6 +37,19 @@ class UsersTableSeeder extends Seeder
         	'created_at' => Carbon::now(),
         	'updated_at' => Carbon::now(),
         ]);
+
+        DB::table('users')->insert([
+        	'email' => 'premium@es.com',
+            'password' => bcrypt('premium'),
+            'role' => '4',
+            'name' => 'Organizer Premium',
+            'status' => 'active',
+            'bank' => $faker->company,
+            'acc_number' => $faker->bankAccountNumber,
+            'last_login' => Carbon::now(),
+        	'created_at' => Carbon::now(),
+        	'updated_at' => Carbon::now(),
+        ]);
             
         DB::table('users')->insert([
             'email' => 'ucok@es.com',

@@ -16,11 +16,18 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import store from '~/store'
+
 export default {
   middleware: 'auth',
 
   metaInfo () {
     return { title: this.$t('home') }
+  },
+
+  beforeRouteEnter (to, from, next) {
+    if (store.getters['auth/user'].role === '2') next({ name: 'content.admin' })
+    else next()
   },
 
   computed: {
