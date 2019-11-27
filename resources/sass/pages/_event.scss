@@ -35,3 +35,18 @@
     z-index: 2;
   }
 }
+
+.rating-score {
+  font-weight: bold;
+  font-size: 1.55rem;
+  border: 1px solid #cfcfcf;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
+  color: #999;
+  background: #fff;
+}
+
+.feat-slide {
+  object-fit: cover;
+}

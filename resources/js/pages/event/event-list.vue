@@ -253,6 +253,7 @@ import { encrypt, decrypt } from '~/utils/simpleCrypto'
 import Form from 'vform'
 import axios from 'axios'
 import { dateFormat } from '~/utils/dateFormat'
+import router from '~/router'
 
 export default {
   middleware: 'auth',

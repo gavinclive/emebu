@@ -55,3 +55,6 @@ Route::post('investigate', 'EventController@investigateEvent');
 Route::post('reactivate', 'EventController@reactivateEvent');
 Route::resource('analytics', 'EventViewsController');
 Route::resource('report', 'ReportController');
+Route::resource('rating', 'RatingController');
+Route::post('check-rating', 'RatingController@checkExist');
+Route::get('eo-score', 'RatingController@getEoRating');

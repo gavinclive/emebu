@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Event;
 use App\FeaturedEvent;
 use Carbon\Carbon;
 use Exception;
@@ -11,10 +12,12 @@ use Illuminate\Support\Facades\DB;
 class FeaturedEventController extends Controller
 {
     private $featuredEvent;
+    private $event;
 
     public function __construct()
     {
         $this->featuredEvent = new FeaturedEvent();
+        $this->event = new Event();
     }
 
     public function index()
@@ -32,16 +35,32 @@ class FeaturedEventController extends Controller
         try {
             DB::beginTransaction();
             $this->featuredEvent->deleteAllFeaturedEvent();
-            $i = 1;
-            foreach($request->input('id') as $arr) {
-                $feat = [
-                    'content' => $arr,
-                    'key' => 'featured_'.$i,
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now()
-                ];
-                $this->featuredEvent->storeFeaturedEvent($feat);
-                $i++;
+            $i = 0;
+            $j = 0;
+            $k = 0;
+            foreach($request->input('media_upload') as $media_upload) {
+                $k++;
+                $imageName = '';
+                if ($media_upload === 'false' && $request->input('img')[$i]) {
+                    $imageName = $request->input('img')[$i];
+                    $i++;
+                } else if ($media_upload === 'true') {
+                    $image = $request->file('img')[$j];
+                    $imageName = time().$image->getClientOriginalName();
+                    $image->move('storage/uploads/feat/', $imageName);
+                    $j++;
+                } else {
+                    $i++;
+                }
+                if ($imageName) {
+                    $feat = [
+                        'content' => $imageName,
+                        'key' => 'featured_'.$k,
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now()
+                    ];
+                    $this->featuredEvent->storeFeaturedEvent($feat);
+                }
             }
         } catch (Exception $e) {
             DB::rollBack();

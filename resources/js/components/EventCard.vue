@@ -28,7 +28,7 @@
           <img v-if="user.role > 2 && status === '1' && isOnGoing" src="/dist/assets/edit.svg" height="20" @click="handleEditUrl">
           <img v-if="user.role === '2' && status === '1'" src="/dist/assets/alert-triangle.svg" height="20" @click="investigateEvent">
           <img v-if="user.role === '2' && status === '3'" src="/dist/assets/eye.svg" height="20" @click="reactivateEvent">
-          <img v-if="user.role > 1" src="/dist/assets/x-circle.svg" height="20" @click="showCancelModal">
+          <img v-if="user.role > 1 && !isPast" src="/dist/assets/x-circle.svg" height="20" @click="showCancelModal">
           <img v-if="user.role > 2 && status === '1' && isPast" src="/dist/assets/eye-off.svg" height="20" @click="showHideModal">
         </v-card-actions>
       </v-list-item>
@@ -79,7 +79,7 @@ export default {
           } else {
             return this.$i18n.t('published')
           }
-        } else if (this.status === '2') {
+        } else if (this.status === '3') {
           return this.$i18n.t('hided')
         } else {
           return this.$i18n.t('under_investigation')

@@ -5,10 +5,14 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
+use willvincent\Rateable\Rateable;
+use willvincent\Rateable\Rating;
 
 class Event extends Model
 {
     use SoftDeletes;
+    use Rateable;
 
     protected $table = 'events';
     protected $guarded = [];
@@ -127,4 +131,34 @@ class Event extends Model
         return false;
     }
 
+    public function giveRating($id, $point)
+    {
+        $event = Event::find($id);
+        $rating = new Rating();
+        $rating->rating = $point;
+        $rating->user_id = Auth::id();
+        $event->ratings()->save($rating);
+    }
+
+    public function getRating($id)
+    {
+        $event = Event::find($id)->first();
+        return $event->averageRating;
+    }
+
+    public function getAllAvgRating($id)
+    {
+        $events = Event::where('eo_id', $id)->get();
+        $eventCount = 0;
+        $totalScore = 0;
+        $score = 0;
+        foreach($events as $event) {
+            $newScore = $event->averageRating;
+            if ($newScore) {
+                $score = (($score * $eventCount) + $newScore) / ($eventCount + 1);
+                $eventCount++;
+            }
+        }
+        return $score;
+    }
 }
