@@ -1,5 +1,5 @@
 <template>
-  <nav v-if="!inRoute" class="navbar navbar-expand-lg navbar-light bg-gradient-primary">
+  <nav v-if="!inSettings" class="navbar navbar-expand-lg navbar-light bg-gradient-primary">
     <div class="container">
       <div class="side-menu d-md-none">
         <v-img v-if="inEoHome" src="/dist/assets/camera.svg" class="white-svg" height="28" width="28" cover @click="handleCamera"/>
@@ -15,42 +15,42 @@
         </div>
         <div class="hide collapse navbar-collapse">
           <ul class="navbar-nav">
-            <li class="nav-item" v-if="user.role > 2">
+            <li class="nav-item" v-if="user && user.role > 2">
               <router-link :to="{ name: 'event.view' }" class="nav-link text-light">
                 {{ $t('browse') }}
               </router-link>
             </li>
-            <li class="nav-item" v-if="user.role == 1">
+            <li class="nav-item" v-if="user && user.role == 1">
               <router-link :to="{ name: 'transaction.history' }" class="nav-link text-light">
                 {{ $t('history') }}
               </router-link>
             </li>
-            <li class="nav-item" v-if="user.role > 2">
+            <li class="nav-item" v-if="user && user.role > 2">
               <router-link :to="{ name: 'event.view' }" class="nav-link text-light">
                 {{ $t('manage') }}
               </router-link>
             </li>
-            <li class="nav-item" v-if="user.role > 2">
+            <li class="nav-item" v-if="user && user.role > 2">
               <router-link :to="{ name: 'event.input' }" class="nav-link text-light">
                 {{ $t('create') }}
               </router-link>
             </li>
-            <li class="nav-item" v-if="user.role !== 2">
+            <li class="nav-item" v-if="user && user.role !== 2">
               <router-link :to="{ name: 'transaction.view' }" class="nav-link text-light">
                 {{ $t('tickets') }}
               </router-link>
             </li>
-            <li class="nav-item" v-if="user.role === 2">
+            <li class="nav-item" v-if="user && user.role === 2">
               <router-link :to="{ name: 'transaction.view' }" class="nav-link text-light">
                 {{ $t('users') }}
               </router-link>
             </li>
-            <li class="nav-item" v-if="user.role === 2">
+            <li class="nav-item" v-if="user && user.role === 2">
               <router-link :to="{ name: 'transaction.view' }" class="nav-link text-light">
                 {{ $t('events') }}
               </router-link>
             </li>
-            <li class="nav-item" v-if="user.role === 2">
+            <li class="nav-item" v-if="user && user.role === 2">
               <router-link :to="{ name: 'transaction.view' }" class="nav-link text-light">
                 {{ $t('content') }}
               </router-link>
@@ -110,14 +110,9 @@ export default {
       user: 'auth/user'
     }),
 
-    inRoute () {
+    inSettings () {
       const currentRoute = this.$route.name ? this.$route.name : ''
-        switch(currentRoute) {
-          case 'm.settings':
-            return true
-            break
-        }
-      return false
+      return currentRoute.includes('m.settings')
     },
 
     inEoHome () {

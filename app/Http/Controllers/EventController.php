@@ -142,6 +142,7 @@ class EventController extends Controller
 
     public function destroy($id)
     {
+        dd($id);
         $deleteEvent = $this->event->deleteEventById($id);
 
         if (!$deleteEvent) {

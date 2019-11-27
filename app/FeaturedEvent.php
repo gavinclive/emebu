@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use phpDocumentor\Reflection\Types\Integer;
 
 class FeaturedEvent extends Model
 {
@@ -27,7 +28,7 @@ class FeaturedEvent extends Model
 
     public function deleteAllFeaturedEvent()
     {
-        return $this->where('key', 'featured_')
+        return $this->where('key', 'like', 'featured_%')
                     ->delete();
     }
 }

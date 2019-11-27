@@ -185,5 +185,9 @@
   "report": "Report",
   "report_guide": "You're about to report this event. Are you sure?",
   "report_event": "Report Event",
-  "report_placeholder": "Write a short description about the report"
+  "report_placeholder": "Write a short description about the report",
+  "submit": "Submit",
+  "give_rating_guide": "Please rate the event you have visited.",
+  "before_rating_text": "You are rated",
+  "after_rating_text": "by your attendees."
 }

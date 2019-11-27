@@ -172,5 +172,9 @@
   "last_viewed": "Terakhir dilihat: ",
   "report_guide": "Anda akan melaporkan event ini. Apakah anda yakin?",
   "report_event": "Lapor Event",
-  "report_placeholder": "Tuliskan penjelasan pendek tentang laporan ini"
+  "report_placeholder": "Tuliskan penjelasan pendek tentang laporan ini",
+  "submit": "Kirim",
+  "give_rating_guide": "Mohon berikan penilaian untuk event yang telah Anda kunjungi.",
+  "before_rating_text": "Anda mendapat peringkat",
+  "after_rating_text": "oleh peserta acara Anda."
 }

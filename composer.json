@@ -9,12 +9,13 @@
         "doctrine/dbal": "^2.9",
         "fideloper/proxy": "^4.0",
         "laravel/dusk": "^5.1",
-        "laravel/framework": "5.8.*",
+        "laravel/framework": "5.8.35",
         "laravel/socialite": "^4.0",
         "laravel/tinker": "^1.0",
         "nesbot/carbon": "^2.24",
         "tymon/jwt-auth": "^1.0.0-rc.4.1",
-        "webpatser/laravel-uuid": "^3.0"
+        "webpatser/laravel-uuid": "^3.0",
+        "willvincent/laravel-rateable": "1.0.9"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

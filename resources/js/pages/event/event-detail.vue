@@ -93,6 +93,17 @@
       </div>
     </div>
     <div class="col-12 col-md-10 mx-auto py-0"><v-divider class="my-0"/></div>
+    <div class="col-12 col-md-10 mx-auto d-flex justify-content-center">
+      <star-rating
+        v-model="ratingScore"
+        active-color="#258efe"
+        :read-only="true"
+        :round-start-rating="false"
+        :rounded-corners="true"
+        text-class="rating-score"
+        :star-size="40" />
+    </div>
+    <div class="col-12 col-md-10 mx-auto py-0"><v-divider class="my-0"/></div>
     <div class="col-12 col-md-10 overflow-hidden event-desc mx-auto mb-5 pb-5" v-html="event.description" />
     <div class="col-12 fixed-bottom bg-light d-md-none" style="box-shadow: 0px -1px 6px 2px rgba(158,158,158,1);">
       <p class="mb-1 text-center" v-if="startFrom >= 0">{{ $t('starts_from') }} Rp {{ startFrom }}</p>
@@ -148,6 +159,32 @@
         </div>
       </div>
     </div>
+
+    <div class="modal fade" id="giveRating" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Give Rating</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body d-flex justify-content-center flex-wrap">
+            <p>{{ $t('give_rating_guide') }}</p>
+            <star-rating
+              v-model="rating"
+              active-color="#258efe"
+              :show-rating="false"
+              :rounded-corners="true"
+              :star-size="40" />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" @click="submitRating">{{ $t('submit') }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -162,10 +199,12 @@ import { currencyFormat } from '~/utils/currencyFormat'
 import Panorama from 'vuejs-panorama'
 import { encrypt, decrypt } from '~/utils/simpleCrypto'
 import { eventImageUrl } from '~/utils/image'
+import StarRating from 'vue-star-rating'
 
 export default {
   components: {
-    Panorama
+    Panorama,
+    StarRating
   },
 
   data: () => ({
@@ -174,13 +213,18 @@ export default {
     showMap: false,
     showPanorama: false,
     addressData: '',
+    rating: 0
   }),
 
   beforeRouteEnter (to, from, next) {
     store.dispatch('event/fetchEventById', decrypt(to.params.id))
     .then(() => store.dispatch('category/fetchCategories'))
     .then(() => store.dispatch('type/fetchTypes'))
-    .then(() => next())
+    .then(() => store.dispatch('rating/fetchRatingStatus', {
+      event: parseInt(decrypt(to.params.id)),
+      member: store.getters['auth/user'].id
+    }))
+    .then(() => next( vm => vm.handleGiveRating()))
   },
 
   mounted () {
@@ -192,7 +236,9 @@ export default {
       categories: 'category/getCategories',
       types: 'type/getTypes',
       eventDetail: 'event/eventDetail',
-      authenticated: 'auth/user'
+      authenticated: 'auth/user',
+      ratingStatus: 'rating/ratingStatus',
+      ratingDetail: 'rating/ratingDetail'
     }),
 
     event (){
@@ -249,6 +295,11 @@ export default {
 
     eventUrl () {
       return window.location.href
+    },
+
+    ratingScore () {
+      const score = this.ratingDetail
+      return parseFloat(score).toFixed(2)
     }
   },
 
@@ -306,7 +357,23 @@ export default {
 
     eventImageUrl,
 
-    currencyFormat
+    currencyFormat,
+
+    handleGiveRating () {
+      const end = new Date(this.eventDetail[0].end_time)
+      const now = new Date()
+      if(!this.ratingStatus && end < now && authenticated.role == 1) {
+        $('#giveRating').modal('show')
+      }
+      store.dispatch('rating/fetchRatingDetail', this.eventDetail[0].id)
+    },
+
+    submitRating () {
+      axios.post('/api/rating', {
+        event_id: this.eventDetail[0].id,
+        point: this.rating
+      })
+    }
   },
 }
 </script>

@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class ReportController extends Controller
 {
-    use EventController;
     private $report;
 
     public function __construct()
