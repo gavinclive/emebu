@@ -1,13 +1,13 @@
 <template>
   <div>
     <div class="row col-12 mx-0 pt-0 px-2">
-      <div class="input-group pb-2 px-0 px-md-1" :class="{ 'col-md-6': user.role > 2, 'col-12': user.role === '1', 'pt-2': user.role === '2' }">
+      <div class="input-group pb-2 px-0 px-md-1" :class="{ 'col-md-6': user && user.role > 2, 'col-12': !user || user.role === '1', 'pt-2': user && user.role === '2' }">
         <input v-model="searchTitle" class="form-control">
         <div class="input-group-append">
           <span class="input-group-text"><img src="/dist/assets/search.svg"></span>
         </div>
       </div>
-      <div v-if="user.role > 2" class="input-group col-md-6 pb-2 px-0 px-md-1">
+      <div v-if="user && user.role > 2" class="input-group col-md-6 pb-2 px-0 px-md-1">
         <select v-model="searchStatus" class="custom-select">
           <option value="0">{{ $t('all') }}</option>
           <option value="1">{{ $t('published') }}</option>
@@ -19,13 +19,13 @@
           <span class="input-group-text"><img src="/dist/assets/grid.svg"></span>
         </div>
       </div>
-      <div v-if="user.role === '1'" class="input-group col-6 pb-2 pr-1 pl-0" @click="showTypeModal">
+      <div v-if="!user || user.role === '1'" class="input-group col-6 pb-2 pr-1 pl-1" @click="showTypeModal">
         <input v-model="activeType" class="form-control">
         <div class="input-group-append">
           <span class="input-group-text">{{ $t('type') }}</span>
         </div>
       </div>
-      <div v-if="user.role === '1'" class="input-group col-6 pb-2 pl-1 pr-0" @click="showCategoryModal">
+      <div v-if="!user || user.role === '1'" class="input-group col-6 pb-2 pl-1 pr-1" @click="showCategoryModal">
         <input v-model="activeCategory" class="form-control">
         <div class="input-group-append">
           <span class="input-group-text">{{ $t('category') }}</span>
@@ -256,8 +256,6 @@ import { dateFormat } from '~/utils/dateFormat'
 import router from '~/router'
 
 export default {
-  middleware: 'auth',
-
   metaInfo () {
     return { title: this.$t('events') }
   },
@@ -285,20 +283,14 @@ export default {
   }),
 
   beforeRouteEnter (to, from, next) {
-    if (store.getters['auth/user'].role === '1') {
-      store.dispatch('event/fetchEvents')
-      .then( () => next( vm => vm.setSoldCount()))
-    } else if (store.getters['auth/user'].role === '2') {
+    if (store.getters['auth/user']) {
       store.dispatch('event/fetchEventsByParams', {
         id: store.getters['auth/user'].id,
         role: store.getters['auth/user'].role
       })
       .then( () => next( vm => vm.setSoldCount()))
     } else {
-      store.dispatch('event/fetchEventsByParams', {
-        id: store.getters['auth/user'].id,
-        role: store.getters['auth/user'].role
-      })
+      store.dispatch('event/fetchEvents')
       .then( () => next( vm => vm.setSoldCount()))
     }
   },
@@ -421,7 +413,12 @@ export default {
 
     handleCancelEvent () {
       store.dispatch('event/removeEvent', decrypt(this.id))
-      .then( () => this.events.splice(this.events.findIndex(e => e.id = decrypt(this.id)), 1))
+      .then( () => {
+        store.dispatch('event/fetchEventsByParams', {
+          id: store.getters['auth/user'].id,
+          role: store.getters['auth/user'].role
+        })
+      })
     },
 
     handleHideEvent () {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Event;
 use App\EventViews;
 use App\Ticket;
+use App\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -13,12 +14,14 @@ class EventController extends Controller
     private $event;
     private $ticket;
     private $view;
+    private $transaction;
 
     public function __construct()
     {
         $this->event = new Event();
         $this->ticket = new Ticket();
         $this->view = new EventViews();
+        $this->transaction = new Transaction();
     }
 
     public function index()
@@ -142,8 +145,16 @@ class EventController extends Controller
 
     public function destroy($id)
     {
-        dd($id);
-        $deleteEvent = $this->event->deleteEventById($id);
+        $hardDelete = false;
+        $tickets = $this->ticket->getTicketByEventId($id);
+        foreach($tickets as $ticket) {
+            $transac = $this->transaction->getTransactionByEventId($ticket['id']);
+            if ($transac->isEmpty()) {
+                $hardDelete = true;
+                break;
+            }
+        }
+        $deleteEvent = $this->event->deleteEventById($id, $hardDelete);
 
         if (!$deleteEvent) {
             return response()->json(['success' => false, 'errMessage' => 'Delete failed'], 500);

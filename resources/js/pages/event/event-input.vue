@@ -1,5 +1,5 @@
 <template>
-  <form class="col-md-9 mx-auto" @submit.prevent="update" @keydown="form.onKeydown($event)" novalidate>
+  <form class="col-xl-5 col-lg-6 col-md-8 mx-auto" @submit.prevent="update" @keydown="form.onKeydown($event)" novalidate>
 
     <v-stepper v-model="e1" class="stepper">
       <v-stepper-header class="stepper">
@@ -18,7 +18,7 @@
         <v-stepper-content step="1">
 
           <div class="row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0">
+            <div class="col-md-12 py-0">
               <div class="col-md-11 py-1 text-center mx-auto">
                 <h5>{{ $t('basic_info') }}</h5>
               </div>
@@ -27,7 +27,7 @@
           
           <!-- Event Title -->
           <div class="form-group row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0 justify-content-center">
+            <div class="col-md-12 py-0 justify-content-center">
               <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('event_title') }}</label>
               <div class="col-md-12 d-flex align-items-center py-1">
                 <input v-model="form.title" :class="{ 'is-invalid': form.errors.has('title') }" class="form-control col-md-11 mx-auto" type="text" name="title" :placeholder="$t('event_title_placeholder')">
@@ -37,7 +37,7 @@
           </div>
 
           <div class="form-group row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0 justify-content-center">
+            <div class="col-md-12 py-0 justify-content-center">
               <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('type') }}</label>
               <div class="col-md-12 d-flex align-items-center py-1">
                 <div class="input-group col-md-11 mx-auto px-0 py-0" @click="showTypeModal">
@@ -73,7 +73,7 @@
           </div>
 
           <div class="form-group row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0 justify-content-center">
+            <div class="col-md-12 py-0 justify-content-center">
               <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('category') }}</label>
               <div class="col-md-12 d-flex align-items-center py-1">
                 <div class="input-group col-md-11 mx-auto px-0 py-0" @click="showCategoryModal">
@@ -109,7 +109,7 @@
           </div>
           
           <div class="form-group row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0 justify-content-center">
+            <div class="col-md-12 py-0 justify-content-center">
               <div class="col-md-12 d-flex align-items-center py-1">
                 <div class="col-md-11 mx-auto px-0">
                   <v-divider />
@@ -119,7 +119,7 @@
           </div>
 
           <div class="row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0">
+            <div class="col-md-12 py-0">
               <div class="col-md-11 py-1 mx-auto text-center">
                 <h5>{{ $t('date_n_time') }}</h5>
               </div>
@@ -127,7 +127,7 @@
           </div>
 
           <div class="form-group row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0 justify-content-center">
+            <div class="col-md-12 py-0 justify-content-center">
               <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('event_publish') }}</label>
               <div class="col-md-12 d-flex align-items-center py-1">
                 <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.publishTime" :class="{ 'is-invalid': form.errors.has('publishTime') }" class="form-control theme-blue col-md-11 mx-auto p-0"></datetime>
@@ -137,7 +137,7 @@
           </div>
 
           <div class="form-group row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0 justify-content-center">
+            <div class="col-md-12 py-0 justify-content-center">
               <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('event_start') }}</label>
               <div class="col-md-12 d-flex align-items-center py-1">
                 <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.startTime" :class="{ 'is-invalid': form.errors.has('startTime') }" class="form-control theme-blue col-md-11 mx-auto p-0"></datetime>
@@ -147,7 +147,7 @@
           </div>
 
           <div class="form-group row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0 justify-content-center">
+            <div class="col-md-12 py-0 justify-content-center">
               <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('event_end') }}</label>
               <div class="col-md-12 d-flex align-items-center py-1">
                 <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.endTime" :class="{ 'is-invalid': form.errors.has('endTime') }" class="form-control theme-blue col-md-11 mx-auto"></datetime>
@@ -157,7 +157,7 @@
           </div>
 
           <div class="form-group row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0 justify-content-center">
+            <div class="col-md-12 py-0 justify-content-center">
               <div class="col-md-12 d-flex align-items-center py-1">
                 <div class="col-md-11 mx-auto px-0">
                   <v-divider />
@@ -167,7 +167,7 @@
           </div>
 
           <div class="row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0">
+            <div class="col-md-12 py-0">
               <div class="col-md-11 py-1 mx-auto text-center">
                 <h5>{{ $t('location') }}</h5>
               </div>
@@ -175,7 +175,7 @@
           </div>
           
           <div class="form-group row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0 justify-content-center">
+            <div class="col-md-12 py-0 justify-content-center">
               <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('venue') }}</label>
               <div class="col-md-12 d-flex align-items-center py-1">
                <GmapMap
@@ -206,7 +206,7 @@
           </div>
 
           <div class="form-group row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0 justify-content-center">
+            <div class="col-md-12 py-0 justify-content-center">
               <div class="col-md-12 d-flex align-items-center pt-1 pb-0">
                 <textarea v-model="form.location_guide" class="form-control col-md-11 mx-auto" maxlength="150" rows="4" style="resize: none;" :placeholder="$t('address_placeholder')" name="address"></textarea>
               </div>
@@ -218,7 +218,7 @@
           </div>
 
           <div class="form-group row d-flex justify-content-center mt-3 mx-0 col-12">
-            <div class="d-flex col-md-9 px-0 d-flex justify-content-between">
+            <div class="d-flex col-md-11 px-0 d-flex justify-content-between">
               <button class="btn btn-primary" @click="e1 = 2, scrollTop()" type="button">
                 {{ $t('continue') }}
               </button>
@@ -230,7 +230,7 @@
         <v-stepper-content step="2">
 
           <div class="row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0">
+            <div class="col-md-12 py-0">
               <div class="col-md-11 py-1 text-center mx-auto">
                 <h5>{{ $t('main_event_img') }}</h5>
               </div>
@@ -238,7 +238,7 @@
           </div>
 
           <div class="form-group row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0 justify-content-center">
+            <div class="col-md-12 py-0 justify-content-center">
               <div class="col-md-12 d-flex align-items-center py-1">
                 <div class="custom-file col-md-11 mx-auto">
                   <input type="file" accept="image/*" class="custom-file-input" @change="imageUpload($event.target.files[0])">
@@ -254,7 +254,7 @@
           </div>
 
           <div class="form-group row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0 justify-content-center">
+            <div class="col-md-12 py-0 justify-content-center">
               <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('panoramic_image') }}</label>
               <div class="col-md-12 d-flex align-items-center py-1">
                 <div class="custom-file col-md-11 mx-auto">
@@ -271,7 +271,7 @@
           </div>
 
           <div class="form-group row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0 justify-content-center">
+            <div class="col-md-12 py-0 justify-content-center">
               <div class="col-md-12 d-flex align-items-center py-1">
                 <div class="col-md-11 mx-auto px-0">
                   <v-divider />
@@ -281,7 +281,7 @@
           </div>
 
           <div class="row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0">
+            <div class="col-md-12 py-0">
               <div class="col-md-11 py-1 text-center mx-auto">
                 <h5>{{ $t('summary') }}</h5>
               </div>
@@ -289,7 +289,7 @@
           </div>
 
           <div class="form-group row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0 justify-content-center">
+            <div class="col-md-12 py-0 justify-content-center">
               <div class="col-md-12 d-flex align-items-center pt-1 pb-0">
                 <textarea v-model="form.summary" class="form-control col-md-11 mx-auto" maxlength="150" rows="4" style="resize: none;" :placeholder="$t('summary_placeholder')" name="summary"></textarea>
               </div>
@@ -301,7 +301,7 @@
           </div>
 
           <div class="form-group row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0 justify-content-center">
+            <div class="col-md-12 py-0 justify-content-center">
               <div class="col-md-12 d-flex align-items-center py-1">
                 <div class="col-md-11 mx-auto px-0">
                   <v-divider />
@@ -311,7 +311,7 @@
           </div>
 
           <div class="row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0">
+            <div class="col-md-12 py-0">
               <div class="col-md-11 py-1 text-center mx-auto">
                 <h5>{{ $t('description') }}</h5>
               </div>
@@ -319,7 +319,7 @@
           </div>
 
           <div class="form-group row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0 justify-content-center">
+            <div class="col-md-12 py-0 justify-content-center">
               <div class="col-md-12 d-flex align-items-center py-1">
                 <div class="col-md-11 mx-auto px-0">
                   <vue-editor v-model="form.description" useCustomImageHandler @image-added="handleImageAdded" />
@@ -330,7 +330,7 @@
           </div>
           
           <div class="form-group row d-flex justify-content-center mt-3 mx-0 col-12">
-            <div class="d-flex col-md-9 px-0 d-flex justify-content-between">
+            <div class="d-flex col-md-11 px-0 d-flex justify-content-between">
               <button class="btn btn-primary" @click="e1 = 3, scrollTop()" type="button">
                 {{ $t('continue') }}
               </button>
@@ -341,7 +341,7 @@
 
         <v-stepper-content step="3">
           <div class="row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0">
+            <div class="col-md-12 py-0">
               <div class="col-md-11 py-1 text-center mx-auto">
                 <h5>{{ $t('tickets') }}</h5>
               </div>
@@ -349,7 +349,7 @@
           </div>
 
           <div class="form-group row d-flex justify-content-center mb-0">
-            <div class="col-md-10 py-0 justify-content-center">
+            <div class="col-md-12 py-0 justify-content-center">
               <div class="col-md-12 d-flex align-items-center py-1">
                 <div v-if="!form.ticket || form.ticket.length < 1" class="col-md-11 mx-auto text-center">
                   <img src="/dist/assets/movie-tickets.svg" width="100" class="my-4"/>
@@ -436,7 +436,7 @@
           </div>
 
           <div class="form-group row d-flex justify-content-center mt-3 mx-0 col-12">
-            <div class="d-flex col-md-9 px-0 d-flex justify-content-between">
+            <div class="d-flex col-md-11 px-0 d-flex justify-content-between">
               <v-button :loading="form.busy" type="success">
                 {{ $t('create') }}
               </v-button>

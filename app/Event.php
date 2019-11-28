@@ -120,12 +120,18 @@ class Event extends Model
     }
     #endregion
 
-    public function deleteEventById($id)
+    public function deleteEventById($id, $hardDelete)
     {
         if($id)
         {
-            return $this->where('id', $id)
-                        ->delete();
+            if ($hardDelete) {
+                return $this->where('id', $id)
+                            ->forceDelete();
+            }
+            else {
+                return $this->where('id', $id)
+                            ->delete();
+            }
         }
 
         return false;
