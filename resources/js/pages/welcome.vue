@@ -26,7 +26,7 @@
 
       <div class="text-center">
         <div class="title mb-4">
-          {{ title }}
+          <img src="/dist/assets/emebu-logo.svg" class="white-svg" height="100">
         </div>
       </div>
     </div>
@@ -73,14 +73,14 @@ export default {
 <style scoped>
 .top-right {
   position: absolute;
-  right: 10px;
-  top: 20%;
+  right: 0;
+  top: 25%;
 }
 
 .top-left {
   position: absolute;
-  left: 10px;
-  top: 20%;
+  left: 0;
+  top: 25%;
 }
 
 .title {
