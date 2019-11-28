@@ -78,7 +78,6 @@
           </div>
         </form>
       </card>
-      <div class="position-fixed" style="left: 0; bottom: -17.5px; transform: rotate(35deg);"><img src="/dist/assets/wayang.png" height="200"></div>
     </div>
   </div>
 </template>
