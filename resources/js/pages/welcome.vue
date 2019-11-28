@@ -1,8 +1,6 @@
 <template>
   <div class="col-12 p-0 position-relative">
-    <video autoplay loop class="video-background" muted plays-inline>
-      <source src="https://www.videvo.net/videvo_files/converted/2016_01/preview/koncert.mp426536.webm" type="video/mp4">
-    </video>
+    <video-bg :sources="['https://www.videvo.net/videvo_files/converted/2016_01/preview/koncert.mp426536.webm']" />
     <div class="welcome-detail col-9 col-xl-6 col-lg-7">
       <div class="top-left links">
         <template>
@@ -39,12 +37,17 @@
 import { mapGetters } from 'vuex'
 import { md } from '~/utils/mobileDetect'
 import store from '~/store'
+import VideoBg from 'vue-videobg'
 
 export default {
   layout: 'basic',
 
   metaInfo () {
     return { title: this.$t('home') }
+  },
+
+  components: {
+    VideoBg
   },
 
   data: () => ({
@@ -82,28 +85,6 @@ export default {
 
 .title {
   font-size: 85px;
-}
-
-.video-background {
-  position: relative;
-  top: 0;
-  left: 0;
-  width: 100%;
-  filter: blur(5px);
-  transform: scale(1.03);
-}
-
-@media (max-width: 1660px) {
-  .video-background {
-    position: relative;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: auto;
-    filter: blur(5px);
-    transform: scale(1.03);
-    object-position: center;
-  }
 }
 
 .welcome-detail {
