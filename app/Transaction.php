@@ -108,4 +108,10 @@ class Transaction extends Model
                 ->orderBy('created_at', 'desc')
                 ->get();
     }
+
+    public function getTransactionByEventId ($id)
+    {
+        return $this->where('ticket_id', $id)
+                    ->get();
+    }
 }

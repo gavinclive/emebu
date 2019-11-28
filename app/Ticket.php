@@ -22,7 +22,8 @@ class Ticket extends Model
 
     public function getTicketByEventId($id)
     {
-        return $this->getTicketByEventId($id);
+        return $this->where('event_id', $id)
+                    ->get();
     }
 
     public function storeTicket($value)
@@ -36,7 +37,7 @@ class Ticket extends Model
     public function updateTicket($value, $id)
     {
         unset($value['id']);
-        return $this->where('id', '=', $id)
+        return $this->where('id', $id)
                     ->update($value);
     }
 

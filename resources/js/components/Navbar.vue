@@ -15,7 +15,7 @@
         </div>
         <div class="hide collapse navbar-collapse">
           <ul class="navbar-nav">
-            <li class="nav-item" v-if="user && user.role > 2">
+            <li class="nav-item" v-if="user && user.role == 1">
               <router-link :to="{ name: 'event.view' }" class="nav-link text-light">
                 {{ $t('browse') }}
               </router-link>
@@ -40,19 +40,24 @@
                 {{ $t('tickets') }}
               </router-link>
             </li>
-            <li class="nav-item" v-if="user && user.role === 2">
+            <li class="nav-item" v-if="user && user.role == 2">
               <router-link :to="{ name: 'transaction.view' }" class="nav-link text-light">
                 {{ $t('users') }}
               </router-link>
             </li>
-            <li class="nav-item" v-if="user && user.role === 2">
+            <li class="nav-item" v-if="user && user.role == 2">
               <router-link :to="{ name: 'transaction.view' }" class="nav-link text-light">
                 {{ $t('events') }}
               </router-link>
             </li>
-            <li class="nav-item" v-if="user && user.role === 2">
+            <li class="nav-item" v-if="user && user.role == 2">
               <router-link :to="{ name: 'transaction.view' }" class="nav-link text-light">
                 {{ $t('content') }}
+              </router-link>
+            </li>
+            <li class="nav-item" v-if="!user || user.role != 2">
+              <router-link :to="{ name: 'faq' }" class="nav-link text-light">
+                {{ $t('faq') }}
               </router-link>
             </li>
           </ul>

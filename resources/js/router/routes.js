@@ -22,7 +22,8 @@ export default [
   { path: '/transaction/:id', name: 'transaction.detail', component: page('transaction/transaction-detail.vue') },
   { path: '/checkout/:id', name: 'checkout', component: page('payment/checkout.vue') },
   { path: '/checkout/post/:id', name: 'post.checkout', component: page('payment/post-checkout.vue') },
-
+  { path: '/faq', name: 'faq', component: page('faq.vue') },
+  
   { path: '/settings',
     component: page('settings/index.vue'),
     children: [
