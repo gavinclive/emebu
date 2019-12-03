@@ -20,13 +20,13 @@
         </div>
       </div>
       <div v-if="!user || user.role === '1'" class="input-group col-6 pb-2 pr-1 pl-1" @click="showTypeModal">
-        <input v-model="activeType" class="form-control">
+        <input disabled v-model="activeType" class="form-control">
         <div class="input-group-append">
           <span class="input-group-text">{{ $t('type') }}</span>
         </div>
       </div>
       <div v-if="!user || user.role === '1'" class="input-group col-6 pb-2 pl-1 pr-1" @click="showCategoryModal">
-        <input v-model="activeCategory" class="form-control">
+        <input disabled v-model="activeCategory" class="form-control">
         <div class="input-group-append">
           <span class="input-group-text">{{ $t('category') }}</span>
         </div>
@@ -283,7 +283,7 @@ export default {
   }),
 
   beforeRouteEnter (to, from, next) {
-    if (store.getters['auth/user']) {
+    if (store.getters['auth/user'] && store.getters['auth/user'].role > 2) {
       store.dispatch('event/fetchEventsByParams', {
         id: store.getters['auth/user'].id,
         role: store.getters['auth/user'].role

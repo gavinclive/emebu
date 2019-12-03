@@ -55,5 +55,5 @@ export default [
       { path: 'camera', name: 'camera', component: page('m/camera.vue') }
     ]
   },
-  { path: '*', component: page('errors/404.vue') }
+  { path: '*', name: '404', component: page('errors/404.vue') }
 ]
