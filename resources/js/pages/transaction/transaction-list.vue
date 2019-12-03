@@ -18,8 +18,8 @@
             <h5 class="m-0 d-block text-truncate">{{ transaction.event.title }}</h5>
             <p class="m-0 d-block text-truncate">{{ transaction.ticket.name }}</p>
             <v-divider class="my-2 mx-0"/>
-            <p class="m-0">{{ dateFormat(new Date(isMember? transaction.ticket.start_time : transaction.created_at), 'dd, DD MMM YYYY')}}</p>
-            <p class="m-0">{{ dateFormat(new Date(isMember? transaction.ticket.start_time : transaction.created_at), 'hh.mm')}}</p>
+            <p class="m-0">{{ dateFormat(new Date(isMember? transaction.event.start_time : transaction.created_at), 'dd, DD MMM YYYY')}}</p>
+            <p class="m-0">{{ dateFormat(new Date(isMember? transaction.event.start_time : transaction.created_at), 'hh.mm')}}</p>
           </div>
           
           <div class="col-3 d-flex flex-column justify-content-center" :class="{ 'col-6 ': !isMember}">
