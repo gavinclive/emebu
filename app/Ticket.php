@@ -17,7 +17,7 @@ class Ticket extends Model
 
     public function coupon()
     {
-    return $this->hasOneThrough('App\Coupon', 'App\Event', 'id', 'event_id', 'event_id', 'id');
+        return $this->hasOneThrough('App\Coupon', 'App\Event', 'id', 'event_id', 'event_id', 'id');
     }
 
     public function getTicketByEventId($id)
