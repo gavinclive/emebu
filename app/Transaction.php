@@ -3,7 +3,9 @@
 namespace App;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Transaction extends Model
 {
@@ -30,19 +32,48 @@ class Transaction extends Model
         return $this->hasOneThrough('App\Event', 'App\Ticket', 'event_id', 'id', 'ticket_id', 'id');
     }
 
+    public function member()
+    {
+        return $this->belongsTo('App\User', 'member_id', 'id');
+    }
+
     public function getAllTransaction()
     {
-        return $this->with(['ticket' => function($query) {
-                        $query->select('*');
-                    }])
-                    ->with(['event' => function($query){
-                        $query->select('*');
-                    }])
-                    ->with(['coupon' => function($query) {
-                        $query->select('*');
-                    }])
-                    ->orderBy('created_at', 'desc')
-                    ->get();
+        if (Auth::user()->role === '1') {
+            return $this->with(['ticket' => function($query) {
+                            $query->select('*');
+                        }])
+                        ->with(['event' => function($query){
+                            $query->select('*');
+                        }])
+                        ->with(['coupon' => function($query) {
+                            $query->select('*');
+                        }])
+                        ->with(['member' => function($query) {
+                            $query->select('*');
+                        }])
+                        ->where('member_id', Auth::user()->id)
+                        ->orderBy('created_at', 'desc')
+                        ->get();
+        } else {
+            return $this->with(['ticket' => function($query) {
+                            $query->select('*');
+                        }])
+                        ->with('event')
+                        ->whereHas('event',
+                            function (Builder $query) {
+                                $query->where('eo_id', Auth::user()->id);
+                            })
+                        ->with(['coupon' => function($query) {
+                            $query->select('*');
+                        }])
+                        ->with(['member' => function($query) {
+                            $query->select('*');
+                        }])
+                        ->orderBy('created_at', 'desc')
+                        ->get();
+        }
+        
                     
     }
 

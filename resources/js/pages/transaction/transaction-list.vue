@@ -52,7 +52,7 @@
           <div class="col-12 d-flex p-0" v-if="!isMember && !transaction.settled_at">
             <div class="col-6 p-0">
               <p class="m-0">{{ $t('sender_name') }}:</p>
-              <p class="m-0">Ucok</p>
+              <p class="m-0">{{ transaction.member.name }}</p>
             </div>
             <div class="col-6 text-right">
               <button type="button" class="btn btn-success"><img class="white-svg" src="/dist/assets/check-circle.svg" height="18" cover> <span>{{ $t('settle') }}</span></button>
@@ -147,9 +147,13 @@ export default {
     }),
 
     transactionList () {
-      return this.transactions.filter( data => {
-        return this.isHistory ? +new Date(data.event.end_time) <= +new Date() : new Date(data.event.end_time) > new Date()
-      })
+      if (this.user.role === '1') {
+        return this.transactions.filter( data => {
+          return this.isHistory ? +new Date(data.event.end_time) <= +new Date() : new Date(data.event.end_time) > new Date()
+        })
+      } else {
+        return this.transactions
+      }
     },
 
     qrUrl () {
