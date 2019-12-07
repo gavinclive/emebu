@@ -26,13 +26,13 @@
               </router-link>
             </li>
             <li class="nav-item" v-if="user && user.role > 2">
-              <router-link :to="{ name: 'event.view' }" class="nav-link text-light">
-                {{ $t('manage') }}
+              <router-link :to="{ name: 'event.input' }" class="nav-link text-light">
+                {{ $t('create') }}
               </router-link>
             </li>
             <li class="nav-item" v-if="user && user.role > 2">
-              <router-link :to="{ name: 'event.input' }" class="nav-link text-light">
-                {{ $t('create') }}
+              <router-link :to="{ name: 'event.view' }" class="nav-link text-light">
+                {{ $t('manage') }}
               </router-link>
             </li>
             <li class="nav-item" v-if="user && user.role !== 2">
@@ -117,7 +117,7 @@ export default {
 
     inSettings () {
       const currentRoute = this.$route.name ? this.$route.name : ''
-      return currentRoute.includes('m.settings')
+      return currentRoute.includes('m.settings') || currentRoute.includes('download')
     },
 
     inEoHome () {

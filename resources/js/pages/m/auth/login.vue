@@ -55,6 +55,7 @@ export default {
   middleware: 'guest',
 
   beforeRouteEnter (to, from, next) {
+    if (!navigator.userAgent.includes('Wolvpack')) next({ name: 'download' })
     if (md.mobile()) {
       next()
     } else {
