@@ -211,7 +211,7 @@
                 <textarea v-model="form.location_guide" class="form-control col-md-11 mx-auto" maxlength="150" rows="4" style="resize: none;" :placeholder="$t('address_placeholder')" name="address"></textarea>
               </div>
               <div class="col-md-12 py-1" v-if="form.location_guide && form.location_guide.length">
-                <div class="col-md-11 mx-auto py-0 px-0 text-right" :class="{ 'text-danger': form.location_guide.length === 150 }">{{ form.address.length }}/150</div>
+                <div class="col-md-11 mx-auto py-0 px-0 text-right" :class="{ 'text-danger': form.location_guide.length === 150 }">{{ form.location_guide.length }}/150</div>
               </div>
               <has-error :form="form" field="title" class="d-block pl-3 text-left"/>
             </div>
