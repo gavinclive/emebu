@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,3 +59,6 @@ Route::resource('report', 'ReportController');
 Route::resource('rating', 'RatingController');
 Route::post('check-rating', 'RatingController@checkExist');
 Route::get('eo-score', 'RatingController@getEoRating');
+Route::get('android', function () {
+    return Storage::download('public/app-release.apk');
+});

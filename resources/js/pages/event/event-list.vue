@@ -7,14 +7,8 @@
           <span class="input-group-text"><img src="/dist/assets/search.svg"></span>
         </div>
       </div>
-      <div v-if="user && user.role > 2" class="input-group col-md-6 pb-2 px-0 px-md-1">
-        <select v-model="searchStatus" class="custom-select">
-          <option value="0">{{ $t('all') }}</option>
-          <option value="1">{{ $t('published') }}</option>
-          <option value="3">{{ $t('under_investigation') }}</option>
-          <option value="4">{{ $t('past') }}</option>
-          <option value="2">{{ $t('cancelled') }}</option>
-        </select>
+      <div v-if="user && user.role > 2" class="input-group col-md-6 pb-2 px-0 px-md-1" @click="showStatusModal">
+        <input disabled v-model="activeStatus" class="form-control">
         <div class="input-group-append">
           <span class="input-group-text"><img src="/dist/assets/grid.svg"></span>
         </div>
@@ -154,6 +148,26 @@
       </div>
     </div>
 
+    <div class="modal fade" id="eventStatus" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-sm modal-dialog-scrollable modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">{{ $t('status') }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body d-flex justify-content-center flex-wrap text-justify">
+            <div v-for="(status, index) in statuses" :key="index" class="col-12 p-0 my-1" data-dismiss="modal" @click="setStatus(index)">
+              <div class="col-12 py-1 rounded-lg" :class="{ 'bg-primary text-light': index == searchStatus, 'bg-light': index != searchStatus }">
+                {{ status }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="modal fade" id="eventAnalytics" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -262,7 +276,7 @@ export default {
 
   data: () => ({
     searchTitle:'',
-    searchStatus: '0',
+    searchStatus: 0,
     searchLocation: '',
     id: '',
     eventUrl: '',
@@ -279,7 +293,7 @@ export default {
       max_cut: '',
       event_id: ''
     }),
-    isHistory: ''
+    isHistory: '',
   }),
 
   beforeRouteEnter (to, from, next) {
@@ -326,10 +340,20 @@ export default {
         })
       }
 
-      if(this.searchStatus !== '0') {
-        return list.filter(data => {
-          return data.status.includes(this.searchStatus)
-        })
+      if (this.searchStatus !== 0) {
+        if(this.searchStatus === 3 ) {
+          return list.filter(data => {
+            return new Date(data.end_time) < new Date()
+          })
+        } else if (this.searchStatus === 4) {
+          return list.filter(data => {
+            return data.deleted_at !== null
+          })
+        } else {
+          return list.filter(data => {
+            return data.status.includes(this.searchStatus)
+          })
+        }
       }
 
       return list
@@ -341,6 +365,24 @@ export default {
 
     activeCategory () {
       return this.category !== '' ? this.categories[this.category].name : ''
+    },
+
+    activeStatus () {
+      if (this.searchStatus == 0) return this.$i18n.t('all')
+      else if (this.searchStatus == 1) return this.$i18n.t('published')
+      else if (this.searchStatus == 2) return this.$i18n.t('under_investigation')
+      else if (this.searchStatus == 3) return this.$i18n.t('past')
+      else return this.$i18n.t('cancelled')
+    },
+
+    statuses () {
+      return [
+        this.$i18n.t('all'),
+        this.$i18n.t('published'),
+        this.$i18n.t('under_investigation'),
+        this.$i18n.t('past'),
+        this.$i18n.t('cancelled')
+      ]
     }
   },
 
@@ -398,12 +440,20 @@ export default {
       $('#eventCategory').modal('show')
     },
 
+    showStatusModal () {
+      $('#eventStatus').modal('show')
+    },
+
     setType (index) {
       this.type = index
     },
 
     setCategory (index) {
       this.category = index
+    },
+
+    setStatus (index) {
+      this.searchStatus = index
     },
 
     cancelEvent (id) {

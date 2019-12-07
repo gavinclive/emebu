@@ -28,7 +28,7 @@
   "update": "Perbarui",
   "your_password": "Kata sandi anda",
   "password_updated": "您的密码已经更新!",
-  "new_password": "新密码",
+  "new_password": "Kata Sandi Baru",
   "login_with": "登录",
   "register_with": "注册",
   "browse": "Telusuri",
@@ -177,5 +177,6 @@
   "give_rating_guide": "Mohon berikan penilaian untuk event yang telah Anda kunjungi.",
   "before_rating_text": "Anda mendapat peringkat",
   "after_rating_text": "oleh peserta acara Anda.",
-  "faq": "FAQ"
+  "faq": "FAQ",
+  "status": "Status"
 }
