@@ -60,5 +60,5 @@ Route::resource('rating', 'RatingController');
 Route::post('check-rating', 'RatingController@checkExist');
 Route::get('eo-score', 'RatingController@getEoRating');
 Route::get('android', function () {
-    return Storage::download('public/app-release.apk');
+    return response()->download('storage/app-release.apk');
 });
