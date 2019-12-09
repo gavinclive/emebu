@@ -57,7 +57,7 @@ export default {
   beforeRouteEnter (to, from, next) {
     if (store.getters['auth/check']) {
       next({ name: 'home' })
-    } else if (md.mobile()) {
+    } else if (md.ua.includes('Wolvpack')) {
       next({ name: 'm.login' })
     } else {
       next()

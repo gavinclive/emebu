@@ -2,7 +2,7 @@
   <div>
     <v-card width="100%" height="14rem" class="settings-card bg-gradient-primary text-light">
       <v-card-title class="small pt-2 settings-title">
-        My Account
+        {{ $t('my_account') }}
       </v-card-title>
       <v-card-text class="text-center pt-5">
         <img :src="user.photo_url" class="profile-photo" height="100" style="border-radius: .5rem;">

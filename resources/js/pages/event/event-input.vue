@@ -130,9 +130,9 @@
             <div class="col-md-12 py-0 justify-content-center">
               <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('event_publish') }}</label>
               <div class="col-md-12 d-flex align-items-center py-1">
-                <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.publishTime" :class="{ 'is-invalid': form.errors.has('publishTime') }" class="form-control theme-blue col-md-11 mx-auto p-0"></datetime>
+                <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.publish_time" :class="{ 'is-invalid': form.errors.has('publishTime') }" class="form-control theme-blue col-md-11 mx-auto py-0"></datetime>
               </div>
-              <has-error :form="form" field="publishTime" class="d-block pl-3 text-left"/>
+              <has-error :form="form" field="publish_time" class="d-block pl-3 text-left"/>
             </div>
           </div>
 
@@ -140,9 +140,9 @@
             <div class="col-md-12 py-0 justify-content-center">
               <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('event_start') }}</label>
               <div class="col-md-12 d-flex align-items-center py-1">
-                <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.startTime" :class="{ 'is-invalid': form.errors.has('startTime') }" class="form-control theme-blue col-md-11 mx-auto p-0"></datetime>
+                <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.start_time" :class="{ 'is-invalid': form.errors.has('startTime') }" class="form-control theme-blue col-md-11 mx-auto py-0"></datetime>
               </div>
-              <has-error :form="form" field="startTime" class="d-block pl-3 text-left"/>
+              <has-error :form="form" field="start_time" class="d-block pl-3 text-left"/>
             </div>
           </div>
 
@@ -150,9 +150,9 @@
             <div class="col-md-12 py-0 justify-content-center">
               <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('event_end') }}</label>
               <div class="col-md-12 d-flex align-items-center py-1">
-                <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.endTime" :class="{ 'is-invalid': form.errors.has('endTime') }" class="form-control theme-blue col-md-11 mx-auto"></datetime>
+                <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.end_time" :class="{ 'is-invalid': form.errors.has('endTime') }" class="form-control theme-blue col-md-11 mx-auto py-0"></datetime>
               </div>
-              <has-error :form="form" field="endTime" class="d-block pl-3 text-left"/>
+              <has-error :form="form" field="end_time" class="d-block pl-3 text-left"/>
             </div>
           </div>
 
@@ -197,6 +197,11 @@
                   :draggable="false"
                 />
               </GmapMap>
+              </div>
+              <div class="col-12 d-flex justify-content-center p-0">
+                <div class="col-md-11 py-1" v-if="address">
+                  {{ $t('location') }}: {{ address }}
+                </div>
               </div>
               <div class="col-md-12 d-flex align-items-center py-1">
                 <gmap-autocomplete class="form-control col-md-11 mx-auto" @place_changed="setPlace" :placeholder="$t('venue_placeholder')" name="venue"/>
@@ -390,11 +395,11 @@
                 </div>
                 <div class="modal-body">
                   <ul class="nav nav-pills nav-fill">
-                    <li class="nav-item" @click="tempTicket.type = 1, tempTicket.price = 1000">
-                      <a class="nav-link" :class="{ 'active': tempTicket.type === 1 }">{{ $t('paid') }}</a>
+                    <li class="nav-item" @click="tempTicket.price = 1000">
+                      <a class="nav-link" :class="{ 'active': tempTicket.price >= 1000 }">{{ $t('paid') }}</a>
                     </li>
-                    <li class="nav-item" @click="tempTicket.type = 2, tempTicket.price = 0">
-                      <a class="nav-link" :class="{ 'active': tempTicket.type === 2 }">{{ $t('free') }}</a>
+                    <li class="nav-item" @click="tempTicket.price = 0">
+                      <a class="nav-link" :class="{ 'active': tempTicket.price == 0 }">{{ $t('free') }}</a>
                     </li>
                   </ul>
                   <div class="col-12 form-group pt-4 pb-1 px-0 my-0">
@@ -458,6 +463,8 @@ import Form from 'vform'
 import { mapGetters } from 'vuex'
 import { VueEditor } from 'vue2-editor'
 import { BASE_URL } from '~/utils/constant'
+import { encrypt, decrypt } from '~/utils/simpleCrypto'
+import { eventImageUrl } from '~/utils/image'
 
 export default {
   middleware: 'auth',
@@ -473,6 +480,7 @@ export default {
   data: () => ({
     e1: 0,
     form: new Form({
+      id: '',
       title: '',
       publish_time: '',
       start_time: '',
@@ -481,10 +489,12 @@ export default {
       location_guide: '',
       summary: '',
       description: '',
-      img: '',
-      img_3d: '',
+      image: '',
+      image_3d: '',
       ticket: [],
-      organizerId: ''
+      eo_id: '',
+      type_id: '',
+      category_id: ''
     }),
     imagePreview: '',
     imagePreview2: '',
@@ -507,10 +517,17 @@ export default {
     category: '',
   }),
 
-  
-  mounted () {
+  beforeRouteEnter (to, from, next) {
     store.dispatch('category/fetchCategories')
-    store.dispatch('type/fetchTypes')
+    .then( () => store.dispatch('type/fetchTypes'))
+    .then( () => {
+      if (to.name.includes('edit')) {
+        store.dispatch('event/fetchEventById', decrypt(to.params.id))
+        .then(() => next( vm => vm.setEventDetail()))
+      } else {
+        next ()
+      }
+    })
   },
 
   computed: {
@@ -520,6 +537,7 @@ export default {
 
     ...mapGetters({
       user: 'auth/user',
+      eventDetail: 'event/eventDetail',
       categories: 'category/getCategories',
       types: 'type/getTypes'
     }),
@@ -689,17 +707,50 @@ export default {
       this.form.ticket = this.ticket
     },
 
-    async update () {
-      this.form.location = `${this.latLng.lat}, ${this.latLng.lng}`
-      this.form.organizerId = this.user.id
-      try {
-        await this.form.submit('post', '/api/event', {
+    setEventDetail () {
+      this.form.keys().forEach( key => this.form[key] = this.eventDetail[0][key])
+      this.type = parseInt(this.form['type_id'])
+      this.category = parseInt(this.form['category_id'])
+      this.form.publish_time = new Date(this.form.publish_time).toISOString()
+      this.form.start_time = new Date(this.form.start_time).toISOString()
+      this.form.end_time = new Date(this.form.end_time).toISOString()
+      const coordinate = this.form.location.split(', ')
+      this.showMarker = true
+      this.zoom = 14
+      this.latLng = {
+        lat: parseFloat(coordinate[0]),
+        lng: parseFloat(coordinate[1]),
+      }
+      axios.get(`https://maps.google.com/maps/api/geocode/json?latlng=${this.latLng.lat},${this.latLng.lng}&key=AIzaSyAyhAP-kfAQ9xqD6jEhwnQPkAmxFSNIxZI`)
+      .then(response => {
+        this.address = response.data.results[0].formatted_address
+      })
+      .catch(error => {
+        console.log(error)
+      })
+      this.imagePreview = this.form.image ? eventImageUrl(this.form.image) : ''
+      this.imagePreview2 = this.form.image_3d ? eventImageUrl(this.form.image_3d) : ''
+      this.form.ticket.forEach( ticket => {
+        ticket.start_time = new Date(ticket.start_time).toISOString()
+        ticket.end_time = new Date(ticket.end_time).toISOString()
+      })
+    },
+
+    update () {
+      if (this.form.id) {
+        this.form._method = 'PATCH'
+      } else {
+        this.form.location = `${this.latLng.lat}, ${this.latLng.lng}`
+        this.form.eo_id = this.user.id
+      }
+      
+      this.form.submit('post', `/api/event${this.form.id ? `/${this.form.id}` : ''}`, {
           transformRequest: [(data, headers) => objectToFormData(data)]
+      })
+        .then( res => {
+          this.$store.dispatch('auth/fetchUser')
+          router.push({ name: 'event.detail', params: { id: encrypt(res.data.result ? res.data.result : this.form.id) } })
         })
-        this.$store.dispatch('auth/fetchUser')
-      } catch (e) {
-        console.log(e)
-      } 
     }
   }
 }

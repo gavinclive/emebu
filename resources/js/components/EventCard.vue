@@ -102,7 +102,7 @@ export default {
     },
 
     handleEditUrl () {
-      if (md.mobile()) {
+      if (md.mobile() || md.ua.includes('Wolvpack')) {
         this.$router.push(`m/event/${this.id}/edit`)
       } else {
         this.$router.push(`event/${this.id}/edit`)

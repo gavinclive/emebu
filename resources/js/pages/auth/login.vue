@@ -74,8 +74,10 @@ export default {
   }),
 
   beforeRouteEnter (to, from, next) {
-    if (md.mobile()) {
+    if (md.ua.includes('Wolvpack')) {
       next({ name: 'm.login' })
+    } else if (md.mobile()) {
+      next({ name: 'download' })
     } else {
       next()
     }

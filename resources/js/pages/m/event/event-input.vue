@@ -149,7 +149,7 @@
               </GmapMap>
               </div>
               <div class="col-11 py-1" v-if="address">
-                Current location: {{ address }}
+                {{ $t('location') }}: {{ address }}
               </div>
               <div class="col-11 d-flex align-items-center py-1">
                 <gmap-autocomplete class="form-control col-12 mx-auto" @place_changed="setPlace" :placeholder="$t('venue_placeholder')" name="venue"/>
@@ -425,7 +425,6 @@ export default {
   }),
 
   beforeRouteEnter (to, from, next) {
-    console.log(to)
     store.dispatch('category/fetchCategories')
     .then( () => store.dispatch('type/fetchTypes'))
     .then( () => {

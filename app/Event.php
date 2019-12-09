@@ -98,11 +98,15 @@ class Event extends Model
                         $query->select('id', 'name', 'image');
                     }])
                     ->with(['ticket' => function($query) {
-                        $query->where([
-                                    ['start_time', '<=', Carbon::now()],
-                                    ['end_time', '>=', Carbon::now()]
-                                ])
-                                ->select('*');
+                        $ticket = $query;
+                        if (Auth::user()->id === 1) {
+                            $ticket = $query->where([
+                                ['start_time', '<=', Carbon::now()],
+                                ['end_time', '>=', Carbon::now()]
+                            ]);
+                        }
+                                
+                        return $ticket->select('*');
                     }])
                     ->where('id', $id)
                     ->get();
