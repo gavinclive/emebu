@@ -568,10 +568,10 @@ export default {
       const {
         name,
         qty,
-        startTime,
-        endTime
+        start_time,
+        end_time
       } = this.tempTicket
-      return name && qty && startTime && endTime
+      return name && qty && start_time && end_time
     }
   },
 

@@ -2,7 +2,8 @@
   <div>
     <div v-if="transactionList.length === 0" class="col-12 text-center d-absolute" style="transform: translateY(175%);">
       <img src="/dist/assets/frown.svg" width="60">
-      <p>{{ $t('no_history') }}</p>
+      <p v-if="isHistory">{{ $t('no_history') }}</p>
+      <p v-else>{{ $t('no_ticket') }}</p>
     </div>
     <div v-else>
       <div

@@ -95,6 +95,7 @@
     <div class="col-12 col-md-10 mx-auto py-0"><v-divider class="my-0"/></div>
     <div class="col-12 col-md-10 mx-auto d-flex justify-content-center">
       <star-rating
+        v-if="ratingScore !== 'NaN'"
         v-model="ratingScore"
         active-color="#258efe"
         :read-only="true"
@@ -103,7 +104,7 @@
         text-class="rating-score"
         :star-size="40" />
     </div>
-    <div class="col-12 col-md-10 mx-auto py-0"><v-divider class="my-0"/></div>
+    <div v-if ="ratingScore !== 'NaN'" class="col-12 col-md-10 mx-auto py-0"><v-divider class="my-0"/></div>
     <div class="col-12 col-md-10 overflow-hidden event-desc mx-auto mb-5 pb-5" v-html="event.description" />
     <div class="col-12 fixed-bottom bg-light d-md-none" style="box-shadow: 0px -1px 6px 2px rgba(158,158,158,1);">
       <p class="mb-1 text-center" v-if="startFrom >= 0">{{ $t('starts_from') }} Rp {{ startFrom }}</p>

@@ -62,7 +62,7 @@
     "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^5.2.2",
     "laravel-mix": "^4.0.15",
-    "laravel-mix-versionhash": "^1.0.7",
+    "laravel-mix-versionhash": "1.0.7",
     "purify-css": "^1.2.5",
     "purifycss-webpack": "^0.7.0",
     "resolve-url-loader": "^2.3.1",
