@@ -191,5 +191,6 @@
   "before_rating_text": "You are rated",
   "after_rating_text": "by your attendees.",
   "faq": "FAQ",
-  "status": "Status"
+  "status": "Status",
+  "no_ticket": "You have no ticket yet, let's get some tickets!"
 }

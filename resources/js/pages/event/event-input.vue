@@ -410,7 +410,7 @@
                     <label>{{ $t('quantity') }}</label>
                     <input v-model="tempTicket.qty" class="form-control col-12 mx-auto" type="number" required>
                   </div>
-                  <div v-if="tempTicket.type === 1" class="col-12 form-group px-0 py-1 my-0">
+                  <div v-if="tempTicket.price >= 1000" class="col-12 form-group px-0 py-1 my-0">
                     <label>{{ $t('price') }}</label>
                     <div class="input-group">
                       <div class="input-group-prepend">
@@ -568,10 +568,10 @@ export default {
       const {
         name,
         qty,
-        startTime,
-        endTime
+        start_time,
+        end_time
       } = this.tempTicket
-      return name && qty && startTime && endTime
+      return name && qty && start_time && end_time
     }
   },
 

@@ -59,6 +59,8 @@ export default {
       next({ name: 'home' })
     } else if (md.ua.includes('Wolvpack')) {
       next({ name: 'm.login' })
+    } else if (md.mobile()){
+      next({ name: 'download' })
     } else {
       next()
     }

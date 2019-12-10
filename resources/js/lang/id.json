@@ -178,5 +178,6 @@
   "before_rating_text": "Anda mendapat peringkat",
   "after_rating_text": "oleh peserta acara Anda.",
   "faq": "FAQ",
-  "status": "Status"
+  "status": "Status",
+  "no_ticket": "Kamu belum memiliki tiket, ayo dapatkan tiket!"
 }

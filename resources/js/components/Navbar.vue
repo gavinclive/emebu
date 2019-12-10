@@ -128,7 +128,7 @@ export default {
 
     inNavigations () {
       const currentRoute = this.$route.name ? this.$route.name : ''
-      if(currentRoute.includes('home')  || currentRoute.includes('content.admin') || currentRoute.includes('login') || currentRoute.includes('register')) return false
+      if(currentRoute.includes('home')  || currentRoute.includes('content.admin') || currentRoute.includes('login')) return false
       return true
     },
 
