@@ -158,7 +158,7 @@ export default {
     },
 
     qrUrl () {
-      return `${BASE_URL}/transaction/${this.id}`
+      return `${BASE_URL}transaction/${this.id}`
     },
 
     isMember () {
