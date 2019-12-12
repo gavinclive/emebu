@@ -82,7 +82,7 @@ export default {
 
     inMenus () {
       const routeName = this.$route.name
-      return routeName === 'm.settings' || routeName === 'home' || routeName === 'content.admin'
+      return routeName === 'm.settings.index' || routeName === 'home' || routeName === 'content.admin'
     }
   },
 
@@ -100,7 +100,7 @@ export default {
     },
 
     toSettingPage () {
-      this.$router.push({ name: 'm.settings' })
+      this.$router.push({ name: 'm.settings.index' })
     },
 
     toCreatePage () {
