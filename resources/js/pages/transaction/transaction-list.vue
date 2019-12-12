@@ -43,7 +43,7 @@
             <button v-if="transaction.settled_at && !isHistory" class="btn btn-primary btn-block" type="button" @click="handleQr(transaction.id)">
               {{ $t('see_qr') }}
             </button>
-            <button v-if="!isHistory" class="btn btn-primary btn-block" type="button" @click="handlePaymentDest(transaction.event.eo_id)">
+            <button v-if="!transaction.settled_at && !isHistory" class="btn btn-primary btn-block" type="button" @click="handlePaymentDest(transaction.event.eo_id)">
               {{ $t('see_payment_dest')}}
             </button>
             <button class="btn btn-white text-primary btn-block" type="button" @click="handleEventUrl(transaction.event.id)">

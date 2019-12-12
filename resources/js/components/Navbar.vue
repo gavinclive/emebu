@@ -117,7 +117,7 @@ export default {
 
     inSettings () {
       const currentRoute = this.$route.name ? this.$route.name : ''
-      return currentRoute.includes('m.settings') || currentRoute.includes('download')
+      return currentRoute.includes('m.settings.index') || currentRoute.includes('download')
     },
 
     inEoHome () {
