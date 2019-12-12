@@ -72,7 +72,7 @@ export default {
       const routeName = this.$route.name
       if (routeName === 'home' || routeName === 'content.admin') {
         return 0
-      } else if (routeName === 'm.settings') {
+      } else if (routeName === 'm.settings.index') {
         if (this.user.role === 2) {
           return 3
         }
