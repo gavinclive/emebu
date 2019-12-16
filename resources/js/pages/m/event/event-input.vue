@@ -432,7 +432,7 @@ export default {
         store.dispatch('event/fetchEventById', decrypt(to.params.id))
         .then(() => next( vm => vm.setEventDetail()))
       } else {
-        next ()
+        next (vm => vm.form.id = '')
       }
     })
   },
@@ -625,10 +625,10 @@ export default {
       if (this.form.id) {
         this.form._method = 'PATCH'
       } else {
-        this.form.location = `${this.latLng.lat}, ${this.latLng.lng}`
-        this.form.eo_id = this.user.id
+        delete this.form.id
       }
-      
+      this.form.location = `${this.latLng.lat}, ${this.latLng.lng}`
+      this.form.eo_id = this.user.id
       this.form.submit('post', `/api/event${this.form.id ? `/${this.form.id}` : ''}`, {
           transformRequest: [(data, headers) => objectToFormData(data)]
       })

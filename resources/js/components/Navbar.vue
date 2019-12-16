@@ -41,18 +41,18 @@
               </router-link>
             </li>
             <li class="nav-item" v-if="user && user.role == 2">
-              <router-link :to="{ name: 'transaction.view' }" class="nav-link text-light">
+              <router-link :to="{ name: 'users.admin' }" class="nav-link text-light">
                 {{ $t('users') }}
               </router-link>
             </li>
             <li class="nav-item" v-if="user && user.role == 2">
-              <router-link :to="{ name: 'transaction.view' }" class="nav-link text-light">
+              <router-link :to="{ name: 'events.admin' }" class="nav-link text-light">
                 {{ $t('events') }}
               </router-link>
             </li>
             <li class="nav-item" v-if="user && user.role == 2">
-              <router-link :to="{ name: 'transaction.view' }" class="nav-link text-light">
-                {{ $t('content') }}
+              <router-link :to="{ name: 'report.view' }" class="nav-link text-light">
+                {{ $t('report') }}
               </router-link>
             </li>
             <li class="nav-item" v-if="!user || user.role != 2">

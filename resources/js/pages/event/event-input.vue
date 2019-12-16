@@ -130,7 +130,7 @@
             <div class="col-md-12 py-0 justify-content-center">
               <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('event_publish') }}</label>
               <div class="col-md-12 d-flex align-items-center py-1">
-                <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.publish_time" :class="{ 'is-invalid': form.errors.has('publishTime') }" class="form-control theme-blue col-md-11 mx-auto py-0"></datetime>
+                <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.publish_time" :class="{ 'is-invalid': form.errors.has('publish_time') }" class="form-control theme-blue col-md-11 mx-auto py-0"></datetime>
               </div>
               <has-error :form="form" field="publish_time" class="d-block pl-3 text-left"/>
             </div>
@@ -140,7 +140,7 @@
             <div class="col-md-12 py-0 justify-content-center">
               <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('event_start') }}</label>
               <div class="col-md-12 d-flex align-items-center py-1">
-                <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.start_time" :class="{ 'is-invalid': form.errors.has('startTime') }" class="form-control theme-blue col-md-11 mx-auto py-0"></datetime>
+                <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.start_time" :class="{ 'is-invalid': form.errors.has('start_time') }" class="form-control theme-blue col-md-11 mx-auto py-0"></datetime>
               </div>
               <has-error :form="form" field="start_time" class="d-block pl-3 text-left"/>
             </div>
@@ -150,7 +150,7 @@
             <div class="col-md-12 py-0 justify-content-center">
               <label class="col-11 d-block pt-0 col-form-label mx-auto">{{ $t('event_end') }}</label>
               <div class="col-md-12 d-flex align-items-center py-1">
-                <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.end_time" :class="{ 'is-invalid': form.errors.has('endTime') }" class="form-control theme-blue col-md-11 mx-auto py-0"></datetime>
+                <datetime type="datetime" :week-start="1" :minute-step="30" v-model="form.end_time" :class="{ 'is-invalid': form.errors.has('end_time') }" class="form-control theme-blue col-md-11 mx-auto py-0"></datetime>
               </div>
               <has-error :form="form" field="end_time" class="d-block pl-3 text-left"/>
             </div>
@@ -525,7 +525,7 @@ export default {
         store.dispatch('event/fetchEventById', decrypt(to.params.id))
         .then(() => next( vm => vm.setEventDetail()))
       } else {
-        next ()
+        next(vm => vm.form.id = '')
       }
     })
   },
@@ -585,12 +585,12 @@ export default {
   methods: {
     setType (index) {
       this.type = index
-      this.form.type = this.types[index].id
+      this.form.type_id = this.types[index].id
     },
 
     setCategory (index) {
       this.category = index
-      this.form.category = this.categories[index].id
+      this.form.category_id = this.categories[index].id
     },
 
     showTypeModal () {
@@ -634,7 +634,7 @@ export default {
         fileReader.onload = () => {
           this.imagePreview = fileReader.result
         }
-        this.form.img = image
+        this.form.image = image
       }
     },
 
@@ -645,7 +645,7 @@ export default {
         fileReader.onload = () => {
           this.imagePreview2 = fileReader.result
         }
-        this.form.img_3d = image
+        this.form.image_3d = image
       }
     },
 
@@ -672,8 +672,8 @@ export default {
         type: this.tempTicket.type,
         qty: this.tempTicket.qty,
         price: this.tempTicket.price,
-        startTime: new Date(this.tempTicket.startTime),
-        endTime: new Date(this.tempTicket.endTime),
+        start_time: this.tempTicket.start_time,
+        end_time: this.tempTicket.end_time,
         description: this.tempTicket.description
       }
       if (this.removeIndex) {
@@ -740,9 +740,10 @@ export default {
       if (this.form.id) {
         this.form._method = 'PATCH'
       } else {
-        this.form.location = `${this.latLng.lat}, ${this.latLng.lng}`
-        this.form.eo_id = this.user.id
+        delete this.form.id
       }
+      this.form.location = `${this.latLng.lat}, ${this.latLng.lng}`
+      this.form.eo_id = this.user.id
       
       this.form.submit('post', `/api/event${this.form.id ? `/${this.form.id}` : ''}`, {
           transformRequest: [(data, headers) => objectToFormData(data)]
