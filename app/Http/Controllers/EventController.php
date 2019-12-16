@@ -46,7 +46,7 @@ class EventController extends Controller
             'description' => $request->input('description'),
             'type_id' => $request->input('type_id'),
             'category_id' => $request->input('category_id'),
-            'eo_id' => $request->input('organizerId'),
+            'eo_id' => $request->input('eo_id'),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ];

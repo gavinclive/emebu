@@ -29,7 +29,7 @@ class Ticket extends Model
     public function storeTicket($value)
     {
         if($value){
-            return $this->create($value);
+            return $this->insert($value);
         }
         return false;
     }
