@@ -2,7 +2,9 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Ticket extends Model
 {
@@ -51,5 +53,18 @@ class Ticket extends Model
                     }])
                     ->where('id', $id)
                     ->first();
+    }
+
+    public function getTopEvent()
+    {
+        return $this->where([
+                        ['start_time', '<=', Carbon::now()],
+                        ['sold', '>', '0']
+                    ])
+                    ->select('event_id', DB::raw('SUM(sold) as total_sold'))
+                    ->groupBy('event_id')
+                    ->orderBy('total_sold', 'desc')
+                    ->limit(6)
+                    ->get();
     }
 }

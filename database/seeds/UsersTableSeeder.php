@@ -67,7 +67,7 @@ class UsersTableSeeder extends Seeder
                 'name' =>  $i % 2 == 0 ? $faker->name : $faker->company,
                 'email' => $faker->email,
                 'password' => bcrypt('secret'),
-                'role' => '1',
+                'role' => $i % 2 == 0 ? '1' : '3',
                 'status' =>  'active',
                 'bank' => $i % 2 == 0 ? NULL : $faker->company,
                 'acc_number' => $i % 2 == 0 ? NULL : $faker->bankAccountNumber,

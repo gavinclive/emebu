@@ -396,7 +396,7 @@
                 <div class="modal-body">
                   <ul class="nav nav-pills nav-fill">
                     <li class="nav-item" @click="tempTicket.price = 1000">
-                      <a class="nav-link" :class="{ 'active': tempTicket.price >= 1000 }">{{ $t('paid') }}</a>
+                      <a class="nav-link" :class="{ 'active': tempTicket.price > 0 }">{{ $t('paid') }}</a>
                     </li>
                     <li class="nav-item" @click="tempTicket.price = 0">
                       <a class="nav-link" :class="{ 'active': tempTicket.price == 0 }">{{ $t('free') }}</a>
@@ -410,7 +410,7 @@
                     <label>{{ $t('quantity') }}</label>
                     <input v-model="tempTicket.qty" class="form-control col-12 mx-auto" type="number" required>
                   </div>
-                  <div v-if="tempTicket.price >= 1000" class="col-12 form-group px-0 py-1 my-0">
+                  <div v-if="tempTicket.price > 0" class="col-12 form-group px-0 py-1 my-0">
                     <label>{{ $t('price') }}</label>
                     <div class="input-group">
                       <div class="input-group-prepend">
@@ -465,6 +465,7 @@ import { VueEditor } from 'vue2-editor'
 import { BASE_URL } from '~/utils/constant'
 import { encrypt, decrypt } from '~/utils/simpleCrypto'
 import { eventImageUrl } from '~/utils/image'
+import router from '~/router'
 
 export default {
   middleware: 'auth',

@@ -4,6 +4,7 @@ namespace App;
 
 use App\Notifications\VerifyEmail;
 use App\Notifications\ResetPassword;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -12,6 +13,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
 {
     use Notifiable;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -108,20 +110,43 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
 
     public function getAllUser ()
     {
-        return $this->where('role', '!=', '2')->paginate(10);
+        return $this->withTrashed()
+                    ->where('role', '!=', '2')
+                    ->orderBy('id', 'asc')
+                    ->paginate(10);
     }
 
     public function getUserByName ($values)
     {
-        return $this->where([
-            ['role', '!=', '2'],
-            ['name', 'ilike', '%'.$values.'%']
-        ])->paginate(10);
+        return $this->withTrashed()
+                    ->where([
+                        ['role', '!=', '2'],
+                        ['name', 'ilike', '%'.$values.'%']
+                    ])
+                    ->paginate(10);
     }
 
     public function getPaymentInfo ($id) 
     {
         return $this->where('id', $id)
                     ->first();
+    }
+
+    public function banUserById ($id)
+    {
+        return $this->where('id', $id)
+                    ->delete();
+    }
+
+    public function restoreUserById ($id)
+    {
+        return $this->where('id', $id)
+                    ->restore();
+    }
+
+    public function deleteUserById ($id)
+    {
+        return $this->where('id', $id)
+                    ->forceDelete();
     }
 }
