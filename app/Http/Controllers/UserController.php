@@ -36,4 +36,19 @@ class UserController extends Controller
         }
         return response()->json(['success' => true, 'result' => $this->user->getPaymentInfo($request->input('id'))], 200);
     }
+
+    public function banUser (Request $request)
+    {
+        $this->user->banUserById($request->input('id'));
+    }
+
+    public function restoreUser (Request $request)
+    {
+        $this->user->restoreUserById($request->input('id'));
+    }
+
+    public function deleteUser (Request $request)
+    {
+        $this->user->deleteUserById($request->input('id'));
+    }
 }

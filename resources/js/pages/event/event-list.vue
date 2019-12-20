@@ -463,19 +463,14 @@ export default {
 
     handleCancelEvent () {
       store.dispatch('event/removeEvent', decrypt(this.id))
-      .then( () => {
-        store.dispatch('event/fetchEventsByParams', {
-          id: store.getters['auth/user'].id,
-          role: store.getters['auth/user'].role
-        })
-      })
+        .then(() => router.go())
     },
 
     handleHideEvent () {
       axios.post('/api/hide-event', {
         id: decrypt(this.id)
       })
-      .then( () => router.go(0))
+        .then(() => router.go(0))
     },
 
     setSoldCount () {
@@ -486,6 +481,7 @@ export default {
           total += t.qty
           sold += t.sold
         })
+        console.log(total, sold)
         evt.total = total.toString()
         evt.sold = sold.toString()
       })

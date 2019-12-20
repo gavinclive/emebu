@@ -155,7 +155,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" :disabled="authenticated.role > 1" class="btn btn-primary" data-dismiss="modal" @click="buyTicket">{{ $t('buy') }}</button>
+            <button type="button" :disabled="!authenticated || authenticated.role > 1" class="btn btn-primary" data-dismiss="modal" @click="buyTicket">{{ $t('buy') }}</button>
           </div>
         </div>
       </div>
@@ -218,14 +218,21 @@ export default {
   }),
 
   beforeRouteEnter (to, from, next) {
-    store.dispatch('event/fetchEventById', decrypt(to.params.id))
-    .then(() => store.dispatch('category/fetchCategories'))
-    .then(() => store.dispatch('type/fetchTypes'))
-    .then(() => store.dispatch('rating/fetchRatingStatus', {
-      event: parseInt(decrypt(to.params.id)),
-      member: store.getters['auth/user'].id
-    }))
-    .then(() => next( vm => vm.handleGiveRating()))
+    if (store.getters['auth/user']) {
+      store.dispatch('event/fetchEventById', decrypt(to.params.id))
+        .then(() => store.dispatch('category/fetchCategories'))
+        .then(() => store.dispatch('type/fetchTypes'))
+        .then(() => store.dispatch('rating/fetchRatingStatus', {
+          event: parseInt(decrypt(to.params.id)),
+          member: store.getters['auth/user'].id
+        }))
+        .then(() => next(vm => vm.handleGiveRating()))
+    } else {
+      store.dispatch('event/fetchEventById', decrypt(to.params.id))
+        .then(() => store.dispatch('category/fetchCategories'))
+        .then(() => store.dispatch('type/fetchTypes'))
+        .then(() => next())
+    }
   },
 
   mounted () {

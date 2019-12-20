@@ -18,15 +18,16 @@
         </div>
         <v-divider vertical class="my-0 mx-2"/>
         <div class="py-0 px-0 col-6">
-          <p class="text-truncate mb-0">{{ user.name ? user.name : '-' }}</p>
+          <p class="text-truncate mb-0">{{ user.name }}</p>
           <p class="text-truncate mb-0">{{ user.email }}</p>
         </div>
         <v-divider vertical class="my-0 mx-2"/>
         <div class="flex-grow-1">
           <p class="text-center">{{ role[user.role-1] }}</p>
           <div class="d-flex justify-content-around">
-            <img src="/dist/assets/slash.svg">
-            <img src="/dist/assets/trash-2.svg">
+            <img v-if="!user.deleted_at" src="/dist/assets/slash.svg" @click="ban(user.id)">
+            <img v-if="user.deleted_at" src="/dist/assets/refresh-ccw.svg" @click="restore(user.id)">
+            <img src="/dist/assets/trash-2.svg" @click="remove(user.id)">
           </div>
         </div>
       </div>
@@ -36,7 +37,7 @@
 
 <script>
 import store from '~/store'
-import { mapGetters } from 'vuex'
+import axios from 'axios'
 
 export default {
   middleware: 'auth',
@@ -46,7 +47,7 @@ export default {
     searchName: '',
     page: 1,
     lastPage: null,
-    role: ['EO', 'User'],
+    role: ['Member', 'Admin', 'EO', 'EO Premium'],
     offsetY: ''
   }),
 
@@ -97,6 +98,27 @@ export default {
       this.userData = []
       this.lastPage = null
       store.dispatch('admin/fetchUsersByName', { page: this.page, param: this.searchName })
+    },
+
+    ban (id) {
+      axios.post('/api/ban-user', {
+        id: id
+      })
+        .then(() => store.dispatch('admin/fetchUsers'))
+    },
+
+    restore (id) {
+      axios.post('/api/restore-user', {
+        id: id
+      })
+        .then(() => store.dispatch('admin/fetchUsers'))
+    },
+
+    remove (id) {
+      axios.post('/api/delete-user', {
+        id: id
+      })
+        .then(() => store.dispatch('admin/fetchUsers'))
     }
   }
 

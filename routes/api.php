@@ -57,8 +57,12 @@ Route::post('reactivate', 'EventController@reactivateEvent');
 Route::resource('analytics', 'EventViewsController');
 Route::resource('report', 'ReportController');
 Route::resource('rating', 'RatingController');
+Route::resource('top-event', 'TopEventController');
 Route::post('check-rating', 'RatingController@checkExist');
 Route::get('eo-score', 'RatingController@getEoRating');
 Route::get('android', function () {
     return response()->download('storage/app-release.apk');
 });
+Route::post('ban-user', 'UserController@banUser');
+Route::post('restore-user', 'UserController@restoreUser');
+Route::post('delete-user', 'UserController@deleteUser');

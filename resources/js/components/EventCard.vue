@@ -51,7 +51,7 @@ export default {
   props: {
     id: { type: String, default: null },
     title: { type: String, default: null },
-    image: { type: String, default: null  },
+    image: { type: String, default: null },
     date: { type: String, default: null },
     end: { type: String, default: null },
     sold: { type: String, default: null },

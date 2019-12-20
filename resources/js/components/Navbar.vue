@@ -122,19 +122,19 @@ export default {
 
     inEoHome () {
       const currentRoute = this.$route.name ? this.$route.name : ''
-      if((currentRoute.includes('home')) && this.user.role > 2) return true
+      if ((currentRoute.includes('home')) && this.user.role > 2) return true
       return false
     },
 
     inNavigations () {
       const currentRoute = this.$route.name ? this.$route.name : ''
-      if(currentRoute.includes('home')  || currentRoute.includes('content.admin') || currentRoute.includes('login')) return false
+      if (currentRoute.includes('home')  || currentRoute.includes('content.admin') || currentRoute.includes('login')) return false
       return true
     },
 
     inEventDetail () {
       const currentRoute = this.$route.name ? this.$route.name : ''
-      if(currentRoute.includes('event.detail') && this.user.role === '1') return true
+      if (currentRoute.includes('event.detail') && this.user && this.user.role === '1') return true
       return false
     }
   },

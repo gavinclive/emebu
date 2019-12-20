@@ -1,5 +1,7 @@
 # emebu
-A tryhard thesis from a bunch of lazy students :)
+Emebu is our project that aims to become an event sharing platform with ticketing platform and P2P approach between attendees and event organizers. Emebu comes in the form of web app and mobile app.
+
+[Link to the mobile app repository](https://github.com/gavinclive/emebu-native)
  
 ### Installation
 ---
@@ -14,7 +16,7 @@ Install node in root folder.
 npm install
 ```
 
-Copy & paste .env.sample to your .env; then adjust local environment config like DB name, username, and password.
+Copy & paste .env.example to your .env; then adjust local environment config like DB name, username, and password.
 For macOS user preferably use [**Valet**](https://laravel.com/docs/5.8/valet) for local server, [**Postgres.app**](https://postgresapp.com/downloads.html), and [**pgadmin**](https://www.pgadmin.org/download/pgadmin-4-macos/).
 
 To create tables in your database and seed the datas, run command below.

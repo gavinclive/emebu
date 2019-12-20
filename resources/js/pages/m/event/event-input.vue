@@ -21,7 +21,7 @@
             <div class="col-md-10 py-0 justify-content-center">
               <label class="col-11 d-block pt-0 col-form-label">{{ $t('type') }}</label>
               <div class="col-11 d-flex align-items-center py-1" @click="showTypeModal">
-                <input v-model="activeType" class="form-control" name="type">
+                <input disabled v-model="activeType" class="form-control" name="type">
                 <div class="input-group-append">
                   <span class="input-group-text">Choose</span>
                 </div>
@@ -55,7 +55,7 @@
             <div class="col-md-10 py-0 justify-content-center">
               <label class="col-11 d-block pt-0 col-form-label">{{ $t('category') }}</label>
               <div class="col-11 d-flex align-items-center py-1" @click="showCategoryModal">
-                <input v-model="activeCategory" class="form-control" name="category">
+                <input disabled v-model="activeCategory" class="form-control" name="category">
                 <div class="input-group-append">
                   <span class="input-group-text">Choose</span>
                 </div>
@@ -293,7 +293,7 @@
                 <div class="modal-body">
                   <ul class="nav nav-pills nav-fill">
                     <li class="nav-item" @click="tempTicket.price = 1000">
-                      <a class="nav-link" :class="{ 'active': tempTicket.price >= 1000 }">{{ $t('paid') }}</a>
+                      <a class="nav-link" :class="{ 'active': tempTicket.price > 0 }">{{ $t('paid') }}</a>
                     </li>
                     <li class="nav-item" @click="tempTicket.price = 0">
                       <a class="nav-link" :class="{ 'active': tempTicket.price == 0 }">{{ $t('free') }}</a>
@@ -307,7 +307,7 @@
                     <label>{{ $t('quantity') }}</label>
                     <input v-model="tempTicket.qty" class="form-control col-12 mx-auto" type="number" required>
                   </div>
-                  <div v-if="tempTicket.price !== 0" class="col-12 form-group px-0 py-1 my-0">
+                  <div v-if="tempTicket.price > 0" class="col-12 form-group px-0 py-1 my-0">
                     <label>{{ $t('price') }}</label>
                     <div class="input-group">
                       <div class="input-group-prepend">

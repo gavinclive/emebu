@@ -99,7 +99,7 @@ class Event extends Model
                     }])
                     ->with(['ticket' => function($query) {
                         $ticket = $query;
-                        if (Auth::user()->id === 1) {
+                        if (!Auth::user() || Auth::user()->role === 1) {
                             $ticket = $query->where([
                                 ['start_time', '<=', Carbon::now()],
                                 ['end_time', '>=', Carbon::now()]
