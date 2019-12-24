@@ -64,9 +64,9 @@ export default {
     const id = decrypt(encId)
 
     store.dispatch('transaction/fetchTransactionById', id)
+    .then( () => store.dispatch('transaction/fetchPaymentInfo', store.getters['transaction/transactionDetail'].event.eo_id))
     .then( () => next(vm => {
       vm.id = encId ? encId : ''
-      store.dispatch('transaction/fetchPaymentInfo', vm.transactionDetail.event.eo_id)
     }))
   },
 

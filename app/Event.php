@@ -101,8 +101,8 @@ class Event extends Model
                         $ticket = $query;
                         if (!Auth::user() || Auth::user()->role === 1) {
                             $ticket = $query->where([
-                                ['start_time', '<=', Carbon::now()],
-                                ['end_time', '>=', Carbon::now()]
+                                ['start_time', '>=', Carbon::now()],
+                                ['end_time', '<=', Carbon::now()]
                             ]);
                         }
                                 
