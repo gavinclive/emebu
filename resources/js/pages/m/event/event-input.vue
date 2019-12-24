@@ -6,7 +6,6 @@
         <v-stepper-step class="px-0 pt-0" :complete="e1 > 1" step="1">{{ $t('basic_info') }}</v-stepper-step>
 
         <v-stepper-content class="px-0" step="1">
-
           <div class="form-group row d-flex justify-content-center">
             <div class="col-md-10 py-0 justify-content-center">
               <label class="col-11 d-block pt-0 col-form-label">{{ $t('event_title') }}</label>
@@ -566,7 +565,7 @@ export default {
       }
       this.ticket.push(obj)
       this.form.ticket = this.ticket
-      set_timeout( () => {
+      setTimeout( () => {
         this.initAddTicket()
       }, 500)
     },

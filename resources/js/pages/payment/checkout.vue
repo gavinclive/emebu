@@ -34,6 +34,9 @@
       <span><p class="mb-0">{{ $t('total_payment') }}</p></span> 
       <span><p class="font-weight-bold mb-0">Rp {{ currencyFormat(total) }}</p></span>
     </div>
+    <div class="col-12 d-md-block d-none">
+      <button :disabled="!canCheckout" type="button" class="btn col-12 btn-primary" @click="createTransaction">{{ $t('checkout') }}</button>
+    </div>
     <div class="col-12 fixed-bottom bg-light d-md-none" style="box-shadow: 0px -1px 6px 2px rgba(158,158,158,1);">
       <button :disabled="!canCheckout" type="button" class="btn col-12 btn-primary" @click="createTransaction">{{ $t('checkout') }}</button>
     </div>
@@ -79,7 +82,7 @@ export default {
     },
 
     canCheckout () {
-      return !isNaN(parseFloat(this.qty)) && isFinite(this.qty)
+      return !isNaN(parseFloat(this.qty)) && isFinite(this.qty) && this.qty > 0
     },
 
     countCut () {

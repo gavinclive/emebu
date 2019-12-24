@@ -47,7 +47,7 @@ Route::post('hide-event', 'EventController@hideEvent');
 Route::resource('transaction', 'TransactionController');
 Route::resource('ticket', 'TicketController');
 Route::post('coupon-check', 'CouponController@checkCoupon');
-Route::get('payment-info', 'UserController@paymentInfo');
+Route::post('payment-info', 'UserController@paymentInfo');
 Route::resource('quill', 'QuillController');
 Route::resource('users', 'UserController');
 Route::post('history', 'TransactionController@history');

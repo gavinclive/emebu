@@ -107,7 +107,7 @@
     <div v-if ="ratingScore !== 'NaN'" class="col-12 col-md-10 mx-auto py-0"><v-divider class="my-0"/></div>
     <div class="col-12 col-md-10 overflow-hidden event-desc mx-auto mb-5 pb-5" v-html="event.description" />
     <div class="col-12 fixed-bottom bg-light d-md-none" style="box-shadow: 0px -1px 6px 2px rgba(158,158,158,1);">
-      <p class="mb-1 text-center" v-if="startFrom >= 0">{{ $t('starts_from') }} Rp {{ startFrom }}</p>
+      <p class="mb-1 text-center" v-if="startFrom != -2">{{ $t('starts_from') }} Rp {{ startFrom }}</p>
       <button :disabled="startFrom == -2" type="button" class="btn col-12 btn-primary" data-toggle="modal" :data-target="authenticated ? '#getTicket' : ''">{{ $t('get_ticket') }}</button>
     </div>
 
@@ -288,12 +288,12 @@ export default {
     },
 
     startFrom () {
-      if(this.tickets.length == 0) {
+      if (this.tickets.length === 0) {
         return -2
       } else {
         const prices = []
         let allFree = true
-        this.tickets.forEach( ticket => {
+        this.tickets.forEach(ticket => {
           prices.push(ticket.price)
           allFree = allFree ? ticket.price == 0 : false
         })
@@ -359,7 +359,7 @@ export default {
     },
 
     buyTicket () {
-      const id = encrypt(this.eventDetail[this.activeTicket].id.toString())
+      const id = encrypt(this.eventDetail[0].ticket[this.activeTicket].id.toString())
       router.push({ name: 'checkout', params: { id: id } })
     },
 

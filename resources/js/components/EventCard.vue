@@ -98,7 +98,7 @@ export default {
 
   methods: {
     handleEventUrl () {
-      this.$router.push(`event/${this.id}`)
+      this.$router.push({ name: 'event.detail', params: { id: this.id } })
     },
 
     handleEditUrl () {

@@ -56,7 +56,9 @@ export const actions = {
   },
   async fetchPaymentInfo ({ commit }, id) {
     try {
-      const { data } = await axios.get(`/api/payment-info/${id}`)
+      const { data } = await axios.post('/api/payment-info/', {
+        id: id
+      })
       commit(FETCH_PAYMENT_INFO, { data })
     } catch (e) {
       console.log(e)
