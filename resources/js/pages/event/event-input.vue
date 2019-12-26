@@ -669,6 +669,7 @@ export default {
 
     addTicket () {
       const obj = {
+        id: this.tempTicket.id ? this.tempTicket.id : 0,
         name: this.tempTicket.name,
         type: this.tempTicket.type,
         qty: this.tempTicket.qty,
@@ -689,6 +690,7 @@ export default {
     },
 
     initAddTicket () {
+      this.tempTicket.id = ''
       this.tempTicket.name = ''
       this.tempTicket.qty = ''
       this.tempTicket.price = 1000
@@ -710,8 +712,8 @@ export default {
 
     setEventDetail () {
       this.form.keys().forEach( key => this.form[key] = this.eventDetail[0][key])
-      this.type = parseInt(this.form['type_id'])
-      this.category = parseInt(this.form['category_id'])
+      this.type = parseInt(this.form['type_id'] - 1)
+      this.category = parseInt(this.form['category_id'] - 1)
       this.form.publish_time = new Date(this.form.publish_time).toISOString()
       this.form.start_time = new Date(this.form.start_time).toISOString()
       this.form.end_time = new Date(this.form.end_time).toISOString()

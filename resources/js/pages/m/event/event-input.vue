@@ -551,7 +551,7 @@ export default {
 
     addTicket () {
       const obj = {
-        id: this.tempTicket.id,
+        id: this.tempTicket.id ? this.tempTicket.id : 0,
         name: this.tempTicket.name,
         qty: this.tempTicket.qty,
         price: this.tempTicket.price.toString(),
