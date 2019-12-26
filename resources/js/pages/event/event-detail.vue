@@ -16,7 +16,8 @@
         </div>
         <div class="col-md-6 d-none d-md-flex flex-row-reverse">
           <div class="col-6 p-0 mx-2">
-            <button type="button" class="btn col-12 btn-primary" data-toggle="modal" :data-target="authenticated ? '#getTicket' : ''">{{ $t('get_ticket') }}</button>
+            <button v-if="!authenticated" class="btn col-12 btn-primary" @click="handleUnregistered()">Register to get Ticket</button>
+            <button v-else type="button" class="btn col-12 btn-primary" data-toggle="modal" data-target="#getTicket">{{ $t('get_ticket') }}</button>
             <p class="mb-0 text-right" v-if="startFrom >= 0">{{ $t('starts_from') }} Rp {{ startFrom }}</p>
           </div>
         </div>
@@ -107,8 +108,8 @@
     <div v-if ="ratingScore !== 'NaN'" class="col-12 col-md-10 mx-auto py-0"><v-divider class="my-0"/></div>
     <div class="col-12 col-md-10 overflow-hidden event-desc mx-auto mb-5 pb-5" v-html="event.description" />
     <div class="col-12 fixed-bottom bg-light d-md-none" style="box-shadow: 0px -1px 6px 2px rgba(158,158,158,1);">
-      <p class="mb-1 text-center" v-if="startFrom != -2">{{ $t('starts_from') }} Rp {{ startFrom }}</p>
-      <button :disabled="startFrom == -2" type="button" class="btn col-12 btn-primary" data-toggle="modal" :data-target="authenticated ? '#getTicket' : ''">{{ $t('get_ticket') }}</button>
+      <p class="mb-1 text-center" v-if="startFrom !== -2">{{ $t('starts_from') }} Rp {{ startFrom }}</p>
+      <button :disabled="startFrom === -2" type="button" class="btn col-12 btn-primary" data-toggle="modal" :data-target="authenticated ? '#getTicket' : ''">{{ $t('get_ticket') }}</button>
     </div>
 
     <div class="modal fade" id="shareEvent" tabindex="-1" role="dialog" aria-hidden="true">
@@ -186,6 +187,30 @@
       </div>
     </div>
 
+    <div v-if="authenticated && authenticated.role === '1'" class="bg-primary rounded-circle d-none d-md-block position-fixed p-2" style="bottom: 1rem; right: 1rem;" @click="reportEvent">
+      <img src="/dist/assets/alert-octagon.svg" class="white-svg" height="28" width="28">
+    </div>
+
+    <div class="modal fade" id="report" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">{{ $t('report_event') }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            {{ $t('report_guide') }}
+            <input class="form-control" v-model="report" :placeholder="$t('report_placeholder')">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" @click="handleReport">{{ $t('report') }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -214,7 +239,8 @@ export default {
     showMap: false,
     showPanorama: false,
     addressData: '',
-    rating: 0
+    rating: 0,
+    report: ''
   }),
 
   beforeRouteEnter (to, from, next) {
@@ -249,12 +275,12 @@ export default {
       ratingDetail: 'rating/ratingDetail'
     }),
 
-    event (){
+    event () {
       return this.eventDetail[0]
     },
 
-    tickets (){
-      return this.eventDetail[0].ticket
+    tickets () {
+      return this.eventDetail[0].ticket.filter(e => new Date(e.start_time) <= new Date())
     },
 
     eventType () {
@@ -312,7 +338,7 @@ export default {
   },
 
   methods: {
-    async reverseGeocode() {
+    async reverseGeocode () {
       const latLng = this.event.location.split(', ')
       this.latLng = {
         lat: parseFloat(latLng[0]),
@@ -370,7 +396,7 @@ export default {
     handleGiveRating () {
       const end = new Date(this.eventDetail[0].end_time)
       const now = new Date()
-      if(!this.ratingStatus && end < now && authenticated.role == 1) {
+      if (!this.ratingStatus && end < now && authenticated.role == 1) {
         $('#giveRating').modal('show')
       }
       store.dispatch('rating/fetchRatingDetail', this.eventDetail[0].id)
@@ -380,6 +406,21 @@ export default {
       axios.post('/api/rating', {
         event_id: this.eventDetail[0].id,
         point: this.rating
+      })
+    },
+
+    handleUnregistered () {
+      router.push({ name: 'register' })
+    },
+
+    reportEvent () {
+      $('#report').modal('show')
+    },
+
+    handleReport () {
+      axios.post('/api/report', {
+        event_id: this.event[0].id,
+        report: this.report
       })
     }
   },

@@ -7,7 +7,7 @@
           <router-link :to="{ name: 'event.view' }">
             <span class="text-light">{{ $t('browse') }}</span>
           </router-link>
-          <router-link :to="{ name: 'register' }">
+          <router-link :to="{ name: 'faq' }">
             <span class="text-light">{{ $t('faq') }}</span>
           </router-link>
         </template>

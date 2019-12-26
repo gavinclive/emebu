@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="col-12" v-if="!couponApplied">
-      <button :disabled="badCode" type="button" class="btn col-12 btn-success" @click="useCoupon">{{ $t('use_coupon') }}</button>
+      <button :disabled="!ticketDetail.code && badCode" type="button" class="btn col-12 btn-success" @click="useCoupon">{{ $t('use_coupon') }}</button>
     </div>
     <v-divider />
     <div class="col-12 d-flex justify-content-between">
@@ -73,7 +73,7 @@ export default {
 
     badCode () {
       const code = this.coupon
-      return code !== this.ticketDetail.coupon.code
+      return this.ticketDetail.code ? code !== this.ticketDetail.coupon.code : false
     },
 
     total () {
@@ -93,7 +93,7 @@ export default {
 
       if (maxCut === 0) return totalCut
 
-      return totalCut > maxCut ? maxCut : totalCut 
+      return totalCut > maxCut ? maxCut : totalCut
     },
   },
 

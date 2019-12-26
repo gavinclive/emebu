@@ -7,6 +7,8 @@ use App\EventViews;
 use App\Ticket;
 use App\Transaction;
 use Carbon\Carbon;
+use DateInterval;
+use DateTime;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
@@ -37,9 +39,9 @@ class EventController extends Controller
     {
         $eventArr = [
             'title' => $request->input('title'),
-            'publish_time' => $request->input('publish_time'),
-            'start_time' => $request->input('start_time'),
-            'end_time' => $request->input('end_time'),
+            'publish_time' => (new DateTime($request->input('publish_time')))->add(new DateInterval('PT7H')),
+            'start_time' => (new DateTime($request->input('start_time')))->add(new DateInterval('PT7H')),
+            'end_time' => (new DateTime($request->input('end_time')))->add(new DateInterval('PT7H')),
             'location' => $request->input('location'),
             'location_guide' => $request->input('location_guide') ? $request->input('location_guide') : '',
             'summary' => $request->input('summary'),
@@ -72,6 +74,7 @@ class EventController extends Controller
             $ticketArr[key($ticket)] = current($ticket) !== null ? current($ticket) : '';
             if (key($ticket) == 'description') 
             {
+                if (array_key_exists('id', $ticketArr)) unset($ticketArr['id']);
                 $ticketArr['event_id'] = $id;
                 $ticketArr['updated_at'] = Carbon::now();
                 $ticketArr['created_at'] = Carbon::now();
@@ -101,9 +104,9 @@ class EventController extends Controller
     {
         $eventArr = [
             'title' => $request->input('title'),
-            'publish_time' => $request->input('publish_time'),
-            'start_time' => $request->input('start_time'),
-            'end_time' => $request->input('end_time'),
+            'publish_time' => (new DateTime($request->input('publish_time')))->add(new DateInterval('PT7H')),
+            'start_time' => (new DateTime($request->input('start_time')))->add(new DateInterval('PT7H')),
+            'end_time' => (new DateTime($request->input('end_time')))->add(new DateInterval('PT7H')),
             'location' => $request->input('location'),
             'location_guide' => $request->input('location_guide') ? $request->input('location_guide') : '',
             'summary' => $request->input('summary'),
@@ -135,8 +138,14 @@ class EventController extends Controller
             $ticketArr[key($ticket)] = current($ticket) !== null ? current($ticket) : '';
             if (key($ticket) == 'description') 
             {
+                $updateId = $ticketArr['id'];
+                unset($ticketArr['id']);
+                $ticketArr['start_time'] = (new DateTime($ticketArr['start_time']))->add(new DateInterval('PT7H'));
+                $ticketArr['end_time'] = (new DateTime($ticketArr['end_time']))->add(new DateInterval('PT7H'));
+                $ticketArr['event_id'] = $request->input('id');
                 $ticketArr['updated_at'] = Carbon::now();
-                $this->ticket->updateTicket($ticketArr, $ticketArr['id']);
+                $ticketArr['created_at'] = Carbon::now();
+                $this->ticket->updateTicket($ticketArr, $updateId);
             }
         }
 
