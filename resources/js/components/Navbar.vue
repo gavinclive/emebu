@@ -55,7 +55,7 @@
                 {{ $t('report') }}
               </router-link>
             </li>
-            <li class="nav-item" v-if="!user || user.role != 2">
+            <li class="nav-item">
               <router-link :to="{ name: 'faq' }" class="nav-link text-light">
                 {{ $t('faq') }}
               </router-link>
