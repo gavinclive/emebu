@@ -39,7 +39,7 @@
         <div class="col-md-9">
           <div class="col-md-12 d-flex align-items-center py-1">
             <v-img :src="form.role === '1' ? '/dist/assets/users.svg' : '/dist/assets/user.svg'" max-width="25" max-height="25" class="mr-2" contain/>
-            <input v-model="form.name" :class="{ 'is-invalid': form.errors.has('name') }" class="form-control col-md-11" type="text" name="name" :placeholder="form.role === '' ? $t('name') : form.role === '2' ? $t('full_name') : $t('organizer_name')">
+            <input v-model="form.name" :class="{ 'is-invalid': form.errors.has('name') }" class="form-control col-md-11" type="text" name="name" :placeholder="form.role === '' ? $t('name') : form.role === '1' ? $t('full_name') : $t('organizer_name')">
           </div>
           <has-error :form="form" field="name" class="d-block pl-5 text-left"/>
         </div>

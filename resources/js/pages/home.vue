@@ -12,7 +12,7 @@
           :loop="true"
           :paginationEnabled="false">
           <slide v-for="(feat, index) in featured" :key="index">
-            <img :src="featImageUrl(feat.content)" width="100%" height="250" class="feat-slide">
+            <img :src="featImageUrl(feat.content)" width="100%" height="350" contain class="feat-slide">
           </slide>
         </carousel>
       </div>

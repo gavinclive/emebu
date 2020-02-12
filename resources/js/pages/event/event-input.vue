@@ -737,6 +737,7 @@ export default {
         ticket.start_time = new Date(ticket.start_time).toISOString()
         ticket.end_time = new Date(ticket.end_time).toISOString()
       })
+      this.ticket = this.form.ticket
     },
 
     update () {

@@ -24,7 +24,7 @@
         <v-card-actions v-if="!deleted" class="text-right d-flex flex-column justify-content-between px-0 py-1" style="height: 125px;">
           <img v-if="status === '2'" src="/dist/assets/alert-triangle.svg" height="20">
           <img v-if="user && user.role > 3 && status < 2" src="/dist/assets/activity.svg" height="20" @click="showAnalyticsModal">
-          <img v-if="user && user.role > 2 && status < 2 && !isPast" src="/dist/assets/tag.svg" height="20" @click="showCouponModal">
+          <img v-if="user && user.role > 3 && status < 2 && !isPast" src="/dist/assets/tag.svg" height="20" @click="showCouponModal">
           <img v-if="user && user.role > 2 && status === '1' && isOnGoing" src="/dist/assets/edit.svg" height="20" @click="handleEditUrl">
           <img v-if="user && user.role === '2' && status === '1'" src="/dist/assets/alert-triangle.svg" height="20" @click="investigateEvent">
           <img v-if="user && user.role === '2' && status === '3'" src="/dist/assets/eye.svg" height="20" @click="reactivateEvent">
@@ -73,13 +73,13 @@ export default {
       if (this.deleted) {
         return this.$i18n.t('cancelled')
       } else {
-        if (this.status === '1') {
+        if (parseInt(this.status) === 1) {
           if (this.isPast) {
             return this.$i18n.t('past')
           } else {
             return this.$i18n.t('published')
           }
-        } else if (this.status === '3') {
+        } else if (parseInt(this.status) === 2) {
           return this.$i18n.t('hided')
         } else {
           return this.$i18n.t('under_investigation')

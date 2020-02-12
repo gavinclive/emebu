@@ -217,7 +217,7 @@
           <div class="form-group row d-flex justify-content-center mb-0">
             <div class="col-md-10 py-0 justify-content-center">
               <div class="col-11 d-flex align-items-center pt-1 pb-0">
-                <textarea v-model="form.summary" class="form-control col-md-11 mx-auto" maxlength="150" rows="4" style="resize: none;" placeholder="Write a short event summary to get attendees excited." name="summary"></textarea>
+                <textarea v-model="form.summary" class="form-control col-md-11 mx-auto" maxlength="150" rows="4" style="resize: none;" :placeholder="$t('summary_placeholder')" name="summary"></textarea>
               </div>
               <div class="col-11 py-1" v-if="form.summary && form.summary.length">
                 <div class="col-md-11 mx-auto py-0 px-0 text-right" :class="{ 'text-danger': form.summary.length === 150 }">{{ form.summary.length }}/150</div>
