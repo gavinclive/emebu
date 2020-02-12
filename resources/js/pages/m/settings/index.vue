@@ -24,14 +24,13 @@
       <img src="/dist/assets/dollar-sign.svg" width="22" height="22" class="mr-2">
       {{ $t('edit_atm') }}
     </router-link>
-    <router-link :to="{ name: 'faq' }" class="col-12 d-flex align-items-center text-dark border-bottom">
+    <router-link v-if="user.role !== 2" :to="{ name: 'faq' }" class="col-12 d-flex align-items-center text-dark border-bottom">
       <img src="/dist/assets/help-circle.svg" width="22" height="22" class="mr-2">
       {{ $t('help') }}
     </router-link>
     <div class="col-12 d-flex align-items-center text-primary border-bottom" @click="logout">
       {{ $t('logout') }}
     </div>
-    <div class="col-12"></div>
   </div>
 </template>
 

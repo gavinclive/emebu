@@ -18,7 +18,8 @@
           <div class="col-6 p-0 mx-2">
             <button v-if="!authenticated" class="btn col-12 btn-primary" @click="handleUnregistered()">Register to get Ticket</button>
             <button v-else type="button" class="btn col-12 btn-primary" data-toggle="modal" data-target="#getTicket">{{ $t('get_ticket') }}</button>
-            <p class="mb-0 text-right" v-if="startFrom >= 0">{{ $t('starts_from') }} Rp {{ startFrom }}</p>
+            
+            <p class="mb-0 text-right" v-if="startFrom != 0 && startFrom != -1">{{ $t('starts_from') }} Rp {{ startFrom }}</p>
           </div>
         </div>
         <div class="col-12 event-summary pt-0 font-weight-lighter text-justify">
@@ -50,7 +51,7 @@
               <img src="/dist/assets/map-pin.svg" width="20">
               <span class="px-2">{{ venue }}</span>
             </div>
-            <span class="px-2">{{ event.address }}</span>
+            <span class="px-2">{{ event.location_guide }}</span>
           </div>
           <div class="col-12 p-2 d-flex justify-content-around">
             <div class="d-flex justify-content-center"  @click="showMap = !showMap">
@@ -149,7 +150,7 @@
               <v-card v-for="(ticket, index) in tickets" :key="index" class="ticket mb-2" :class="{'ticket-selected': activeTicket == index}" @click="selectTicket(index)">
                 <v-card-title>{{ ticket.name }}</v-card-title>
                 <v-card-text>
-                  <p class="text-left">{{ ticket.desc }}</p>
+                  <p class="text-left">{{ ticket.description }}</p>
                   <h5 class="d-flex justify-content-between align-items-end"><small class="text-left m-0">{{ ticket.qty - ticket.sold + ' ' + $t('remaining') }}</small> <span class="text-right m-0">{{ ticket.price == 0 ? 'FREE' : 'Rp ' + currencyFormat(ticket.price) }}</span></h5>
                 </v-card-text>
               </v-card>
@@ -381,7 +382,7 @@ export default {
     },
 
     selectTicket (index) {
-      this.activeTicket = index
+      if (this.tickets[index].sold < this.tickets[index].total) this.activeTicket = index
     },
 
     buyTicket () {

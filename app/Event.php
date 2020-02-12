@@ -46,6 +46,7 @@ class Event extends Model
                         ['status', 'not like', '2'],
                         ['status', 'not like', '3']
                     ])
+                    ->orderBy('publish_time', 'asc')
                     ->get();
     }
     #endregion

@@ -481,7 +481,6 @@ export default {
           total += t.qty
           sold += t.sold
         })
-        console.log(total, sold)
         evt.total = total.toString()
         evt.sold = sold.toString()
       })

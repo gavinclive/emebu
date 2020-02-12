@@ -149,7 +149,7 @@ export default {
 
     transactionList () {
       if (this.user.role === '1') {
-        return this.transactions.filter( data => {
+        return this.transactions.filter(data => {
           return this.isHistory ? +new Date(data.event.end_time) <= +new Date() : new Date(data.event.end_time) > new Date()
         })
       } else {

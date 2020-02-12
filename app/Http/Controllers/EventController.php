@@ -75,6 +75,8 @@ class EventController extends Controller
             if (key($ticket) == 'description') 
             {
                 if (array_key_exists('id', $ticketArr)) unset($ticketArr['id']);
+                $ticketArr['start_time'] = (new DateTime($ticketArr['start_time']))->add(new DateInterval('PT7H'));
+                $ticketArr['end_time'] = (new DateTime($ticketArr['end_time']))->add(new DateInterval('PT7H'));
                 $ticketArr['event_id'] = $id;
                 $ticketArr['updated_at'] = Carbon::now();
                 $ticketArr['created_at'] = Carbon::now();

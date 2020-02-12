@@ -6,7 +6,7 @@ import {
 } from '../mutation-types'
 
 export const state = {
-  events: null,
+  events: [],
   eventDetail: null,
   analytics: null
 }
@@ -19,7 +19,7 @@ export const getters = {
 
 export const mutations = {
   [FETCH_EVENT] (state, { data }) {
-    state.events = data.result
+    state.events = Array.from(data.result)
   },
   [FETCH_EVENT_BY_ID] (state, { data }) {
     state.eventDetail = data.result

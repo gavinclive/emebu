@@ -2,7 +2,7 @@
   <div class="col-12">
     <div class="ticket col-12 p-0">
       <div class="ticket-header">
-        <v-img cover :src="eventImageUrl(image)" height="200" :class="{ 'gray-out': !settled_at }"/>
+        <v-img cover :src="eventImageUrl(image)" height="200" :class="{ 'gray-out': !settledAt }" />
       </div>
     </div>
     <div class="ticket-content-wrapper bg-primary col-12 p-0 text-light">
@@ -31,14 +31,13 @@ export default {
     title: { type: String, default: null },
     image: { type: String, default: null },
     name: { type: String, default: null },
-    date: { type: String, default: null},
-    settled_at: { type: String, default: null }
+    date: { type: String, default: null },
+    settledAt: { type: String, default: null }
   },
 
   methods: {
     dateFormat,
-
     eventImageUrl
-  },
+  }
 }
 </script>
