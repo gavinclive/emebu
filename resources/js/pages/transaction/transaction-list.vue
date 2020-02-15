@@ -56,7 +56,7 @@
               <p class="m-0">{{ transaction.member.name }}</p>
             </div>
             <div class="col-6 text-right">
-              <button type="button" class="btn btn-success"><img class="white-svg" src="/dist/assets/check-circle.svg" height="18" cover> <span>{{ $t('settle') }}</span></button>
+              <button type="button" class="btn btn-success" @click="settleTransaction(transaction.id)"><img class="white-svg" src="/dist/assets/check-circle.svg" height="18" cover> <span>{{ $t('settle') }}</span></button>
             </div>
           </div>
         </div>
@@ -122,6 +122,7 @@ import { BASE_URL } from '~/utils/constant'
 import $ from 'jquery'
 import store from '~/store'
 import { eventImageUrl } from '~/utils/image'
+import axios from 'axios'
 
 export default {
   middleware: 'auth',
@@ -209,6 +210,13 @@ export default {
     handlePaymentDest (id) {
       store.dispatch('transaction/fetchPaymentInfo', id)
       .then( () => $('#paymentDest').modal('show'))
+    },
+
+    settleTransaction (id) {
+      axios.patch(`/api/transaction/${id}`, {
+        id: id
+      })
+      .then( () => store.dispatch('transaction/fetchTransaction'))
     }
   }
 }

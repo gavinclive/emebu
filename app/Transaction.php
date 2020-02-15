@@ -108,7 +108,8 @@ class Transaction extends Model
         {
             return $this->where('id', $id)
                         ->update([
-                            'settled_at' => Carbon::now()
+                            'settled_at' => Carbon::now(),
+                            'updated_at' => Carbon::now()
                         ]);
         }
 

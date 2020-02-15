@@ -297,7 +297,7 @@ export default {
   }),
 
   beforeRouteEnter (to, from, next) {
-    if (store.getters['auth/user'] && store.getters['auth/user'].role > 2) {
+    if (store.getters['auth/user'] && parseInt(store.getters['auth/user'].role) > 1) {
       store.dispatch('event/fetchEventsByParams', {
         id: store.getters['auth/user'].id,
         role: store.getters['auth/user'].role

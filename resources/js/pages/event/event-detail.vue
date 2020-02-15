@@ -87,9 +87,9 @@
               <span class="pl-2">{{ $t('direction') }}</span>
             </div>
           </div>
-          <Panorama :source="event.img_3d"
+          <Panorama :source="eventImageUrl(event.image_3d)"
             v-if="showPanorama"
-            :caption="title"
+            :caption="event.title"
             style="background-size: cover; min-height: 500px; height: 500px;" />
         </div>
       </div>
@@ -382,7 +382,7 @@ export default {
     },
 
     selectTicket (index) {
-      if (this.tickets[index].sold < this.tickets[index].total) this.activeTicket = index
+      if (this.tickets[index].sold < this.tickets[index].qty) this.activeTicket = index
     },
 
     buyTicket () {
