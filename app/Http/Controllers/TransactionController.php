@@ -39,7 +39,12 @@ class TransactionController extends Controller
             'qty' => $request->input('qty'),
             'id' => $request->input('coupon_id')
         ]);
-        
+        $newSold = $this->ticket->getTicketById($request->input('ticketId'));
+
+        $this->ticket->updateTicket([
+            'sold' => $newSold->sold+$request->input('qty'),
+        ], $request->input('ticketId'));
+
         $arrTransaction = [
             'id' => Uuid::generate(),
             'ticket_id' => $request->input('ticketId'),
@@ -63,9 +68,9 @@ class TransactionController extends Controller
         return response()->json(['success' => true, 'result' => $this->transaction->getTransactionById($id)], 200);
     }
 
-    public function update($id)
+    public function update(Request $request)
     {
-        $this->transaction->settleTransactionById($id);
+        $this->transaction->settleTransactionById($request->input('id'));
 
         return response()->json(['success' => true], 200);
     }
