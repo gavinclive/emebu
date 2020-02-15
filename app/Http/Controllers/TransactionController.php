@@ -35,10 +35,12 @@ class TransactionController extends Controller
 
     public function store(Request $request)
     {
-        $this->coupon->useCoupon([
-            'qty' => $request->input('qty'),
-            'id' => $request->input('coupon_id')
-        ]);
+        if ($request->input('coupon_id')) {
+            $this->coupon->useCoupon([
+                'qty' => $request->input('qty'),
+                'id' => $request->input('coupon_id')
+            ]);
+        }
         $newSold = $this->ticket->getTicketById($request->input('ticketId'));
 
         $this->ticket->updateTicket([
