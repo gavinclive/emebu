@@ -397,7 +397,7 @@ export default {
     handleGiveRating () {
       const end = new Date(this.eventDetail[0].end_time)
       const now = new Date()
-      if (!this.ratingStatus && end < now && this.eventUrlauthenticated.role == 1) {
+      if (!this.ratingStatus && end < now && this.authenticated.role == 1) {
         $('#giveRating').modal('show')
       }
       store.dispatch('rating/fetchRatingDetail', this.eventDetail[0].id)
